@@ -14,66 +14,26 @@ export const DuelsPage = () => {
 
   const { mutate: nextPair, isPending: isVoting } = useDuelNextPair();
   const { data: pairData, isLoading, error, refetch } = useDuelPair();
-
-  // store
   const { increment, isBlocked, limitUntil, refreshFromStorage } =
     useDuelProgressStore();
 
-  // show help modal first time
   useEffect(() => {
     const hasSeen = localStorage.getItem("duelsHelpStatus");
     if (!hasSeen) setShowHelpModal(true);
   }, []);
 
-  // refresh progress store from storage on mount
   useEffect(() => {
     refreshFromStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // remaining time for limit modal (local state auto-updates)
-  const [remainingTime, setRemainingTime] = useState(
-    limitUntil ? Math.max(limitUntil - Date.now(), 0) : 0
-  );
-  useEffect(() => {
-    if (!isBlocked) {
-      setRemainingTime(0);
-      return;
-    }
-    const tick = () => {
-      const until = parseInt(
-        localStorage.getItem("duels_limit_until_v1") || "0",
-        10
-      );
-      const diff = Math.max(until - Date.now(), 0);
-      setRemainingTime(diff);
-      if (diff <= 0) {
-        // refresh store after expiry
-        useDuelProgressStore.getState().refreshFromStorage();
-      }
-    };
-    tick();
-    const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
-  }, [isBlocked]);
-
-  const formatRemainingTime = (ms) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${hours}ч ${minutes}м ${seconds}с`;
-  };
-
   const handleSelectAndVote = (winnerId) => {
-    // block interactions if voting in progress or blocked
     if (isVoting || !pairData || isBlocked) return;
 
     setSelectedUserId(winnerId);
     nextPair(winnerId, {
       onSettled: () => {
         setSelectedUserId(null);
-        increment(); // update persisted counter
+        increment();
       },
     });
   };
