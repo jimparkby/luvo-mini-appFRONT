@@ -5,6 +5,7 @@ import { Layout } from "./components";
 import { useLogin } from "./api/auth";
 import { decodeJWT } from "./utils/decode-jwt.util";
 import { useNavigate } from "react-router-dom";
+import { isTokenExpired } from "./utils/get-auth-tokens.util";
 import { useWebAppStore } from "./store";
 import { useTelegramFullscreen } from "./hooks/useTelegramFullscreen";
 
@@ -45,13 +46,25 @@ export const App = () => {
   }, [setTheme]);
 
   useEffect(() => {
-    if (!isInitialized && !user?.accessToken) {
+    // Проверяем, нужно ли инициализировать приложение
+    const needsInitialization = !isInitialized || !user?.accessToken;
+
+    // Проверяем, истек ли токен (если он есть)
+    const tokenExpired = isTokenExpired(user);
+
+    if (needsInitialization || tokenExpired) {
       initializeApp();
     }
   }, []);
 
   const initializeApp = async () => {
     try {
+      // Очищаем истекший токен, если он есть
+      if (isTokenExpired(user)) {
+        setUser(null);
+        setInitialized(false);
+      }
+
       const initData = await init();
       if (!initData) return;
       const { data } = await mutateAsync({ init_data: initData });
@@ -68,13 +81,14 @@ export const App = () => {
 
   const loginSuccess = (token, isRegister) => {
     try {
-      const { user_id, expires_in_ms } = decodeJWT(token);
+      const { user_id, exp } = decodeJWT(token);
       setUser({
         id: user_id,
-        exp: expires_in_ms,
+        exp,
         isRegister,
         accessToken: token,
       });
+
       setInitialized(true);
       navigate("/feed");
     } catch (error) {

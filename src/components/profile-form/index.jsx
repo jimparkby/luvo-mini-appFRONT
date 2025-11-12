@@ -70,7 +70,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       if (access_token) {
         setUser({
           id: user_id,
-          exp: exp,
+          exp,
           isRegister: has_profile,
           accessToken: access_token,
         });

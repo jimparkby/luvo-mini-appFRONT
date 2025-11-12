@@ -7,7 +7,7 @@ const isMockMode = () => {
   return params.get("mock") === "1";
 };
 
-export const useWebAppStore = create((set) => {
+export const useWebAppStore = create((set, get) => {
   const storedUser = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {};
   const {
     user = null,
@@ -35,9 +35,13 @@ export const useWebAppStore = create((set) => {
     initData,
     isInitialized,
 
-    setUser: (user) =>
-      set(() => {
-        const updated = updateStorage({ user });
+    setUser: (userData) =>
+      set((state) => {
+        // Объединяем существующие данные пользователя с новыми
+        const mergedUser = state.user
+          ? { ...state.user, ...userData }
+          : userData;
+        const updated = updateStorage({ user: mergedUser });
         return { user: updated.user };
       }),
     setTheme: (theme) =>
@@ -78,8 +82,17 @@ export const useWebAppStore = create((set) => {
             set({ theme: newTheme });
           });
 
+          // Получаем текущего пользователя из state, чтобы сохранить accessToken и exp
+          const currentUser = get().user;
+          const telegramUser = tg.initDataUnsafe.user;
+
+          // Объединяем данные: сначала Telegram user, затем существующие данные (accessToken, exp, isRegister)
+          const mergedUser = currentUser
+            ? { ...telegramUser, ...currentUser }
+            : telegramUser;
+
           set({
-            user: tg.initDataUnsafe.user,
+            user: mergedUser,
             webApp: tg,
             initData: tg.initData,
           });
@@ -95,10 +108,18 @@ export const useWebAppStore = create((set) => {
           const params = new URLSearchParams(decoded);
           const userJson = params.get("user");
           if (!userJson) throw new Error("Нет user в VITE_FAKE_INIT_DATA");
-          const user = JSON.parse(userJson);
+          const fakeUser = JSON.parse(userJson);
+
+          // Получаем текущего пользователя из state, чтобы сохранить accessToken и exp
+          const currentUser = get().user;
+
+          // Объединяем данные: сначала fake user, затем существующие данные
+          const mergedUser = currentUser
+            ? { ...fakeUser, ...currentUser }
+            : fakeUser;
 
           set({
-            user,
+            user: mergedUser,
             webApp: null,
             initData,
           });
