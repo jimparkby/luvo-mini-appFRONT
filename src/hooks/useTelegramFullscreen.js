@@ -9,9 +9,7 @@ export const useTelegramFullscreen = () => {
 
     // Разворачиваем приложение
     try {
-      if (tg.requestFullscreen) {
-        tg.requestFullscreen();
-      } else if (tg.expand) {
+      if (tg.expand) {
         tg.expand();
       } else {
         tg.sendEvent?.("web_app_request_fullscreen");
@@ -24,15 +22,12 @@ export const useTelegramFullscreen = () => {
     try {
       if (tg.disableVerticalSwipes) {
         tg.disableVerticalSwipes();
-        console.log("✅ Вертикальные свайпы отключены");
       } else if (tg.setupSwipeBehavior) {
         tg.setupSwipeBehavior({ allow_vertical_swipe: false });
-        console.log("✅ Swipe отключен через setupSwipeBehavior");
       } else {
         tg.sendEvent?.("web_app_setup_swipe_behavior", {
           allow_vertical_swipe: false,
         });
-        console.log("✅ Swipe отключен через sendEvent");
       }
     } catch (err) {
       console.warn("Ошибка при отключении свайпов:", err);

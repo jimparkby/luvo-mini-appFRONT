@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDrag } from "@use-gesture/react";
 import { useFeedView } from "@/api/feed";
 import { useFeedBuffer } from "@/hooks/useFeedBuffer";
+import { FeedEmptyIcon } from "@/assets/icons/feed-empty";
 import { FeedCard, Spinner } from "@/components";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -70,23 +71,13 @@ export const FeedPage = () => {
       <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
         <div className="py-16 flex flex-col items-center justify-center">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6">
-            <svg
-              className="w-10 h-10 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
+            <FeedEmptyIcon />
           </div>
+
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
             Пока нет анкет
           </h3>
+
           <p className="text-gray-500 dark:text-gray-400 text-center max-w-sm">
             Новые анкеты появятся здесь, когда пользователи начнут
             регистрироваться

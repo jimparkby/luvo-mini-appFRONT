@@ -1,43 +1,13 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import DatePicker from "react-datepicker";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CalendarDays } from "lucide-react";
 import { ABOUT_PLACEHOLDER } from "@/constants";
 import { Controller, useForm } from "react-hook-form";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
-import { Input, Button, Textarea } from "@/ui";
 import { ProfilePhotosList, Spinner } from "@/components";
+import { Input, Button, Textarea, DateInput } from "@/ui";
 import { useUser, useUpdateUser, useUserPhotos } from "@/api/user";
-
-const CustomDateInput = forwardRef(({ value, onClick, error }, ref) => (
-  <div className="w-full">
-    <div className="relative flex items-center rounded-[30px] bg-white/10">
-      <button
-        ref={ref}
-        type="button"
-        onClick={onClick}
-        className={`w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 ${
-          error ? "border-light-red" : "border-primary-gray/30"
-        } bg-gray-light text-black dark:bg-transparent dark:text-white`}
-      >
-        <div
-          className={`w-full text-left ${
-            value ? "text-black dark:text-white" : "text-gray-400"
-          }`}
-        >
-          {value || "Дата рождения"}
-        </div>
-
-        <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
-      </button>
-    </div>
-
-    {error && (
-      <p className="mt-2 font-semibold text-light-red">{error.message}</p>
-    )}
-  </div>
-));
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -180,7 +150,7 @@ export const ProfilePage = () => {
                     {...field}
                     selected={field.value}
                     onChange={(date) => field.onChange(date)}
-                    customInput={<CustomDateInput error={errors.birthdate} />}
+                    customInput={<DateInput error={errors.birthdate} />}
                     dateFormat="dd.MM.yyyy"
                     wrapperClassName="w-full"
                     maxDate={new Date()}

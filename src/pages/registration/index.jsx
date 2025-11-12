@@ -1,37 +1,17 @@
-import { forwardRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as yup from "yup";
 import DatePicker from "react-datepicker";
 import { Spinner } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CalendarDays } from "lucide-react";
 import { useCreateUser } from "@/api/user";
 import { useWebAppStore } from "@/store";
 import { ABOUT_PLACEHOLDER } from "@/constants";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
-import { Input, Button, Textarea } from "@/ui";
 import { Controller, useForm, FormProvider } from "react-hook-form";
+import { Input, Button, Textarea, DateInput } from "@/ui";
 
-import CameraIcon from "../../assets/icons/camera.svg";
-
-const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
-  <button
-    ref={ref}
-    type="button"
-    onClick={onClick}
-    className="mt-3 w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light dark:bg-transparent"
-  >
-    <div
-      className={`w-full text-left ${
-        value ? "text-gray-800" : "text-gray-400"
-      }`}
-    >
-      {value || "Дата рождения"}
-    </div>
-
-    <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
-  </button>
-));
+import CameraIcon from "@/assets/icons/camera.svg";
 
 const stepSchemas = [
   yup.object({
@@ -191,7 +171,7 @@ export const RegistrationPage = () => {
                         {...field}
                         selected={field.value ? new Date(field.value) : null}
                         onChange={(date) => field.onChange(date)}
-                        customInput={<CustomDateInput />}
+                        customInput={<DateInput />}
                         dateFormat="dd.MM.yyyy"
                         wrapperClassName="w-full"
                         maxDate={new Date()}

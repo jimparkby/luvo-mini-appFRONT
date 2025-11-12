@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-export const DUEL_COUNT_KEY = "duels_count_v1";
-export const DUEL_LIMIT_KEY = "duels_limit_until_v1";
+const DUEL_COUNT_KEY = "duels_count_v1";
+const DUEL_LIMIT_KEY = "duels_limit_until_v1";
 const TOTAL = 15;
 const MS_IN_24H = 24 * 60 * 60 * 1000;
 

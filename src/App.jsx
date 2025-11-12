@@ -86,9 +86,11 @@ export const App = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-center px-6">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900 dark:border-white mb-4" />
+
         <h2 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
           Загружаем приложение...
         </h2>
+
         <p className="text-gray-500 dark:text-gray-400 text-sm max-w-xs">
           Пожалуйста, подождите пару секунд — мы готовим данные и настраиваем
           интерфейс.

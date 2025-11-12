@@ -58,7 +58,9 @@ export const DuelsPage = () => {
           <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
             <span className="text-2xl">⚠️</span>
           </div>
+
           <h2 className="text-xl font-bold mb-3">Ошибка загрузки</h2>
+
           <button
             onClick={() => refetch()}
             className="bg-primary-red text-white px-6 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors"
@@ -77,7 +79,9 @@ export const DuelsPage = () => {
           <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
             <span className="text-2xl">👥</span>
           </div>
+
           <h2 className="text-xl font-bold mb-3">Недостаточно данных</h2>
+
           <button
             onClick={() => refetch()}
             className="bg-primary-red text-white px-6 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors"
@@ -91,10 +95,8 @@ export const DuelsPage = () => {
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col overflow-hidden relative">
-      {/* Прогрессбар (над карточками) */}
       <DuelProgressBar />
 
-      {/* Контейнер карточек */}
       <div
         className={`flex flex-col items-center justify-center gap-3 p-4 overflow-hidden flex-1 ${
           isBlocked ? "opacity-40 pointer-events-none" : ""
@@ -121,7 +123,6 @@ export const DuelsPage = () => {
         </div>
       </div>
 
-      {/* "Как это работает" */}
       <div className="pb-6 text-center">
         <button
           onClick={() => setShowHelpModal(true)}
@@ -131,7 +132,6 @@ export const DuelsPage = () => {
         </button>
       </div>
 
-      {/* Помощь */}
       {showHelpModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center">

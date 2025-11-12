@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { useLiked } from "@/api/feed";
 import { useIgnored } from "@/api/likes";
 
-import BigHeart from "../../assets/icons/big-heart.svg";
+import BigHeart from "@/assets/icons/big-heart.svg";
 import CrossIcon from "./cross.svg";
 import HeartIcon from "./heart.svg";
 import EmptyHeartIcon from "./empty-heart.svg";

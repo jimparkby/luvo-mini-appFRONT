@@ -5,6 +5,7 @@ import { Spinner } from "./spinner";
 import { DuelCard } from "./duel-card";
 import { FeedCard } from "./feed-card";
 import { Pedestal } from "./pedestal";
+import { MetchItem } from "./metch-item";
 import { LikesCard } from "./likes-card";
 import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
@@ -25,6 +26,7 @@ export {
   FeedCard,
   DuelCard,
   LikesCard,
+  MetchItem,
   RatingList,
   MetchModal,
   MetchesList,
