@@ -1,55 +1,32 @@
 import { useEffect, useState } from "react";
-import { useDuelProgressStore } from "@/store/duelProgressStore";
-import { useDuelPair, useDuelNextPair } from "@/api/duels";
+import { useDuelPair } from "@/api/duels";
 import {
   Spinner,
   DuelProgressBar,
-  DuelsBlockModal,
   DuelsBattleCards,
   DuelsInformationModal,
 } from "@/components";
 
 export const DuelsPage = () => {
+  const [step, setStep] = useState(null);
+  const [winnerId, setWinnerId] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  // Первый запрос - выполняется автоматически при монтировании (без winnerId)
-  const { data: pairData, isLoading, error, refetch } = useDuelPair();
+  const { data, error, isLoading } = useDuelPair(winnerId, step);
 
-  // Второй запрос - выполняется только когда selectedUserId задан (с winnerId)
-  const {
-    data: nextPairData,
-    isLoading: isNextPairLoading,
-    isSuccess: isNextPairSuccess,
-  } = useDuelNextPair(selectedUserId);
-
-  const { increment } = useDuelProgressStore();
-
-  // Используем последние данные из обоих запросов (приоритет у nextPairData)
-  const currentData = nextPairData || pairData;
-  const currentPairData = currentData?.profiles;
-  const duelsCount = currentData?.stage || 0;
-  const isVoting = isNextPairLoading;
+  const duelsCount = data?.stage || 0;
   const isBlocked = duelsCount >= 15; // Блокируем когда stage достиг 15
-  const winner = isBlocked && currentPairData?.[0]; // Победитель - первый элемент когда stage === 15
 
   useEffect(() => {
     const hasSeen = localStorage.getItem("duelsHelpStatus");
     if (!hasSeen) setShowHelpModal(true);
   }, []);
 
-  // Когда второй запрос успешно выполнился, обновляем данные и сбрасываем selectedUserId
-  useEffect(() => {
-    if (isNextPairSuccess && nextPairData?.profiles) {
-      setSelectedUserId(null);
-      increment();
-    }
-  }, [isNextPairSuccess, nextPairData?.profiles, increment]);
+  const handleSelectAndVote = async (winnerId) => {
+    if (isLoading) return;
 
-  const handleSelectAndVote = (winnerId) => {
-    // Блокируем выбор если загружается следующий запрос, нет данных или достигнут лимит
-    if (isNextPairLoading || !currentData?.profiles || isBlocked) return;
-    setSelectedUserId(winnerId);
+    setStep((prev) => prev + 1);
+    setWinnerId(winnerId);
   };
 
   const handleOkHelp = () => {
@@ -74,19 +51,12 @@ export const DuelsPage = () => {
           </div>
 
           <h2 className="text-xl font-bold mb-3">Ошибка загрузки</h2>
-
-          <button
-            onClick={() => refetch()}
-            className="bg-primary-red text-white px-6 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors"
-          >
-            Попробовать снова
-          </button>
         </div>
       </div>
     );
   }
 
-  if (!currentPairData) {
+  if (!data?.profiles) {
     return (
       <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center p-4">
         <div className="text-center">
@@ -95,13 +65,6 @@ export const DuelsPage = () => {
           </div>
 
           <h2 className="text-xl font-bold mb-3">Недостаточно данных</h2>
-
-          <button
-            onClick={() => refetch()}
-            className="bg-primary-red text-white px-6 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors"
-          >
-            Обновить
-          </button>
         </div>
       </div>
     );
@@ -111,14 +74,15 @@ export const DuelsPage = () => {
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col overflow-hidden relative">
       <DuelProgressBar duelsCount={duelsCount} />
 
-      <DuelsBattleCards
-        winner={winner}
-        isVoting={isVoting}
-        pairData={currentPairData}
-        isBlocked={isBlocked}
-        selectedUserId={selectedUserId}
-        handleSelectAndVote={handleSelectAndVote}
-      />
+      {data?.final_winner && <DuelsWinnerCard winner={data.final_winner} />}
+      {data?.profiles && (
+        <DuelsBattleCards
+          profiles={data.profiles}
+          isLoading={isLoading}
+          isBlocked={isBlocked}
+          handleSelectAndVote={handleSelectAndVote}
+        />
+      )}
 
       <div className="pb-6 text-center">
         <button

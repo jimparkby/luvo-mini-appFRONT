@@ -152,6 +152,7 @@ export const DuelCard = ({
                       {initials}
                     </span>
                   </div>
+
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Нет фото
                   </p>
@@ -165,6 +166,7 @@ export const DuelCard = ({
                 <h3 className="text-base sm:text-lg font-semibold drop-shadow">
                   {user.instagram_username || "Аноним"}
                 </h3>
+
                 {age != null && (
                   <span className="text-xs sm:text-sm text-white/90">
                     {age} лет
