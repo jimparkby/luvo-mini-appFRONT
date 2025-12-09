@@ -214,30 +214,56 @@ export const useWebAppStore = create((set, get) => {
       const tg = get().webApp || window.Telegram?.WebApp;
       if (!tg) return null;
 
-      // Запрашиваем локацию у пользователя
-      return new Promise((resolve) => {
-        if (tg.requestLocation) {
-          tg.requestLocation((location) => {
-            if (location) {
-              // Обновляем пользователя в store
-              const currentUser = get().user;
-              const updatedUser = {
-                ...currentUser,
-                location: {
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                },
-              };
-              get().setUser(updatedUser);
-              resolve(location);
-            } else {
-              resolve(null);
-            }
-          });
-        } else {
-          resolve(null);
+      try {
+        // Проверяем доступность locationManager
+        const locationManager = tg.locationManager || tg.LocationManager;
+
+        if (!locationManager) {
+          if (tg.showAlert) {
+            tg.showAlert("Геолокация не поддерживается в этой версии Telegram");
+          }
+          return null;
         }
-      });
+
+        // Проверяем доступность метода requestLocation
+        if (
+          locationManager.requestLocation?.isAvailable &&
+          !locationManager.requestLocation.isAvailable()
+        ) {
+          if (tg.showAlert) {
+            tg.showAlert("Геолокация недоступна на этом устройстве");
+          }
+          return null;
+        }
+
+        // Запрашиваем локацию через Telegram Mini App API
+        const location = await locationManager.requestLocation();
+
+        if (location) {
+          const locationData = {
+            latitude: location.latitude,
+            longitude: location.longitude,
+          };
+
+          // Обновляем пользователя в store
+          const currentUser = get().user;
+          const updatedUser = {
+            ...currentUser,
+            location: locationData,
+          };
+          get().setUser(updatedUser);
+          return locationData;
+        }
+
+        return null;
+      } catch (error) {
+        console.error("Ошибка при получении геолокации:", error);
+        const tg = get().webApp || window.Telegram?.WebApp;
+        if (tg?.showAlert) {
+          tg.showAlert("Не удалось получить локацию");
+        }
+        return null;
+      }
     },
   };
 });
