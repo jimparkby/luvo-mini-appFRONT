@@ -221,57 +221,119 @@ export const useWebAppStore = create((set, get) => {
         const locationManager = tg.locationManager || tg.LocationManager;
 
         if (locationManager) {
-          // Проверяем доступность метода requestLocation
-          if (
-            locationManager.requestLocation?.isAvailable &&
-            !locationManager.requestLocation.isAvailable()
+          // Проверяем структуру объекта для диагностики
+          const locationManagerKeys = Object.keys(locationManager);
+
+          // Пробуем разные варианты доступа к requestLocation
+          let requestLocationMethod = null;
+
+          // Вариант 1: locationManager.requestLocation как функция
+          if (typeof locationManager.requestLocation === "function") {
+            requestLocationMethod = locationManager.requestLocation;
+          }
+          // Вариант 2: locationManager.requestLocation как объект с методом
+          else if (
+            locationManager.requestLocation &&
+            typeof locationManager.requestLocation.requestLocation ===
+              "function"
           ) {
-            throw new Error("Геолокация недоступна на этом устройстве");
+            requestLocationMethod =
+              locationManager.requestLocation.requestLocation.bind(
+                locationManager.requestLocation
+              );
+          }
+          // Вариант 3: прямой метод locationManager
+          else if (typeof locationManager.request === "function") {
+            requestLocationMethod = locationManager.request;
           }
 
-          // Запрашиваем локацию через locationManager.requestLocation()
-          const location = await locationManager.requestLocation();
+          if (requestLocationMethod) {
+            // Проверяем доступность, если есть метод isAvailable
+            const isAvailableCheck =
+              locationManager.requestLocation?.isAvailable ||
+              locationManager.isAvailable;
 
-          if (location) {
-            const locationData = {
-              latitude: location.latitude,
-              longitude: location.longitude,
-            };
+            if (isAvailableCheck && typeof isAvailableCheck === "function") {
+              if (!isAvailableCheck()) {
+                throw new Error("Геолокация недоступна на этом устройстве");
+              }
+            }
 
-            // Обновляем пользователя в store
-            const currentUser = get().user;
-            const updatedUser = {
-              ...currentUser,
-              location: locationData,
-            };
-            get().setUser(updatedUser);
-            return locationData;
+            // Запрашиваем локацию
+            const location = await requestLocationMethod();
+
+            if (location) {
+              const locationData = {
+                latitude: location.latitude,
+                longitude: location.longitude,
+              };
+
+              // Обновляем пользователя в store
+              const currentUser = get().user;
+              const updatedUser = {
+                ...currentUser,
+                location: locationData,
+              };
+              get().setUser(updatedUser);
+              return locationData;
+            }
+          } else {
+            throw new Error(
+              `Не удалось найти метод requestLocation. locationManager свойства: ${locationManagerKeys.join(
+                ", "
+              )}. Тип requestLocation: ${typeof locationManager.requestLocation}`
+            );
           }
         }
 
         // Пробуем locationData
-        const locationData = tg.locationData;
-        if (locationData) {
-          const location = await locationData.requestLocation();
+        const locationDataObj = tg.locationData;
+        if (locationDataObj) {
+          const locationDataKeys = Object.keys(locationDataObj);
 
-          if (location) {
-            const locationResult = {
-              latitude: location.latitude,
-              longitude: location.longitude,
-            };
+          let requestLocationMethod = null;
 
-            // Обновляем пользователя в store
-            const currentUser = get().user;
-            const updatedUser = {
-              ...currentUser,
-              location: locationResult,
-            };
-            get().setUser(updatedUser);
-            return locationResult;
+          if (typeof locationDataObj.requestLocation === "function") {
+            requestLocationMethod = locationDataObj.requestLocation;
+          } else if (
+            locationDataObj.request &&
+            typeof locationDataObj.request === "function"
+          ) {
+            requestLocationMethod = locationDataObj.request;
+          }
+
+          if (requestLocationMethod) {
+            const location = await requestLocationMethod();
+
+            if (location) {
+              const locationResult = {
+                latitude: location.latitude,
+                longitude: location.longitude,
+              };
+
+              // Обновляем пользователя в store
+              const currentUser = get().user;
+              const updatedUser = {
+                ...currentUser,
+                location: locationResult,
+              };
+              get().setUser(updatedUser);
+              return locationResult;
+            }
+          } else {
+            throw new Error(
+              `Не удалось найти метод requestLocation в locationData. Свойства: ${locationDataKeys.join(
+                ", "
+              )}`
+            );
           }
         }
 
-        throw new Error("Методы locationManager и locationData недоступны");
+        throw new Error(
+          `Методы locationManager и locationData недоступны. tg свойства: ${Object.keys(
+            tg
+          ).join(", ")}`
+        );
       } catch (error) {
         console.error("Ошибка при получении геолокации:", error);
         // Пробрасываем ошибку дальше для отображения в UI
