@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import { useSpring } from "@react-spring/web";
 import { useFeedView } from "@/api/feed";
 import { useFeedBuffer } from "@/hooks/useFeedBuffer";
 import { FeedEmptyIcon } from "@/assets/icons/feed-empty";
-import { FeedCard, Spinner } from "@/components";
+import { useSpring, animated } from "@react-spring/web";
+import { FeedCard, Spinner, MetchModal } from "@/components";
 
 export const FeedPage = () => {
   const [isOpen, setIsOpen] = useState(false);
