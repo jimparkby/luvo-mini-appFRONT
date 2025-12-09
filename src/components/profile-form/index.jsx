@@ -10,6 +10,7 @@ import { calculateAge } from "@/utils/calculate-age.util";
 import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { TelegramInfo } from "@/components/telegram-info";
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -124,6 +125,8 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       <Button type="submit" className="mt-3 w-full">
         {!isLoading ? "Сохранить" : <Spinner size="sm" />}
       </Button>
+
+      <TelegramInfo />
     </form>
   );
 };

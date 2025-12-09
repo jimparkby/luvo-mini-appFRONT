@@ -145,5 +145,69 @@ export const useWebAppStore = create((set, get) => {
         isInitialized: false,
       });
     },
+
+    getPhoneNumber: async () => {
+      const tg = get().webApp || window.Telegram?.WebApp;
+      if (!tg) return null;
+
+      // Сначала проверяем, есть ли номер в initDataUnsafe
+      const existingPhone = tg.initDataUnsafe?.user?.phone_number;
+      if (existingPhone) {
+        return existingPhone;
+      }
+
+      // Если нет, запрашиваем у пользователя
+      return new Promise((resolve) => {
+        if (tg.requestContact) {
+          tg.requestContact((contact) => {
+            if (contact?.phone_number) {
+              // Обновляем пользователя в store
+              const currentUser = get().user;
+              const updatedUser = {
+                ...currentUser,
+                phone_number: contact.phone_number,
+              };
+              get().setUser(updatedUser);
+              resolve(contact.phone_number);
+            } else {
+              resolve(null);
+            }
+          });
+        } else {
+          resolve(null);
+        }
+      });
+    },
+
+    getShareUrl: () => {
+      const tg = get().webApp || window.Telegram?.WebApp;
+      const user = get().user;
+
+      // Прямой способ - если доступен shareUrl из Telegram
+      if (tg?.shareUrl) {
+        return tg.shareUrl;
+      }
+
+      // Получаем username из разных источников
+      const username = user?.username || tg?.initDataUnsafe?.user?.username;
+
+      // Если есть username, создаем ссылку на профиль пользователя в Telegram
+      if (username) {
+        // Создаем прямую ссылку на профиль пользователя в Telegram
+        return `https://t.me/${username}`;
+      }
+
+      // Fallback: если нет username, используем user_id для реферальной ссылки
+      const userId = user?.id || user?.user_id || tg?.initDataUnsafe?.user?.id;
+      if (userId) {
+        const baseUrl = window.location.origin;
+        const referralUrl = `${baseUrl}?ref=${userId}`;
+        return `https://t.me/share/url?url=${encodeURIComponent(
+          referralUrl
+        )}&text=${encodeURIComponent("Присоединяйся!")}`;
+      }
+
+      return null;
+    },
   };
 });
