@@ -8,6 +8,7 @@ import { MetchItem } from "./metch-item";
 import { LikesCard } from "./likes-card";
 import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
+import { EmptyState } from "./empty-state";
 import { ProfileForm } from "./profile-form";
 import { MetchesList } from "./metches-list";
 import { DuelInfoModal } from "./duels-info-modal";
@@ -31,6 +32,7 @@ export {
   MetchItem,
   RatingList,
   MetchModal,
+  EmptyState,
   ProfileForm,
   MetchesList,
   DuelInfoModal,

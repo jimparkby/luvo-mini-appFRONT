@@ -1,7 +1,12 @@
 import { useRef, useState } from "react";
-import { LikesEmptyIcon } from "@/assets/icons/likes-empty";
 import { useLikes, useMatches } from "@/api/likes";
-import { MetchModal, LikesCard, MetchesList, Spinner } from "@/components";
+import {
+  Spinner,
+  LikesCard,
+  EmptyState,
+  MetchModal,
+  MetchesList,
+} from "@/components";
 
 export const LikesPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,20 +59,10 @@ export const LikesPage = () => {
             <Spinner size="lg" />
           </div>
         ) : hasNoData ? (
-          <div className="py-16 flex flex-col items-center justify-center">
-            <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6">
-              <LikesEmptyIcon />
-            </div>
-
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Пока ничего нет
-            </h3>
-
-            <p className="text-gray-500 dark:text-gray-400 text-center max-w-sm">
-              Лайки и взаимные симпатии появятся здесь, когда вы начнете
-              получать внимание
-            </p>
-          </div>
+          <EmptyState
+            title="Пока ничего нет"
+            description="Лайки и взаимные симпатии появятся здесь, когда вы начнете получать внимание"
+          />
         ) : (
           <>
             {hasLikes && (
