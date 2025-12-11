@@ -40,6 +40,10 @@ const stepSchemas = [
   }),
   yup.object({
     file: yup.mixed().required("Фото обязательно"),
+    privacyAccepted: yup
+      .boolean()
+      .oneOf([true], "Необходимо согласиться с политикой конфиденциальности")
+      .required("Необходимо согласиться с политикой конфиденциальности"),
   }),
 ];
 
@@ -66,6 +70,7 @@ export const RegistrationForm = () => {
       birthdate: null,
       first_name: "",
       instagram_username: "",
+      privacyAccepted: false,
     },
   });
 
@@ -155,6 +160,7 @@ export const RegistrationForm = () => {
           isLoading={isLoading}
           setPreview={setPreview}
           genericError={genericError}
+          register={register}
         />
       )}
     </form>

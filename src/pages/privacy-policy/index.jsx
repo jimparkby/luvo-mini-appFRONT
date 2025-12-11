@@ -1,0 +1,138 @@
+export const PrivacyPolicyPage = () => {
+  return (
+    <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
+      <div className="container mx-auto max-w-2xl p-5 overflow-y-auto scrollbar-hidden">
+        <h1 className="font-bold text-[32px] mb-6">Политика конфиденциальности LUVO</h1>
+        
+        <div className="text-sm text-gray-600 dark:text-gray-400 mb-8">
+          <p>Дата вступления в силу: 13 августа 2025 г.</p>
+          <p>Последнее обновление: 13 августа 2025 г.</p>
+        </div>
+
+        <div className="space-y-6 text-gray-700 dark:text-gray-300">
+          <p>
+            Настоящая Политика конфиденциальности (далее — «Политика») регулирует порядок обработки и защиты персональных данных пользователей, осуществляемую LUVO (далее — «Сервис»), при использовании Telegram-миниприложения LUVO.
+          </p>
+
+          <p className="font-medium">
+            Используя Сервис, вы выражаете согласие с условиями настоящей Политики.
+          </p>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">1. Термины и определения</h2>
+            <ul className="list-none space-y-2">
+              <li>
+                <strong>Сервис</strong> — Telegram-миниприложение LUVO, доступное пользователям Telegram.
+              </li>
+              <li>
+                <strong>Пользователь</strong> — физическое лицо, использующее Сервис.
+              </li>
+              <li>
+                <strong>Персональные данные</strong> — информация, относящаяся к прямо или косвенно определённому Пользователю.
+              </li>
+            </ul>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">2. Обрабатываемые данные</h2>
+            <p className="mb-3">
+              Сервис может обрабатывать следующие категории данных:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>Telegram-идентификаторы: user_id, имя, username;</li>
+              <li>Анкетные данные, предоставленные добровольно: возраст, город, интересы, биография и др.;</li>
+              <li>Ссылки на внешние ресурсы, включая Instagram-профиль (по желанию Пользователя);</li>
+              <li>Технические данные: дата регистрации, активность в Сервисе.</li>
+            </ul>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">3. Цели обработки</h2>
+            <p className="mb-3">
+              Обработка персональных данных осуществляется исключительно в целях:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>предоставления функционала Сервиса;</li>
+              <li>отображения анкет другим Пользователям;</li>
+              <li>формирования рекомендаций и улучшения UX;</li>
+              <li>демонстрации возможностей Сервиса (в случае демо-анкет).</li>
+            </ul>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">4. Демо-анкеты</h2>
+            <p className="mb-3">
+              Сервис может использовать демо-анкеты, созданные на основе публично доступных данных (например, Instagram). Такие анкеты:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>не связаны с реальными Telegram-аккаунтами;</li>
+              <li>используются исключительно в демонстрационных целях;</li>
+              <li>помечаются как is_demo и не участвуют в реальных взаимодействиях.</li>
+            </ul>
+            <p className="mt-3">
+              Пользователь вправе запросить удаление демо-анкеты, содержащей его изображение или данные.
+            </p>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">5. Передача данных третьим лицам</h2>
+            <p className="mb-3">
+              Сервис не передаёт персональные данные третьим лицам, за исключением случаев:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>получения явного согласия Пользователя;</li>
+              <li>требований законодательства;</li>
+              <li>защиты прав и интересов Сервиса в рамках правовых процедур.</li>
+            </ul>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">6. Хранение и защита данных</h2>
+            <p>
+              Сервис принимает необходимые организационные и технические меры для защиты персональных данных от неправомерного доступа, изменения, раскрытия или уничтожения.
+            </p>
+            <p className="mt-3">
+              Срок хранения данных определяется целями обработки и может быть ограничен по запросу Пользователя.
+            </p>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">7. Права пользователя</h2>
+            <p className="mb-3">
+              Пользователь имеет право:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>на доступ к своим персональным данным;</li>
+              <li>на их исправление, обновление или удаление;</li>
+              <li>на отзыв согласия на обработку;</li>
+            </ul>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">8. Контакты</h2>
+            <p className="mb-3">
+              По вопросам, связанным с обработкой персональных данных, вы можете обратиться:
+            </p>
+            <p>
+              по электронной почте:{" "}
+              <a 
+                href="mailto:luvo.dateby@gmail.com" 
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                luvo.dateby@gmail.com
+              </a>
+            </p>
+          </section>
+
+          <section className="mt-8">
+            <h2 className="font-bold text-xl mb-4">9. Изменения политики</h2>
+            <p>
+              Сервис вправе вносить изменения в настоящую Политику. Обновлённая редакция вступает в силу с момента её публикации, если иное не предусмотрено.
+            </p>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+};
+

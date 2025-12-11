@@ -9,6 +9,7 @@ import {
   ProfilePage,
   RegistrationPage,
   OtherProfilePage,
+  PrivacyPolicyPage,
 } from "../pages";
 
 export const Router = () => {
@@ -17,6 +18,8 @@ export const Router = () => {
       <Route element={<UnauthenticatedRoute />}>
         <Route path="/registration" element={<RegistrationPage />} />
       </Route>
+
+      <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
       <Route element={<AuthenticatedRoute />}>
         <Route path="/feed" element={<FeedPage />} />
