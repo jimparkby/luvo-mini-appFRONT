@@ -156,11 +156,11 @@ export const RegistrationForm = () => {
         <ThirdStep
           errors={errors}
           preview={preview}
+          register={register}
           setValue={setValue}
           isLoading={isLoading}
           setPreview={setPreview}
           genericError={genericError}
-          register={register}
         />
       )}
     </form>

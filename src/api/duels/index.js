@@ -11,4 +11,11 @@ export const useDuelPair = (winnerId, step) =>
       });
       return data;
     },
+    retry: (failureCount, error) => {
+      // Не повторяем запрос при ошибке "Недостаточно пользователей"
+      if (error?.response?.data?.detail === "Недостаточно пользователей") {
+        return false;
+      }
+      return failureCount < 3;
+    },
   });

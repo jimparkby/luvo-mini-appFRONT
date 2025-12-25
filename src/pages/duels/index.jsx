@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { useDuelPair } from "@/api/duels";
+import { useUser } from "@/api/user";
 import {
   Spinner,
   EmptyState,
+  LocationModal,
   DuelsWinnerCard,
   DuelProgressBar,
   DuelsBattleCards,
@@ -14,16 +16,39 @@ export const DuelsPage = () => {
   const [step, setStep] = useState(null);
   const [winnerId, setWinnerId] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showRequiredLocationModal, setShowRequiredLocationModal] =
+    useState(false);
 
-  const { data, isLoading } = useDuelPair(winnerId, step);
+  const { data, isLoading, error } = useDuelPair(winnerId, step);
+  const { data: userData, isLoading: isLoadingUser } = useUser();
+
+  // Проверяем наличие локации у пользователя
+  const hasLocation =
+    userData &&
+    (userData.country || userData.location?.country) &&
+    (userData.city || userData.location?.city);
 
   const duelsCount = data?.stage || 0;
   const isBlocked = !!data?.final_winner; // Блокируем когда есть победитель
+
+  // Проверяем ошибку "Недостаточно пользователей"
+  const isNotEnoughUsers =
+    error?.response?.data?.detail === "Недостаточно пользователей";
 
   useEffect(() => {
     const hasSeen = localStorage.getItem("duelsHelpStatus");
     if (!hasSeen) setShowHelpModal(true);
   }, []);
+
+  // Показываем обязательную модалку локации если локация не указана
+  useEffect(() => {
+    if (!isLoadingUser && !hasLocation) {
+      setShowRequiredLocationModal(true);
+    } else if (hasLocation && showRequiredLocationModal) {
+      // Закрываем модалку, если локация появилась
+      setShowRequiredLocationModal(false);
+    }
+  }, [isLoadingUser, hasLocation, showRequiredLocationModal]);
 
   const handleSelectAndVote = async (winnerId) => {
     if (isLoading) return;
@@ -49,18 +74,36 @@ export const DuelsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
-        <Spinner size="lg" />
-      </div>
+      <>
+        <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+          <Spinner size="lg" />
+        </div>
+
+        {showRequiredLocationModal && (
+          <LocationModal
+            isRequired={true}
+            onClose={() => setShowRequiredLocationModal(false)}
+          />
+        )}
+      </>
     );
   }
 
-  if (!data?.profiles && !data?.final_winner) {
+  // Показываем пустой стейт при ошибке "Недостаточно пользователей" или когда нет данных
+  if (isNotEnoughUsers || (!data?.profiles && !data?.final_winner)) {
     return (
-      <EmptyState
-        title="Дуэли еще не сформированы"
-        description="Новые дуэли появятся здесь, когда пользователи начнут получать лайки"
-      />
+      <>
+        <EmptyState
+          title="Дуэли еще не сформированы"
+          description="Мы еще формируем твои рекомендации"
+        />
+        {showRequiredLocationModal && (
+          <LocationModal
+            isRequired={true}
+            onClose={() => setShowRequiredLocationModal(false)}
+          />
+        )}
+      </>
     );
   }
 
@@ -82,13 +125,20 @@ export const DuelsPage = () => {
       <div className="pb-6 text-center">
         <button
           onClick={() => setShowHelpModal(true)}
-          className="text-gray-400 text-sm underline hover:text-gray-600 transition"
+          className="text-gray-400 text-sm underline hover:text-gray-600 transition block mx-auto"
         >
           Как это работает?
         </button>
       </div>
 
       {showHelpModal && <DuelsInformationModal onClose={handleOkHelp} />}
+
+      {showRequiredLocationModal && (
+        <LocationModal
+          isRequired={true}
+          onClose={() => setShowRequiredLocationModal(false)}
+        />
+      )}
     </div>
   );
 };

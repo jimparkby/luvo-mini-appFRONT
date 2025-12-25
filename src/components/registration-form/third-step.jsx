@@ -8,10 +8,10 @@ export const ThirdStep = ({
   errors,
   preview,
   setValue,
+  register,
   isLoading,
   genericError,
   setGenericError,
-  register,
 }) => {
   const navigate = useNavigate();
 

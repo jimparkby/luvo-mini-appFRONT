@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import classnames from "classnames";
-import { Header, Sidebar } from "@/components";
+import { Header, Sidebar, LocationButton } from "@/components";
 
 export const Layout = ({ children, className = "" }) => {
   const [viewportHeight, setViewportHeight] = useState("100vh");
@@ -34,6 +34,8 @@ export const Layout = ({ children, className = "" }) => {
       {children}
 
       <Sidebar />
+
+      <LocationButton />
     </div>
   );
 };
