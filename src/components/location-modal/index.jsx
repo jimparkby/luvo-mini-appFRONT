@@ -154,10 +154,10 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-20 p-4">
-      <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+      <div className="bg-white/90 dark:bg-black/90 rounded-2xl p-6 max-w-sm w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">
               {isRequired ? "Настройка локации" : "Выберите локацию"}
             </h2>
 
@@ -165,7 +165,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition text-2xl leading-none"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition text-2xl leading-none"
               >
                 ×
               </button>
@@ -173,7 +173,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
           </div>
 
           <div className="mb-6">
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               {isRequired
                 ? "Для продолжения укажите свою страну и город"
                 : "Укажите свою страну и город, чтобы находить людей поблизости"}
@@ -182,7 +182,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
 
           <div className="space-y-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Страна
               </label>
 
@@ -228,7 +228,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-gray-500 md:w-5 md:h-5"
+                    className="text-gray-500 dark:text-gray-400 md:w-5 md:h-5"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
@@ -243,7 +243,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Город
               </label>
 
@@ -285,7 +285,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-gray-500 md:w-5 md:h-5"
+                    className="text-gray-500 dark:text-gray-400 md:w-5 md:h-5"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
@@ -302,7 +302,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
             {/* Выбор района (если доступны районы для выбранного города) */}
             {districts.length > 0 && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Район
                 </label>
 
@@ -351,7 +351,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-gray-500 md:w-5 md:h-5"
+                      className="text-gray-500 dark:text-gray-400 md:w-5 md:h-5"
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
@@ -372,8 +372,8 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
           </div>
 
           {saveError && (
-            <div className="mb-4 p-3 bg-red-50 border border-light-red rounded-lg">
-              <p className="text-sm font-semibold text-light-red">
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-light-red dark:border-red-800 rounded-lg">
+              <p className="text-sm font-semibold text-light-red dark:text-red-400">
                 {saveError}
               </p>
             </div>
