@@ -190,7 +190,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                 <select
                   {...register("country")}
                   disabled={isLoadingCountries}
-                  className={`w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 ${
+                  className={`w-full py-3 px-3 pr-10 md:py-[18px] md:px-4 md:pr-12 rounded-2xl md:rounded-[30px] leading-5 text-base md:text-xl border-2 ${
                     errors.country
                       ? "border-light-red"
                       : "border-primary-gray/30"
@@ -217,18 +217,18 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                   })}
                 </select>
 
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none md:right-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-gray-500"
+                    className="text-gray-500 md:w-5 md:h-5"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
@@ -251,7 +251,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                 <select
                   {...register("city")}
                   disabled={!country || isLoadingCities}
-                  className={`w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 ${
+                  className={`w-full py-3 px-3 pr-10 md:py-[18px] md:px-4 md:pr-12 rounded-2xl md:rounded-[30px] leading-5 text-base md:text-xl border-2 ${
                     errors.city ? "border-light-red" : "border-primary-gray/30"
                   } bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer`}
                 >
@@ -274,18 +274,18 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                   })}
                 </select>
 
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none md:right-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-gray-500"
+                    className="text-gray-500 md:w-5 md:h-5"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
@@ -317,7 +317,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                       },
                     })}
                     disabled={isLoadingDistricts}
-                    className={`w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 ${
+                    className={`w-full py-3 px-3 pr-10 md:py-[18px] md:px-4 md:pr-12 rounded-2xl md:rounded-[30px] leading-5 text-base md:text-xl border-2 ${
                       errors.district
                         ? "border-light-red"
                         : "border-primary-gray/30"
@@ -340,18 +340,18 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                     })}
                   </select>
 
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none md:right-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
+                      width="16"
+                      height="16"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-gray-500"
+                      className="text-gray-500 md:w-5 md:h-5"
                     >
                       <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
