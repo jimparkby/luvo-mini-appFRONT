@@ -16,11 +16,27 @@ export const OtherProfilePage = () => {
 
   const { handleCopy: handleCopyInstagram, isCopied: isInstagramCopied } =
     useCopyToClipboard(2000);
-  const { handleCopy: handleCopyTelegram, isCopied: isTelegramCopied } =
-    useCopyToClipboard(2000);
 
   const { data, isLoading } = useOtherUser(params.id);
   const isMetch = searchParams.get("isMetch") === "true";
+
+  // Функция открытия чата в Telegram
+  const openTelegramChat = (username) => {
+    if (!username) return;
+
+    // Очищаем символ @ если он есть
+    const cleanUsername = username.replace('@', '');
+    const telegramUrl = `https://t.me/${cleanUsername}`;
+
+    // Открываем чат через Telegram WebApp API - это сворачивает мини-апп и открывает чат
+    if (window.Telegram?.WebApp?.openTelegramLink) {
+      window.Telegram.WebApp.openTelegramLink(telegramUrl);
+    } else if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.openLink(telegramUrl);
+    } else {
+      window.open(telegramUrl, '_blank');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -72,16 +88,11 @@ export const OtherProfilePage = () => {
 
             <div
               className="ml-2 font-bold text-2xl cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => handleCopyTelegram(`@${data.telegram_username}`)}
+              onClick={() => openTelegramChat(data.telegram_username)}
+              title={`Написать ${data.telegram_username} в Telegram`}
             >
               @{data.telegram_username}
             </div>
-
-            {isTelegramCopied && (
-              <span className="ml-2 text-sm text-green-600 dark:text-green-400 transition-opacity">
-                ✓ Скопировано
-              </span>
-            )}
           </div>
         )}
       </div>
