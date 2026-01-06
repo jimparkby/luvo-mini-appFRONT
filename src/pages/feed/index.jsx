@@ -105,20 +105,18 @@ export const FeedPage = () => {
               transform: y.to((y) => `translateY(${y}px)`),
             }}
           >
-            <div className="text-center space-y-4 px-6">
-              <h2 className="text-2xl font-bold mb-2">
-                <span className="dark:text-white text-gray-900">Твои рекомендации </span>
-                <span className="text-4xl">🤗</span>
-              </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-base">
-                еще формируются
-              </p>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-4">
-                Свайпни вверх, чтобы вернуться к анкетам
-              </p>
-              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mt-8">
+            <div className="py-16 flex flex-col items-center justify-center">
+              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6">
                 <EmptyStateIcon />
               </div>
+
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Твои рекомендации еще формируются 🤗
+              </h3>
+
+              <p className="text-gray-500 dark:text-gray-400 text-center max-w-sm">
+                Свайпни вверх, чтобы вернуться к анкетам
+              </p>
             </div>
           </animated.div>
         ) : (
