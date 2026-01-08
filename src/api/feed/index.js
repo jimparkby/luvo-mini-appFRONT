@@ -21,6 +21,8 @@ export const useFeeds = (limit = 5, offset = 0, refresh = false) => {
       });
       return data;
     },
+    staleTime: 0,
+    gcTime: 0,
   });
 };
 

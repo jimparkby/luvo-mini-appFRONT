@@ -196,7 +196,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                       : "border-primary-gray/30"
                   } bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer`}
                 >
-                  <option value="">
+                  <option value="" className="bg-white text-black dark:bg-gray-800 dark:text-white">
                     {isLoadingCountries ? "Загрузка..." : "Выберите страну"}
                   </option>
 
@@ -210,7 +210,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                         ? countryName
                         : countryName.id || countryName.name;
                     return (
-                      <option key={countryId} value={countryValue}>
+                      <option key={countryId} value={countryValue} className="bg-white text-black dark:bg-gray-800 dark:text-white">
                         {countryValue}
                       </option>
                     );
@@ -255,7 +255,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                     errors.city ? "border-light-red" : "border-primary-gray/30"
                   } bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer`}
                 >
-                  <option value="">
+                  <option value="" className="bg-white text-black dark:bg-gray-800 dark:text-white">
                     {isLoadingCities
                       ? "Загрузка..."
                       : country
@@ -267,7 +267,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                     const cityValue =
                       typeof cityName === "string" ? cityName : cityName.name;
                     return (
-                      <option key={cityValue} value={cityValue}>
+                      <option key={cityValue} value={cityValue} className="bg-white text-black dark:bg-gray-800 dark:text-white">
                         {cityValue}
                       </option>
                     );
@@ -323,7 +323,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                         : "border-primary-gray/30"
                     } bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer`}
                   >
-                    <option value="">
+                    <option value="" className="bg-white text-black dark:bg-gray-800 dark:text-white">
                       {isLoadingDistricts ? "Загрузка..." : "Выберите район"}
                     </option>
 
@@ -333,7 +333,7 @@ export const LocationModal = ({ onClose, isRequired = false }) => {
                           ? districtName
                           : districtName.name;
                       return (
-                        <option key={districtValue} value={districtValue}>
+                        <option key={districtValue} value={districtValue} className="bg-white text-black dark:bg-gray-800 dark:text-white">
                           {districtValue}
                         </option>
                       );
