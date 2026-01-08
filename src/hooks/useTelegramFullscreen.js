@@ -17,14 +17,26 @@ export const useTelegramFullscreen = () => {
         tg.ready();
       }
 
-      // Разворачиваем приложение на весь экран
-      try {
-        if (typeof tg.expand === "function") {
-          tg.expand();
+      // Разворачиваем приложение на весь экран с небольшой задержкой
+      const expandApp = () => {
+        try {
+          if (typeof tg.expand === "function") {
+            tg.expand();
+          }
+
+          // Дополнительная попытка через requestFullscreen если доступен
+          if (typeof tg.requestFullscreen === "function") {
+            tg.requestFullscreen();
+          }
+        } catch (err) {
+          console.warn("Ошибка при активации fullscreen:", err);
         }
-      } catch (err) {
-        console.warn("Ошибка при активации fullscreen:", err);
-      }
+      };
+
+      // Вызываем expand сразу и еще раз через 100мс для надежности
+      expandApp();
+      setTimeout(expandApp, 100);
+      setTimeout(expandApp, 300);
 
       // Отключаем вертикальные свайпы (чтобы приложение не сворачивалось)
       try {
