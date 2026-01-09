@@ -30,7 +30,5 @@ export const useFeedView = () =>
   useMutation({
     mutationFn: (userId) =>
       axiosInstance.post(`${API_URL}/interactions/view/${userId}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feeds"] });
-    },
+    // Убираем invalidateQueries - просмотр не должен сбрасывать кеш ленты
   });
