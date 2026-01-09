@@ -28,11 +28,11 @@ export const FeedPage = () => {
   // Автоматически отмечаем карточку как просмотренную при показе
   useEffect(() => {
     if (currentCard && !showEndScreen) {
-      sendViewMutation(currentCard.id);
+      sendViewMutation(currentCard.user_id);
       setViewed(false); // Сбрасываем состояние для новой карточки
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCard?.id, showEndScreen]);
+  }, [currentCard?.user_id, showEndScreen]);
 
   const [{ y }, api] = useSpring(() => ({ y: 0 }));
 

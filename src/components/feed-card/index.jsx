@@ -68,10 +68,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
-      sendViewMutation(card.id);
+      sendViewMutation(card.user_id);
       setViewed(true);
     }
-  }, [viewed, sendViewMutation, card.id, setViewed]);
+  }, [viewed, sendViewMutation, card.user_id, setViewed]);
 
   // Обработчик загрузки изображения
   const handleImageLoad = useCallback(() => {
@@ -91,7 +91,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     markAsViewed();
 
     try {
-      const { data } = await likeUserMutation(card.id);
+      const { data } = await likeUserMutation(card.user_id);
 
       if (liked) {
         // Отменяем лайк
@@ -163,7 +163,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     setImageLoaded(false);
     setLowQualitySrc(null);
     clickTimeout.current && clearTimeout(clickTimeout.current);
-  }, [card.id]);
+  }, [card.user_id]);
 
   // Создаем низкокачественную версию при смене фото
   useEffect(() => {
