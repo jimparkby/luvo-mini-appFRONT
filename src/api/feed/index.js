@@ -12,17 +12,15 @@ export const useLiked = () =>
     },
   });
 
-export const useFeeds = (limit = 5, offset = 0, refresh = false) => {
+export const useFeeds = (limit = 5, offset = 0) => {
   return useQuery({
-    queryKey: ["feeds", offset, limit, refresh],
+    queryKey: ["feeds", offset, limit],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`${API_URL}/feed/`, {
-        params: { limit, offset, refresh },
+        params: { limit, offset },
       });
       return data;
     },
-    staleTime: 0,
-    gcTime: 0,
   });
 };
 
@@ -30,5 +28,7 @@ export const useFeedView = () =>
   useMutation({
     mutationFn: (userId) =>
       axiosInstance.post(`${API_URL}/interactions/view/${userId}`),
-    // Убираем invalidateQueries - просмотр не должен сбрасывать кеш ленты
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feeds"] });
+    },
   });
