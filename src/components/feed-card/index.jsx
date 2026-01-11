@@ -169,13 +169,14 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
       img.src = url;
     });
 
-    setLiked(false);
+    // Инициализируем состояние лайка из данных карточки
+    setLiked(card.is_liked || false);
     setIsLiking(false);
     setCurrentPhotoIndex(0);
     setImageLoaded(false);
     setLowQualitySrc(null);
     clickTimeout.current && clearTimeout(clickTimeout.current);
-  }, [card.user_id]);
+  }, [card.user_id, card.is_liked]);
 
   // Создаем низкокачественную версию при смене фото
   useEffect(() => {
