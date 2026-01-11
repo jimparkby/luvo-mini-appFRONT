@@ -110,15 +110,15 @@ export const OtherProfilePage = () => {
       <div className="mt-4 flex flex-col items-center gap-3 pb-10">
         <button
           onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
-          className="min-w-[220px] py-3 px-6 rounded-lg bg-black backdrop-blur-xl border border-white/20 text-white hover:bg-gray-900 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all"
+          className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity"
         >
-          <Heart className="mr-2 h-5 w-5" />
-          проверить совместимость
+          <Heart className="w-3.5 h-3.5" />
+          <span>проверить совместимость</span>
         </button>
 
-        <button className="min-w-[220px] py-3 px-6 rounded-lg bg-black backdrop-blur-xl border border-white/20 text-white hover:bg-gray-900 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all">
-          <MessageCircle className="mr-2 h-5 w-5" />
-          just chatting
+        <button className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity">
+          <MessageCircle className="w-3.5 h-3.5" />
+          <span>just chatting</span>
         </button>
       </div>
 
