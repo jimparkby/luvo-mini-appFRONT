@@ -1,5 +1,3 @@
-import { Sparkles } from "lucide-react";
-
 import { useRef, useState } from "react";
 
 import { useLikes, useMatches } from "@/api/likes";
@@ -93,26 +91,6 @@ touchEndX.current = null;
 
 
 const onCloseModal = () => setIsOpen(false);
-
-
-
-// Функция для открытия стороннего сервиса поверх текущего
-
-const openExternalApp = (url) => {
-
-if (window.Telegram?.WebApp) {
-
-window.Telegram.WebApp.openLink(url);
-
-} else {
-
-window.open(url, '_blank');
-
-}
-
-};
-
-
 
 const hasLikes = likesData && likesData.length > 0;
 
@@ -237,38 +215,6 @@ index === currentCardIndex
 </div>
 
 )}
-
-
-
-<div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 px-6 z-40">
-
-<button
-
-onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
-
-className="w-full max-w-xs py-2.5 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity active:scale-95 shadow-lg shadow-violet-500/20"
-
->
-
-<Sparkles className="w-3.5 h-3.5" />
-
-<span>проверить совместимость</span>
-
-</button>
-
-
-
-<button className="w-full max-w-xs py-2.5 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity active:scale-95 shadow-lg shadow-violet-500/20">
-
-<Sparkles className="w-3.5 h-3.5" />
-
-<span>just chatting</span>
-
-</button>
-
-</div>
-
-
 
 {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
 

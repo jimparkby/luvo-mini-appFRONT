@@ -4,6 +4,7 @@ import { calculateAge } from "@/utils/calculate-age.util";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useParams, useSearchParams } from "react-router-dom";
 import { OtherProfileCard, Spinner, MetchModal } from "@/components";
+import { Heart, MessageCircle } from "lucide-react";
 
 import TelegramIcon from "@/assets/images/telegram.png";
 import InstagramIcon from "@/assets/images/instagram.png";
@@ -35,6 +36,15 @@ export const OtherProfilePage = () => {
       window.Telegram.WebApp.openLink(telegramUrl);
     } else {
       window.open(telegramUrl, '_blank');
+    }
+  };
+
+  // Функция для открытия стороннего сервиса поверх текущего
+  const openExternalApp = (url) => {
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.openLink(url);
+    } else {
+      window.open(url, '_blank');
     }
   };
 
@@ -95,6 +105,21 @@ export const OtherProfilePage = () => {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 px-6 z-40">
+        <button
+          onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
+          className="min-w-[220px] py-3 px-6 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-[0_0_20px_hsl(270_50%_60%)] hover:bg-white/15 hover:border-white/30 hover:shadow-[0_0_30px_hsl(270_50%_60%)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all"
+        >
+          <Heart className="mr-2 h-5 w-5" />
+          проверить совместимость
+        </button>
+
+        <button className="min-w-[220px] py-3 px-6 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-[0_0_20px_hsl(270_50%_60%)] hover:bg-white/15 hover:border-white/30 hover:shadow-[0_0_30px_hsl(270_50%_60%)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all">
+          <MessageCircle className="mr-2 h-5 w-5" />
+          just chatting
+        </button>
       </div>
 
       {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
