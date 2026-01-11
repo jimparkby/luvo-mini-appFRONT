@@ -64,15 +64,15 @@ export const OtherProfilePage = () => {
     <div className="w-full p-5 min-h-[calc(100vh-169px)] overflow-y-auto scrollbar-hidden">
       <OtherProfileCard card={data} viewed={viewed} setViewed={setViewed} />
 
-      <div className="mt-10">
+      <div className="mt-4">
         <h2 className="font-bold text-2xl">
           {data.first_name}, {calculateAge(data.birthdate)}
         </h2>
 
-        {data.about && <div className="mt-3 text-base">{data.about}</div>}
+        {data.about && <div className="mt-2 text-base">{data.about}</div>}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-3">
         {data.instagram_username && (
           <div className="flex items-center">
             <img src={InstagramIcon} alt="instagram-icon" className="size-8" />
@@ -93,7 +93,7 @@ export const OtherProfilePage = () => {
         )}
 
         {isMetch && data.telegram_username && (
-          <div className="mt-3 flex items-center">
+          <div className="mt-2 flex items-center">
             <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
 
             <div
@@ -107,7 +107,7 @@ export const OtherProfilePage = () => {
         )}
       </div>
 
-      <div className="mt-8 flex flex-col items-center gap-3 pb-10">
+      <div className="mt-4 flex flex-col items-center gap-3 pb-10">
         <button
           onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
           className="min-w-[220px] py-3 px-6 rounded-lg bg-black backdrop-blur-xl border border-white/20 text-white hover:bg-gray-900 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all"
