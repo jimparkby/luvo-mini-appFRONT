@@ -59,6 +59,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [lowQualitySrc, setLowQualitySrc] = useState(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [isLiking, setIsLiking] = useState(false);
 
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
@@ -88,7 +89,14 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   };
 
   const handleLike = async () => {
+    // Защита от повторных вызовов
+    if (isLiking) {
+      console.log("Лайк уже обрабатывается, пропускаем");
+      return;
+    }
+
     markAsViewed();
+    setIsLiking(true);
 
     try {
       const { data } = await likeUserMutation(card.user_id);
@@ -106,6 +114,9 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
       }
     } catch (error) {
       console.error("Ошибка лайка:", error);
+    } finally {
+      // Освобождаем через 500ms для защиты от быстрых повторных кликов
+      setTimeout(() => setIsLiking(false), 500);
     }
   };
 
@@ -159,6 +170,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     });
 
     setLiked(false);
+    setIsLiking(false);
     setCurrentPhotoIndex(0);
     setImageLoaded(false);
     setLowQualitySrc(null);
@@ -246,7 +258,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
               src={liked ? HeartIcon : EmptyHeartIcon}
               alt="heart-icon"
               className="size-8 cursor-pointer"
-              onClick={handleLike}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLike();
+              }}
             />
           </div>
           {card.about && <p className="mt-3 text-base">{card.about}</p>}
