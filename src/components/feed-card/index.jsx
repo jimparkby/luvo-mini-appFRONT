@@ -52,7 +52,7 @@ const createLowQualityImage = (src) => {
   });
 };
 
-export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
+export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, updateCardLikeStatus }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
@@ -101,15 +101,21 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     try {
       const { data } = await likeUserMutation(card.user_id);
 
-      if (liked) {
-        // Отменяем лайк
-        setLiked(false);
-      } else {
-        // Ставим лайк
+      const newLikedState = data.liked;
+
+      // Обновляем локальное состояние
+      setLiked(newLikedState);
+
+      // Обновляем состояние в буфере карточек
+      if (updateCardLikeStatus) {
+        updateCardLikeStatus(card.user_id, newLikedState);
+      }
+
+      if (newLikedState) {
+        // Поставили лайк
         if (data.matched) {
           setIsOpen(true);
         }
-        setLiked(true);
         triggerHeartAnimation();
       }
     } catch (error) {

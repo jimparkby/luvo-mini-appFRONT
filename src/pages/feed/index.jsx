@@ -12,7 +12,7 @@ export const FeedPage = () => {
   const [showEndScreen, setShowEndScreen] = useState(false);
 
   const { mutate: sendViewMutation } = useFeedView();
-  const { cards, currentIndex, setCurrentIndex, isLoading, hasMore } = useFeedBuffer();
+  const { cards, currentIndex, setCurrentIndex, isLoading, hasMore, updateCardLikeStatus } = useFeedBuffer();
   const currentCard = cards[currentIndex];
   const isLastCard = currentIndex === cards.length - 1;
 
@@ -143,6 +143,7 @@ export const FeedPage = () => {
               viewed={viewed}
               setViewed={setViewed}
               setIsOpen={setIsOpen}
+              updateCardLikeStatus={updateCardLikeStatus}
             />
           </animated.div>
         )}

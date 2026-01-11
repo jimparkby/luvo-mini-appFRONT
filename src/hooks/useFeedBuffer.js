@@ -30,11 +30,21 @@ export const useFeedBuffer = () => {
     }
   }, [currentIndex, cards.length, isFetching, hasMore]);
 
+  // Функция для обновления is_liked в карточке
+  const updateCardLikeStatus = (userId, isLiked) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.user_id === userId ? { ...card, is_liked: isLiked } : card
+      )
+    );
+  };
+
   return {
     cards,
     currentIndex,
     setCurrentIndex,
     isLoading: isLoading && cards.length === 0,
     hasMore,
+    updateCardLikeStatus,
   };
 };
