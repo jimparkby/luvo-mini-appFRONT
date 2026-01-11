@@ -165,6 +165,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, update
     lastTap.current = now;
   };
 
+  // Сброс состояния при смене карточки (по user_id)
   useEffect(() => {
     if (!card.photos || card.photos.length === 0) return;
 
@@ -182,7 +183,12 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, update
     setImageLoaded(false);
     setLowQualitySrc(null);
     clickTimeout.current && clearTimeout(clickTimeout.current);
-  }, [card.user_id, card.is_liked]);
+  }, [card.user_id]);
+
+  // Отдельный эффект для обновления liked статуса (БЕЗ сброса изображения)
+  useEffect(() => {
+    setLiked(card.is_liked || false);
+  }, [card.is_liked]);
 
   // Создаем низкокачественную версию при смене фото
   useEffect(() => {
