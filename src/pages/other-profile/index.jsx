@@ -107,16 +107,16 @@ export const OtherProfilePage = () => {
         )}
       </div>
 
-      <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 px-6 z-40">
+      <div className="mt-8 flex flex-col items-center gap-3 pb-10">
         <button
           onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
-          className="min-w-[220px] py-3 px-6 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-[0_0_20px_hsl(270_50%_60%)] hover:bg-white/15 hover:border-white/30 hover:shadow-[0_0_30px_hsl(270_50%_60%)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all"
+          className="min-w-[220px] py-3 px-6 rounded-lg bg-black backdrop-blur-xl border border-white/20 text-white hover:bg-gray-900 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all"
         >
           <Heart className="mr-2 h-5 w-5" />
           проверить совместимость
         </button>
 
-        <button className="min-w-[220px] py-3 px-6 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-[0_0_20px_hsl(270_50%_60%)] hover:bg-white/15 hover:border-white/30 hover:shadow-[0_0_30px_hsl(270_50%_60%)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all">
+        <button className="min-w-[220px] py-3 px-6 rounded-lg bg-black backdrop-blur-xl border border-white/20 text-white hover:bg-gray-900 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center transition-all">
           <MessageCircle className="mr-2 h-5 w-5" />
           just chatting
         </button>
