@@ -36,13 +36,13 @@ export const MetchItem = ({ metch }) => {
 
   return (
     <div>
-      <Link to={`/other-profile/${metch.id}?isMetch=true`}>
+      <Link to={`/other-profile/${metch.user_id}?isMetch=true`}>
         <div className="relative aspect-square rounded-[20px] mb-[5px] overflow-hidden bg-gray-300">
           {/* Полноценное изображение */}
           {imageUrl && !imageError && (
             <img
               src={imageUrl}
-              alt={`${metch.instagram_username} profile`}
+              alt={`${metch.first_name} profile`}
               loading="lazy"
               fetchpriority="low"
               decoding="async"
@@ -84,21 +84,21 @@ export const MetchItem = ({ metch }) => {
         </div>
       </Link>
 
-      {/* Юзернейм - кликабелен только если есть telegram_username */}
+      {/* Имя - кликабелен только если есть telegram_username */}
       {hasTelegram ? (
         <div
           onClick={openTelegramChat}
           className="mt-[5px] font-bold text-xl truncate cursor-pointer hover:text-blue-500 transition-colors"
-          title={`Написать ${metch.instagram_username} в Telegram`}
+          title={`Написать ${metch.first_name} в Telegram`}
         >
-          {metch.instagram_username}
+          {metch.first_name}
         </div>
       ) : (
         <div
           className="mt-[5px] font-bold text-xl truncate"
-          title={metch.instagram_username}
+          title={metch.first_name}
         >
-          {metch.instagram_username}
+          {metch.first_name}
         </div>
       )}
     </div>
