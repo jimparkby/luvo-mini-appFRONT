@@ -14,16 +14,51 @@ export const useBiometric = () => {
   useEffect(() => {
     const biometric = window.Telegram?.WebApp?.BiometricManager;
 
-    if (biometric) {
-      setIsAvailable(biometric.isInited && biometric.isBiometricAvailable);
+    if (!biometric) {
+      console.warn("Telegram BiometricManager не найден");
+      return;
+    }
+
+    // Функция для обновления состояния
+    const updateBiometricState = () => {
+      const available = biometric.isInited && biometric.isBiometricAvailable;
+      console.log("BiometricManager состояние:", {
+        isInited: biometric.isInited,
+        isBiometricAvailable: biometric.isBiometricAvailable,
+        isAccessGranted: biometric.isAccessGranted,
+        biometricType: biometric.biometricType,
+      });
+
+      setIsAvailable(available);
       setIsAccessGranted(biometric.isAccessGranted);
       setIsAccessRequested(biometric.isAccessRequested);
       setBiometricType(biometric.biometricType || "unknown");
+    };
 
-      // Инициализируем биометрию, если еще не инициализирована
-      if (!biometric.isInited) {
-        biometric.init();
-      }
+    // Если уже инициализирован, обновляем состояние
+    if (biometric.isInited) {
+      updateBiometricState();
+    } else {
+      // Инициализируем и ждем результата
+      console.log("Инициализация BiometricManager...");
+      biometric.init(() => {
+        console.log("BiometricManager инициализирован");
+        updateBiometricState();
+      });
+    }
+
+    // Слушаем изменения состояния биометрии (если поддерживается)
+    const tg = window.Telegram?.WebApp;
+    if (tg?.onEvent) {
+      const handler = () => {
+        console.log("Событие biometricManagerUpdated");
+        updateBiometricState();
+      };
+      tg.onEvent("biometricManagerUpdated", handler);
+
+      return () => {
+        tg.offEvent?.("biometricManagerUpdated", handler);
+      };
     }
   }, []);
 
@@ -113,6 +148,36 @@ export const useBiometric = () => {
     }
   }, []);
 
+  /**
+   * Повторная инициализация биометрии
+   */
+  const reinitialize = useCallback(() => {
+    return new Promise((resolve) => {
+      const biometric = window.Telegram?.WebApp?.BiometricManager;
+      if (!biometric) {
+        console.warn("BiometricManager не найден");
+        resolve(false);
+        return;
+      }
+
+      console.log("Повторная инициализация BiometricManager...");
+      biometric.init(() => {
+        const available = biometric.isInited && biometric.isBiometricAvailable;
+        console.log("BiometricManager реинициализирован:", {
+          isInited: biometric.isInited,
+          isBiometricAvailable: biometric.isBiometricAvailable,
+        });
+
+        setIsAvailable(available);
+        setIsAccessGranted(biometric.isAccessGranted);
+        setIsAccessRequested(biometric.isAccessRequested);
+        setBiometricType(biometric.biometricType || "unknown");
+
+        resolve(available);
+      });
+    });
+  }, []);
+
   return {
     // Состояние
     isAvailable,
@@ -126,5 +191,6 @@ export const useBiometric = () => {
     authenticate,
     updateToken,
     openSettings,
+    reinitialize,
   };
 };

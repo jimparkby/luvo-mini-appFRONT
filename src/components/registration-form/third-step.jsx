@@ -16,16 +16,19 @@ export const ThirdStep = ({
   setGenericError,
 }) => {
   const navigate = useNavigate();
-  const { isAvailable, biometricType, requestAccess, authenticate } = useBiometric();
+  const { isAvailable, biometricType, requestAccess, authenticate, reinitialize } = useBiometric();
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState(null); // 'success', 'error', null
+  const [isReinitializing, setIsReinitializing] = useState(false);
 
   // Если биометрия недоступна, автоматически пропускаем верификацию
   useEffect(() => {
+    console.log("ThirdStep: isAvailable =", isAvailable, "biometricType =", biometricType);
     if (!isAvailable) {
+      console.log("Биометрия недоступна, автоматически пропускаем верификацию");
       setValue("biometricVerified", true, { shouldValidate: true });
     }
-  }, [isAvailable, setValue]);
+  }, [isAvailable, setValue, biometricType]);
 
   const handleFaceIDVerification = async () => {
     setIsVerifying(true);
@@ -51,6 +54,19 @@ export const ThirdStep = ({
       setGenericError?.(error.message || "Не удалось выполнить верификацию");
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handleReinitialize = async () => {
+    setIsReinitializing(true);
+    console.log("Попытка реинициализации биометрии...");
+    const success = await reinitialize();
+    setIsReinitializing(false);
+
+    if (success) {
+      console.log("Реинициализация успешна!");
+    } else {
+      console.log("Реинициализация не помогла");
     }
   };
 
@@ -167,9 +183,20 @@ export const ThirdStep = ({
 
       {!isAvailable && (
         <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded-lg">
-          <p className="text-xs text-yellow-800 dark:text-yellow-200">
+          <p className="text-xs text-yellow-800 dark:text-yellow-200 mb-1">
             Биометрическая верификация недоступна на вашем устройстве. Регистрация будет продолжена без неё.
           </p>
+          <p className="text-xs text-yellow-700 dark:text-yellow-300 mb-2">
+            Возможные причины: устройство не поддерживает Face ID/Touch ID, или требуется обновление Telegram до версии 7.2+
+          </p>
+          <button
+            type="button"
+            onClick={handleReinitialize}
+            disabled={isReinitializing}
+            className="text-xs font-semibold text-yellow-800 dark:text-yellow-200 underline hover:no-underline disabled:opacity-50"
+          >
+            {isReinitializing ? "Проверка..." : "Попробовать снова"}
+          </button>
         </div>
       )}
 
