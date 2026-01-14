@@ -9,7 +9,7 @@ export const FourthStep = ({ onContinue, isLoading }) => {
       </h2>
 
       <Button className="mt-[400px] w-full" type="button" onClick={onContinue} disabled={isLoading}>
-        {!isLoading ? "Продолжить" : <Spinner size="sm" />}
+        {!isLoading ? "Добро пожаловать" : <Spinner size="sm" />}
       </Button>
     </>
   );

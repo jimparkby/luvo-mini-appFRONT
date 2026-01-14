@@ -186,6 +186,7 @@ export const RegistrationForm = () => {
           genericError={genericError}
           setGenericError={setGenericError}
           onBack={goBack}
+          onNext={handleSubmit(onSubmit)}
         />
       )}
 
