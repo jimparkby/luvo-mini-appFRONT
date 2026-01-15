@@ -21,6 +21,7 @@ export const ThirdStep = ({
   const [verificationStatus, setVerificationStatus] = useState(null); // 'success', 'error', null
   const [isReinitializing, setIsReinitializing] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
 
   // Если биометрия недоступна, автоматически пропускаем верификацию
   useEffect(() => {
@@ -134,12 +135,16 @@ export const ThirdStep = ({
           <input
             type="checkbox"
             {...register("privacyAccepted")}
-            className="hidden peer"
+            className="hidden"
+            onChange={(e) => {
+              setIsPrivacyAccepted(e.target.checked);
+              setValue("privacyAccepted", e.target.checked, { shouldValidate: true });
+            }}
           />
 
-          <div className="mt-1 w-5 h-5 flex items-center justify-center rounded border-2 border-gray-400 peer-checked:border-primary-red peer-checked:bg-primary-red transition-all flex-shrink-0">
+          <div className={`mt-1 w-5 h-5 flex items-center justify-center rounded border-2 transition-all flex-shrink-0 ${isPrivacyAccepted ? 'border-primary-red bg-primary-red' : 'border-gray-400'}`}>
             <svg
-              className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity"
+              className={`w-3 h-3 text-white transition-opacity ${isPrivacyAccepted ? 'opacity-100' : 'opacity-0'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -247,25 +252,19 @@ export const ThirdStep = ({
 
       {/* Модальное окно политики конфиденциальности */}
       {showPrivacyModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-          onClick={() => setShowPrivacyModal(false)}
-        >
-          <div
-            className="relative w-full h-full max-w-2xl bg-white dark:bg-gray-900 rounded-lg overflow-hidden flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Заголовок модального окна с кнопкой закрытия */}
-            <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-xl font-bold">Политика конфиденциальности LUVO</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+          <div className="relative w-full h-full max-w-2xl bg-white dark:bg-gray-900 rounded-lg overflow-hidden flex flex-col">
+            {/* Заголовок модального окна с кнопкой назад */}
+            <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
               <button
                 type="button"
                 onClick={() => setShowPrivacyModal(false)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                className="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors text-sm"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
+                Назад
               </button>
             </div>
 
@@ -400,16 +399,6 @@ export const ThirdStep = ({
               </div>
             </div>
 
-            {/* Кнопка закрытия внизу */}
-            <div className="p-5 border-t border-gray-200 dark:border-gray-700">
-              <Button
-                type="button"
-                onClick={() => setShowPrivacyModal(false)}
-                className="w-full"
-              >
-                Закрыть
-              </Button>
-            </div>
           </div>
         </div>
       )}
