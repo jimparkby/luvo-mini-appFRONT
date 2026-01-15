@@ -255,7 +255,7 @@ export const ThirdStep = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
           <div className="relative w-full h-full max-w-2xl bg-white dark:bg-gray-900 rounded-lg overflow-hidden flex flex-col">
             {/* Заголовок модального окна с кнопкой назад */}
-            <div className="flex items-center p-4 pt-12 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center p-4 pt-20 border-b border-gray-200 dark:border-gray-700">
               <button
                 type="button"
                 onClick={() => setShowPrivacyModal(false)}
