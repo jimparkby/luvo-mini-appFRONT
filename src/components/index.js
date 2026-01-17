@@ -22,8 +22,10 @@ import { RegistrationForm } from "./registration-form";
 import { OtherProfileCard } from "./other-profile-card";
 import { DuelsInformationModal } from "./duels-information-modal";
 import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
+import { FloatingHearts } from "./floating-hearts";
 
 export {
+  FloatingHearts,
   Layout,
   Header,
   Spinner,
