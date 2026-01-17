@@ -12,6 +12,7 @@ import { useCreateUser } from "@/api/user";
 import { useWebAppStore } from "@/store";
 import { ABOUT_PLACEHOLDER } from "@/constants";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { FloatingHearts } from "@/components";
 
 const getRandomAboutPlaceholder = () => {
   return ABOUT_PLACEHOLDER[
@@ -159,40 +160,51 @@ export const RegistrationForm = () => {
   }, [photoFile]);
 
   return (
-    <form
-      className="container mx-auto max-w-md p-5"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      {step === 0 && <FirstStep register={register} errors={errors} />}
+    <div className="relative min-h-screen overflow-hidden">
+      <FloatingHearts />
 
-      {step === 1 && (
-        <SecondStep
-          errors={errors}
-          control={control}
-          setValue={setValue}
-          register={register}
-          aboutPlaceholder={aboutPlaceholder}
-        />
-      )}
+      <form
+        className="container mx-auto max-w-md p-5 relative z-10"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {step === 0 && <FirstStep register={register} errors={errors} />}
 
-      {step === 2 && (
-        <ThirdStep
-          errors={errors}
-          preview={preview}
-          register={register}
-          setValue={setValue}
-          isLoading={isLoading}
-          setPreview={setPreview}
-          genericError={genericError}
-          setGenericError={setGenericError}
-          onBack={goBack}
-          onNext={handleSubmit(onSubmit)}
-        />
-      )}
+        {step === 1 && (
+          <SecondStep
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            register={register}
+            aboutPlaceholder={aboutPlaceholder}
+          />
+        )}
 
-      {step === 3 && (
-        <FourthStep onContinue={completeRegistration} isLoading={isLoading} />
-      )}
-    </form>
+        {step === 2 && (
+          <ThirdStep
+            errors={errors}
+            preview={preview}
+            register={register}
+            setValue={setValue}
+            isLoading={isLoading}
+            setPreview={setPreview}
+            genericError={genericError}
+            setGenericError={setGenericError}
+            onBack={goBack}
+            onNext={handleSubmit(onSubmit)}
+          />
+        )}
+
+        {step === 3 && (
+          <FourthStep onContinue={completeRegistration} isLoading={isLoading} />
+        )}
+      </form>
+
+      <div
+        className="absolute bottom-0 left-1/2 w-96 h-96 rounded-full pointer-events-none animate-pulse-glow"
+        style={{
+          background: "radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, transparent 70%)",
+        }}
+      />
+    </div>
   );
 };
