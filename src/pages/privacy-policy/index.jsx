@@ -6,7 +6,7 @@ export const PrivacyPolicyPage = () => {
 
         <div className="text-sm text-gray-600 dark:text-gray-400 mb-8">
           <p>Дата вступления в силу: 21 января 2026 г.</p>
-          <p>Последнее обновление: 21 января 2026 г.</p>
+          <p>Последнее обновление: 22 января 2026 г.</p>
         </div>
 
         <div className="space-y-6 text-gray-700 dark:text-gray-300">
