@@ -15,7 +15,7 @@ export const FirstStep = ({ register, errors }) => {
 
       <Input
         {...register("instagram_username")}
-        className="mt-10"
+        className="mt-4"
         placeholder="Ваш @username"
         error={errors.instagram_username}
       />
