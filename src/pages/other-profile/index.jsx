@@ -123,10 +123,15 @@ export const OtherProfilePage = () => {
           <span>проверить совместимость</span>
         </button>
 
-        <button className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity">
-          <MessageCircle className="w-3.5 h-3.5" />
-          <span>just chatting</span>
-        </button>
+        {data.telegram_username && (
+          <button
+            onClick={() => openTelegramChat(data.telegram_username)}
+            className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>Начать чат</span>
+          </button>
+        )}
       </div>
 
       {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
