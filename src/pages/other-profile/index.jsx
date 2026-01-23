@@ -99,15 +99,11 @@ export const OtherProfilePage = () => {
           </div>
         )}
 
-        {isMetch && data.telegram_username && (
+        {data.telegram_username && (
           <div className="mt-2 flex items-center">
             <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
 
-            <div
-              className="ml-2 font-bold text-2xl cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => openTelegramChat(data.telegram_username)}
-              title={`Написать ${data.telegram_username} в Telegram`}
-            >
+            <div className="ml-2 font-bold text-2xl">
               @{data.telegram_username}
             </div>
           </div>
