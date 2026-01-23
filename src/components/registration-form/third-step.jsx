@@ -16,7 +16,7 @@ export const ThirdStep = ({
   onBack,
   onNext,
 }) => {
-  const { isAvailable, biometricType, requestAccess, authenticate, reinitialize } = useBiometric();
+  const { isAvailable, isAccessGranted, isAccessRequested, biometricType, requestAccess, authenticate, reinitialize, openSettings } = useBiometric();
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState(null); // 'success', 'error', null
   const [isReinitializing, setIsReinitializing] = useState(false);
@@ -48,8 +48,17 @@ export const ThirdStep = ({
     setVerificationStatus(null);
 
     try {
-      // Запрашиваем доступ к биометрии
-      await requestAccess("Подтвердите, что вы реальный человек");
+      // Если доступ уже был запрошен ранее и отклонён — открываем настройки
+      if (isAccessRequested && !isAccessGranted) {
+        openSettings();
+        setIsVerifying(false);
+        return;
+      }
+
+      // Запрашиваем доступ к биометрии только если он ещё не предоставлен
+      if (!isAccessGranted) {
+        await requestAccess("Подтвердите, что вы реальный человек");
+      }
 
       // Выполняем аутентификацию
       const result = await authenticate("Верификация для регистрации");
