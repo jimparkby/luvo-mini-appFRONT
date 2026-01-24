@@ -10,6 +10,7 @@ import { useWebAppStore } from "./store";
 import { useTelegramFullscreen } from "./hooks/useTelegramFullscreen";
 
 const RETURN_PATH_KEY = "luvo_return_path";
+const EXTERNAL_FLAG_KEY = "luvo_went_external";
 
 export const App = () => {
   const navigate = useNavigate();
@@ -34,20 +35,17 @@ export const App = () => {
     const handleVisibilityChange = () => {
       // Проверяем, стало ли приложение видимым
       if (document.visibilityState === 'visible') {
-        const returnPath = localStorage.getItem(RETURN_PATH_KEY);
-        if (returnPath && location.pathname !== returnPath) {
-          localStorage.removeItem(RETURN_PATH_KEY);
+        const wentExternal = sessionStorage.getItem(EXTERNAL_FLAG_KEY);
+        const returnPath = sessionStorage.getItem(RETURN_PATH_KEY);
+
+        // Восстанавливаем путь только если пользователь действительно уходил во внешнее приложение
+        if (wentExternal && returnPath && location.pathname !== returnPath) {
+          sessionStorage.removeItem(RETURN_PATH_KEY);
+          sessionStorage.removeItem(EXTERNAL_FLAG_KEY);
           navigate(returnPath, { replace: true });
         }
       }
     };
-
-    // Проверяем при монтировании компонента
-    const returnPath = localStorage.getItem(RETURN_PATH_KEY);
-    if (returnPath && location.pathname !== returnPath) {
-      localStorage.removeItem(RETURN_PATH_KEY);
-      navigate(returnPath, { replace: true });
-    }
 
     // Слушаем событие изменения видимости документа
     document.addEventListener('visibilitychange', handleVisibilityChange);

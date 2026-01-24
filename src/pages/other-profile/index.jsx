@@ -7,6 +7,7 @@ import { OtherProfileCard, Spinner, MetchModal } from "@/components";
 import { Heart, MessageCircle } from "lucide-react";
 
 const RETURN_PATH_KEY = "luvo_return_path";
+const EXTERNAL_FLAG_KEY = "luvo_went_external";
 
 import TelegramIcon from "@/assets/images/telegram.png";
 import InstagramIcon from "@/assets/images/instagram.png";
@@ -30,7 +31,8 @@ export const OtherProfilePage = () => {
   const openTelegramChat = (username, isAi) => {
     // Сохраняем текущий путь для возврата после закрытия чата
     const currentPath = location.pathname + location.search;
-    localStorage.setItem(RETURN_PATH_KEY, currentPath);
+    sessionStorage.setItem(RETURN_PATH_KEY, currentPath);
+    sessionStorage.setItem(EXTERNAL_FLAG_KEY, 'true');
 
     // Если это AI-пользователь или нет username — открываем бота
     const telegramUrl = (isAi || !username)
@@ -51,7 +53,8 @@ export const OtherProfilePage = () => {
   const openExternalApp = (url) => {
     // Сохраняем текущий путь для возврата после закрытия внешней ссылки
     const currentPath = location.pathname + location.search;
-    localStorage.setItem(RETURN_PATH_KEY, currentPath);
+    sessionStorage.setItem(RETURN_PATH_KEY, currentPath);
+    sessionStorage.setItem(EXTERNAL_FLAG_KEY, 'true');
 
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.openLink(url);
