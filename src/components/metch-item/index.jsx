@@ -1,13 +1,9 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 export const MetchItem = ({ metch }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  const { handleCopy: handleCopyTelegram, isCopied: isTelegramCopied } =
-    useCopyToClipboard(2000);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -17,22 +13,7 @@ export const MetchItem = ({ metch }) => {
     setImageError(true);
   }, []);
 
-  const handleTelegramClick = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!metch.telegram_username) return;
-
-    // Копируем username с символом @
-    const username = metch.telegram_username.startsWith('@')
-      ? metch.telegram_username
-      : `@${metch.telegram_username}`;
-
-    handleCopyTelegram(username);
-  }, [metch.telegram_username, handleCopyTelegram]);
-
   const imageUrl = metch.photos?.[0] || null;
-  const hasTelegram = metch.telegram_username && metch.telegram_username.trim() !== '';
 
   return (
     <div>
@@ -84,30 +65,9 @@ export const MetchItem = ({ metch }) => {
         </div>
       </Link>
 
-      {/* Имя - кликабелен только если есть telegram_username */}
-      <div className="flex items-center gap-2">
-        {hasTelegram ? (
-          <div
-            onClick={handleTelegramClick}
-            className="mt-[5px] font-bold text-xl truncate cursor-pointer hover:text-blue-500 transition-colors"
-            title={`Скопировать Telegram @${metch.telegram_username}`}
-          >
-            {metch.first_name}
-          </div>
-        ) : (
-          <div
-            className="mt-[5px] font-bold text-xl truncate"
-            title={metch.first_name}
-          >
-            {metch.first_name}
-          </div>
-        )}
-
-        {isTelegramCopied && (
-          <span className="text-sm text-green-600 dark:text-green-400 transition-opacity">
-            ✓
-          </span>
-        )}
+      {/* Имя */}
+      <div className="mt-[5px] font-bold text-xl truncate select-text cursor-text" title={metch.first_name}>
+        {metch.first_name}
       </div>
     </div>
   );
