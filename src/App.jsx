@@ -31,12 +31,40 @@ export const App = () => {
 
   // Восстановление пути после возврата из внешнего приложения
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      // Проверяем, стало ли приложение видимым
+      if (document.visibilityState === 'visible') {
+        const returnPath = localStorage.getItem(RETURN_PATH_KEY);
+        if (returnPath && location.pathname !== returnPath) {
+          localStorage.removeItem(RETURN_PATH_KEY);
+          navigate(returnPath, { replace: true });
+        }
+      }
+    };
+
+    // Проверяем при монтировании компонента
     const returnPath = localStorage.getItem(RETURN_PATH_KEY);
     if (returnPath && location.pathname !== returnPath) {
       localStorage.removeItem(RETURN_PATH_KEY);
       navigate(returnPath, { replace: true });
     }
-  }, []);
+
+    // Слушаем событие изменения видимости документа
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Также слушаем событие Telegram WebApp (если доступно)
+    const tg = window.Telegram?.WebApp;
+    if (tg?.onEvent) {
+      tg.onEvent('viewportChanged', handleVisibilityChange);
+    }
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (tg?.offEvent) {
+        tg.offEvent('viewportChanged', handleVisibilityChange);
+      }
+    };
+  }, [navigate, location.pathname]);
 
   useEffect(() => {
     const root = document.documentElement;
