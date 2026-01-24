@@ -35,7 +35,7 @@ export const useUpdateUser = () => {
 
 export const useOtherUser = (id) => {
   return useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", "other", id],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`${API_URL}/users/${id}`);
       return data;
