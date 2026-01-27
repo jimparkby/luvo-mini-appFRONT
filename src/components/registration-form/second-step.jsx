@@ -1,19 +1,18 @@
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
-import { Input, Button, Textarea, DateInput } from "@/ui";
+import { Input, Button, DateInput } from "@/ui";
 
 export const SecondStep = ({
   errors,
   control,
   setValue,
   register,
-  aboutPlaceholder,
 }) => {
   return (
-    <>
-      <h2 className="text-[32px] font-bold">Данные о Вас</h2>
+    <div className="flex flex-col items-center justify-center min-h-[70vh]">
+      <h2 className="text-[32px] font-bold text-center">Данные о Вас</h2>
 
-      <div className="mt-10">
+      <div className="mt-10 w-full max-w-sm">
         <Input
           {...register("first_name")}
           placeholder="Имя"
@@ -29,7 +28,6 @@ export const SecondStep = ({
               selected={field.value ? new Date(field.value) : null}
               onChange={(date) => {
                 field.onChange(date);
-                // Триггерим валидацию сразу после выбора даты
                 if (date) {
                   setValue("birthdate", date, {
                     shouldValidate: true,
@@ -48,7 +46,7 @@ export const SecondStep = ({
         />
 
         <div className="mt-4">
-          <div className="flex gap-6">
+          <div className="flex gap-6 justify-center">
             {["male", "female"].map((value) => {
               const label = value === "male" ? "Мужской" : "Женский";
               return (
@@ -74,23 +72,16 @@ export const SecondStep = ({
           </div>
 
           {errors.gender && (
-            <p className="mt-2 text-light-red font-semibold">
+            <p className="mt-2 text-light-red font-semibold text-center">
               {errors.gender.message}
             </p>
           )}
         </div>
 
-        <Textarea
-          {...register("about")}
-          className="mt-4"
-          placeholder={aboutPlaceholder}
-          error={errors.about}
-        />
+        <Button className="mt-8 w-full" type="submit">
+          Далее
+        </Button>
       </div>
-
-      <Button className="mt-4 w-full" type="submit">
-        Далее
-      </Button>
-    </>
+    </div>
   );
 };

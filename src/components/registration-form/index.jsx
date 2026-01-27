@@ -10,16 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { calculateAge } from "@/utils/calculate-age.util";
 import { useCreateUser } from "@/api/user";
 import { useWebAppStore } from "@/store";
-import { ABOUT_PLACEHOLDER } from "@/constants";
 import { RUSSIAN_NAMES_LOWER } from "@/constants/russian-names";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { FloatingHearts } from "@/components";
-
-const getRandomAboutPlaceholder = () => {
-  return ABOUT_PLACEHOLDER[
-    Math.floor(Math.random() * ABOUT_PLACEHOLDER.length)
-  ];
-};
 
 const stepSchemas = [
   yup.object({
@@ -45,7 +38,6 @@ const stepSchemas = [
       .string()
       .oneOf(["male", "female"], "Укажите пол")
       .required("Пол обязателен"),
-    about: yup.string().optional(),
   }),
   yup.object({
     file: yup.mixed().required("Фото обязательно"),
@@ -69,7 +61,6 @@ const stepSchemas = [
 
 export const RegistrationForm = () => {
   const [step, setStep] = useState(0);
-  const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
   const [preview, setPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [genericError, setGenericError] = useState("");
@@ -85,7 +76,6 @@ export const RegistrationForm = () => {
     resolver: yupResolver(stepSchemas[step]),
     defaultValues: {
       file: null,
-      about: "",
       gender: "",
       birthdate: null,
       first_name: "",
@@ -190,7 +180,6 @@ export const RegistrationForm = () => {
             control={control}
             setValue={setValue}
             register={register}
-            aboutPlaceholder={aboutPlaceholder}
           />
         )}
 
