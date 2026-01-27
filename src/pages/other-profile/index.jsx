@@ -106,18 +106,18 @@ export const OtherProfilePage = () => {
       <div className="mt-4 flex flex-col items-center gap-3 pb-10">
         <button
           onClick={() => openExternalApp('https://mystic-tarot-miniapp.vercel.app/')}
-          className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          className="py-2 px-4 rounded-full bg-primary-red hover:bg-primary-red/80 text-white text-sm font-medium flex items-center gap-2 transition-all"
         >
-          <Heart className="w-3.5 h-3.5" />
-          <span>проверить совместимость</span>
+          <Heart className="w-4 h-4" />
+          <span>Проверить совместимость</span>
         </button>
 
         <button
           onClick={() => openTelegramChat(data.telegram_username, data.is_ai)}
-          className="py-2 px-3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-xs font-medium flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          className="py-2 px-4 rounded-full bg-primary-red hover:bg-primary-red/80 text-white text-sm font-medium flex items-center gap-2 transition-all"
         >
-          <MessageCircle className="w-3.5 h-3.5" />
-          <span>начать общение</span>
+          <MessageCircle className="w-4 h-4" />
+          <span>Начать общение</span>
         </button>
       </div>
 
