@@ -78,7 +78,11 @@ export const SecondStep = ({
           )}
         </div>
 
-        <Button className="mt-8 w-full" type="submit">
+        <p className="mt-6 text-lg text-gray-400 text-center">
+          Всё, что Вы укажете при регистрации, будут видеть другие пользователи Luvo.
+        </p>
+
+        <Button className="mt-4 w-full" type="submit">
           Далее
         </Button>
       </div>
