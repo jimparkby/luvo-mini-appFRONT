@@ -1,0 +1,111 @@
+export const RUSSIAN_NAMES = [
+  // Мужские имена
+  "Александр", "Алексей", "Анатолий", "Андрей", "Антон", "Аркадий", "Арсений", "Артём", "Артемий", "Артур",
+  "Богдан", "Борис", "Вадим", "Валентин", "Валерий", "Василий", "Виктор", "Виталий", "Владимир", "Владислав",
+  "Всеволод", "Вячеслав", "Геннадий", "Георгий", "Глеб", "Григорий", "Давид", "Даниил", "Данил", "Данила",
+  "Демид", "Демьян", "Денис", "Дмитрий", "Евгений", "Егор", "Елисей", "Ефим", "Захар", "Иван",
+  "Игнат", "Игорь", "Илья", "Иннокентий", "Кирилл", "Климент", "Константин", "Лев", "Леонид", "Макар",
+  "Максим", "Марк", "Матвей", "Мирон", "Мирослав", "Михаил", "Назар", "Никита", "Николай", "Олег",
+  "Павел", "Пётр", "Петр", "Платон", "Прохор", "Родион", "Роман", "Ростислав", "Руслан", "Савва",
+  "Савелий", "Святослав", "Семён", "Семен", "Сергей", "Станислав", "Степан", "Тарас", "Тимофей", "Тимур",
+  "Тихон", "Фёдор", "Федор", "Филипп", "Эдуард", "Юрий", "Яков", "Ян", "Ярослав",
+  "Ринат", "Марат", "Рустам", "Айдар", "Ильдар", "Эльдар", "Дамир", "Радик", "Булат", "Искандер",
+  "Рамиль", "Русланбек", "Тимурбек", "Ден", "Сёма",
+
+  // Женские имена
+  "Августина", "Аврора", "Агата", "Агния", "Ада", "Аделина", "Аза", "Алевтина", "Александра", "Алина",
+  "Алиса", "Алла", "Альбина", "Амелия", "Анастасия", "Ангелина", "Анжела", "Анжелика", "Анна", "Антонина",
+  "Арина", "Белла", "Богдана", "Валентина", "Валерия", "Варвара", "Василиса", "Вера", "Вероника", "Виктория",
+  "Виолетта", "Влада", "Владислава", "Галина", "Дарина", "Дарья", "Диана", "Дина", "Ева", "Евгения",
+  "Екатерина", "Елена", "Елизавета", "Есения", "Жанна", "Злата", "Зоя", "Иванна", "Изабелла", "Инга",
+  "Инна", "Ирина", "Камилла", "Карина", "Каролина", "Кира", "Клавдия", "Клара", "Кристина", "Ксения",
+  "Лада", "Лариса", "Лидия", "Лилия", "Лина", "Любовь", "Людмила", "Майя", "Маргарита", "Марианна",
+  "Марина", "Мария", "Марта", "Марфа", "Мелания", "Милана", "Милена", "Мирослава", "Надежда", "Наталия",
+  "Наталья", "Нелли", "Ника", "Нина", "Нонна", "Оксана", "Олеся", "Ольга", "Пелагея", "Полина",
+  "Прасковья", "Рада", "Раиса", "Регина", "Рената", "Римма", "Роза", "Роксана", "Руслана", "Сабина",
+  "Светлана", "Серафима", "Снежана", "Соня", "София", "Софья", "Стелла", "Степанида", "Таисия", "Тамара",
+  "Татьяна", "Ульяна", "Устинья", "Фаина", "Христина", "Эвелина", "Элеонора", "Элина", "Эльвира", "Эмилия",
+  "Эмма", "Юлиана", "Юлия", "Яна", "Ярослава",
+  "Амина", "Мия", "Лия", "Лейла", "Самира", "Адель", "Малика", "Асия", "Эльмира", "Розалия",
+  "Рузана", "Айша", "Ясмина",
+
+  // Уменьшительные формы
+  "Саша", "Саня", "Шура", "Лёша", "Леша", "Толя", "Андрюша", "Антоша", "Тоша", "Арсюша",
+  "Тёма", "Тема", "Боря", "Вадик", "Валя", "Вася", "Витя", "Виталик", "Вова", "Влад",
+  "Сева", "Слава", "Гена", "Гоша", "Жора", "Гриша", "Давидик", "Даня", "Дима", "Женя",
+  "Егорка", "Ваня", "Игорёша", "Илюша", "Кирюша", "Костя", "Лёва", "Лева", "Лёня", "Леня",
+  "Максик", "Миша", "Коля", "Паша", "Петя", "Рома", "Стёпа", "Степа", "Серёжа", "Сережа",
+  "Тима", "Федя", "Филя", "Эдик", "Юра", "Яша", "Ярик",
+  "Настя", "Настенька", "Аня", "Анечка", "Нюра", "Аришка", "Варя", "Вика", "Галя", "Даша",
+  "Катя", "Лена", "Лиза", "Люба", "Люда", "Мила", "Маша", "Машенька", "Надя", "Наташа",
+  "Оля", "Поля", "Света", "Софа", "Таня", "Уля", "Юля", "Янка",
+  "Валера", "Ира", "Рита", "Ася", "Лиля", "Маруся", "Златка", "Аделька", "Сёма",
+
+  // Редкие но реальные
+  "Агафон", "Аким", "Ананий", "Анисим", "Антип", "Аристарх", "Афанасий", "Вениамин", "Викентий", "Виссарион",
+  "Влас", "Гавриил", "Герман", "Гордей", "Дементий", "Добрыня", "Дорофей", "Евдоким", "Евсей", "Елизар",
+  "Емельян", "Еремей", "Ермолай", "Ефрем", "Зиновий", "Измаил", "Иларион", "Иосиф", "Ипполит", "Касьян",
+  "Кондрат", "Корней", "Корнилий", "Кузьма", "Лавр", "Лаврентий", "Лазарь", "Леонтий", "Лука", "Лукьян",
+  "Мартын", "Мефодий", "Моисей", "Мстислав", "Нестор", "Никанор", "Никифор", "Никодим", "Остап", "Панкрат",
+  "Парфён", "Парфен", "Потап", "Прокофий", "Радий", "Радислав", "Ратмир", "Самсон", "Самуил", "Севастьян",
+  "Сидор", "Спартак", "Терентий", "Трофим", "Фадей", "Феликс", "Фока", "Фома", "Харитон", "Эраст", "Юстин",
+  "Агафья", "Акулина", "Анфиса", "Аполлинария", "Глафира", "Домна", "Евдокия", "Ефросинья", "Капитолина",
+  "Клеопатра", "Лукерья", "Матрёна", "Матрена", "Меланья", "Пелагия", "Соломия", "Феврония",
+  "Фёкла", "Фекла", "Феодора", "Феодосия",
+
+  // === АНГЛИЙСКАЯ ТРАНСЛИТЕРАЦИЯ ===
+
+  // Мужские имена (English)
+  "Aleksandr", "Alexander", "Aleksey", "Alexey", "Alexei", "Anatoly", "Anatoliy", "Andrey", "Andrei", "Anton",
+  "Arkady", "Arkadiy", "Arseny", "Arseniy", "Artem", "Artyom", "Artemiy", "Artur", "Arthur",
+  "Bogdan", "Boris", "Vadim", "Valentin", "Valery", "Valeriy", "Vasily", "Vasiliy", "Viktor", "Victor",
+  "Vitaly", "Vitaliy", "Vladimir", "Vladislav", "Vsevolod", "Vyacheslav", "Gennady", "Gennadiy", "Georgy",
+  "Georgiy", "Gleb", "Grigory", "Grigoriy", "David", "Daniil", "Danil", "Danila", "Demid", "Demyan",
+  "Denis", "Dmitry", "Dmitriy", "Evgeny", "Evgeniy", "Egor", "Yegor", "Elisey", "Efim", "Zakhar",
+  "Ivan", "Ignat", "Igor", "Ilya", "Innokenty", "Innokentiy", "Kirill", "Kliment", "Konstantin",
+  "Lev", "Leonid", "Makar", "Maksim", "Maxim", "Mark", "Matvey", "Matvei", "Miron", "Miroslav",
+  "Mikhail", "Nazar", "Nikita", "Nikolay", "Nikolai", "Oleg", "Pavel", "Pyotr", "Petr", "Peter",
+  "Platon", "Prokhor", "Rodion", "Roman", "Rostislav", "Ruslan", "Savva", "Savely", "Saveliy",
+  "Svyatoslav", "Semyon", "Semen", "Sergey", "Sergei", "Stanislav", "Stepan", "Taras", "Timofey",
+  "Timofei", "Timur", "Tikhon", "Fyodor", "Fedor", "Filipp", "Philip", "Eduard", "Yury", "Yuriy",
+  "Yakov", "Yan", "Yaroslav",
+  "Rinat", "Marat", "Rustam", "Aydar", "Ildar", "Eldar", "Damir", "Radik", "Bulat", "Iskander",
+  "Ramil", "Ruslanbek", "Timurbek", "Den", "Syoma", "Sema",
+
+  // Женские имена (English)
+  "Avgustina", "Augustina", "Avrora", "Aurora", "Agata", "Agniya", "Ada", "Adelina", "Aza", "Alevtina",
+  "Aleksandra", "Alexandra", "Alina", "Alisa", "Alice", "Alla", "Albina", "Amelia", "Anastasia", "Anastasiya",
+  "Angelina", "Anzhela", "Angela", "Anzhelika", "Anna", "Antonina", "Arina", "Bella", "Bogdana",
+  "Valentina", "Valeria", "Valeriya", "Varvara", "Barbara", "Vasilisa", "Vera", "Veronika", "Veronica",
+  "Viktoria", "Victoria", "Violetta", "Vlada", "Vladislava", "Galina", "Darina", "Darya", "Daria",
+  "Diana", "Dina", "Eva", "Evgenia", "Evgeniya", "Ekaterina", "Yekaterina", "Elena", "Yelena",
+  "Elizaveta", "Elizabeth", "Eseniya", "Yesenia", "Zhanna", "Zlata", "Zoya", "Ivanna", "Izabella",
+  "Isabella", "Inga", "Inna", "Irina", "Kamilla", "Camilla", "Karina", "Karolina", "Carolina",
+  "Kira", "Klavdia", "Klara", "Clara", "Kristina", "Christina", "Ksenia", "Kseniya", "Xenia",
+  "Lada", "Larisa", "Lidiya", "Lidia", "Liliya", "Lilia", "Lina", "Lyubov", "Lyudmila", "Maya",
+  "Margarita", "Marianna", "Marina", "Maria", "Mariya", "Marta", "Marfa", "Melania", "Milana",
+  "Milena", "Miroslava", "Nadezhda", "Natalia", "Nataliya", "Natalya", "Nelli", "Nika", "Nina",
+  "Nonna", "Oksana", "Olesya", "Olga", "Pelageya", "Polina", "Praskovya", "Rada", "Raisa",
+  "Regina", "Renata", "Rimma", "Roza", "Rosa", "Roksana", "Roxana", "Ruslana", "Sabina",
+  "Svetlana", "Serafima", "Snezhana", "Sonya", "Sofia", "Sofiya", "Sophia", "Sofya", "Stella",
+  "Stepanida", "Taisiya", "Taisia", "Tamara", "Tatyana", "Tatiana", "Ulyana", "Uliana", "Ustinya",
+  "Faina", "Khristina", "Evelina", "Eleonora", "Elina", "Elvira", "Emilia", "Emma", "Yuliana",
+  "Juliana", "Yulia", "Yuliya", "Julia", "Yana", "Yaroslava",
+  "Amina", "Mia", "Lia", "Liya", "Leyla", "Leila", "Samira", "Adel", "Malika", "Asiya", "Asia",
+  "Elmira", "Rozalia", "Rosalia", "Ruzana", "Aysha", "Aisha", "Yasmina", "Jasmine",
+
+  // Уменьшительные (English)
+  "Sasha", "Sanya", "Shura", "Lyosha", "Lesha", "Tolya", "Andryusha", "Antosha", "Tosha", "Arsyusha",
+  "Tyoma", "Tema", "Borya", "Vadik", "Valya", "Vasya", "Vitya", "Vitalik", "Vova", "Vlad",
+  "Seva", "Slava", "Gena", "Gosha", "Zhora", "Grisha", "Davidik", "Danya", "Dima", "Zhenya",
+  "Egorka", "Vanya", "Igoryosha", "Ilyusha", "Kiryusha", "Kostya", "Lyova", "Leva", "Lyonya", "Lenya",
+  "Maksik", "Misha", "Kolya", "Pasha", "Petya", "Roma", "Styopa", "Stepa", "Seryozha", "Serezha",
+  "Tima", "Fedya", "Filya", "Edik", "Yura", "Yasha", "Yarik",
+  "Nastya", "Nastenka", "Anya", "Anechka", "Nyura", "Arishka", "Varya", "Vika", "Galya", "Dasha",
+  "Katya", "Lena", "Liza", "Lyuba", "Lyuda", "Mila", "Masha", "Mashenka", "Nadya", "Natasha",
+  "Olya", "Polya", "Sveta", "Sofa", "Tanya", "Ulya", "Yulya", "Yanka",
+  "Valera", "Ira", "Rita", "Asya", "Lilya", "Marusya", "Zlatka", "Adelka", "Syoma", "Sema"
+];
+
+// Нормализуем имена для поиска (приводим к нижнему регистру)
+export const RUSSIAN_NAMES_LOWER = RUSSIAN_NAMES.map(name => name.toLowerCase());

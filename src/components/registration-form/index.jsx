@@ -11,6 +11,7 @@ import { calculateAge } from "@/utils/calculate-age.util";
 import { useCreateUser } from "@/api/user";
 import { useWebAppStore } from "@/store";
 import { ABOUT_PLACEHOLDER } from "@/constants";
+import { RUSSIAN_NAMES_LOWER } from "@/constants/russian-names";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { FloatingHearts } from "@/components";
 
@@ -25,7 +26,13 @@ const stepSchemas = [
     instagram_username: yup.string().required("Введите имя пользователя"),
   }),
   yup.object({
-    first_name: yup.string().required("Имя обязательно"),
+    first_name: yup
+      .string()
+      .required("Имя обязательно")
+      .test("valid-name", "Введите ваше настоящее имя.", function (value) {
+        if (!value) return true;
+        return RUSSIAN_NAMES_LOWER.includes(value.toLowerCase().trim());
+      }),
     birthdate: yup
       .date()
       .required("Дата рождения обязательна")
