@@ -67,7 +67,7 @@ export const PhotosField = ({ photos = [] }) => {
                 </div>
               </>
             ) : (
-              <PhotoItem />
+              <PhotoItem onError={setGenericError} />
             )}
           </div>
         ))}

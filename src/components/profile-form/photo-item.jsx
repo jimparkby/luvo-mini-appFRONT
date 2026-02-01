@@ -3,7 +3,7 @@ import { useCreateUserPhoto } from "@/api/user";
 
 import CameraIcon from "@/assets/icons/camera.svg";
 
-export const PhotoItem = () => {
+export const PhotoItem = ({ onError }) => {
   const inputRef = useRef(null);
 
   const { mutateAsync } = useCreateUserPhoto();
@@ -23,6 +23,8 @@ export const PhotoItem = () => {
       await mutateAsync(formData);
     } catch (e) {
       console.error("Ошибка при загрузке фото:", e);
+      const message = e?.response?.data?.detail || "Ошибка при загрузке фото";
+      onError?.(message);
     } finally {
       event.target.value = "";
     }
