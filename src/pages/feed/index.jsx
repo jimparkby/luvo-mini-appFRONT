@@ -136,15 +136,15 @@ export const FeedPage = () => {
           <FeedEmptyIcon />
         </div>
 
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 text-center">
           Вы просмотрели пользователей, которых мы вам рекомендуем, хотите продолжить?
         </h3>
 
-        <p className="text-gray-500 dark:text-gray-400 text-center max-w-sm mb-4">
+        <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-sm mb-4">
           *следующие анкеты не будут обработаны алгоритмом рекомендаций
         </p>
 
-        <p className="text-gray-400 dark:text-gray-500 text-center text-sm">
+        <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
           Свайпни вверх, чтобы продолжить
         </p>
       </div>
