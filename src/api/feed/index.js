@@ -12,15 +12,18 @@ export const useLiked = () =>
       queryClient.setQueriesData({ queryKey: ["feeds"] }, (oldData) => {
         if (!oldData) return oldData;
 
-        return oldData.map((user) => {
-          if (user.user_id === userId) {
-            return {
-              ...user,
-              is_liked: response.data.liked, // Используем статус из ответа
-            };
-          }
-          return user;
-        });
+        return {
+          ...oldData,
+          users: oldData.users.map((user) => {
+            if (user.user_id === userId) {
+              return {
+                ...user,
+                is_liked: response.data.liked,
+              };
+            }
+            return user;
+          }),
+        };
       });
     },
   });
