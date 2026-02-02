@@ -30,6 +30,33 @@ export const ThirdStep = ({
   const fileInputRef = useRef(null);
   const verifyFace = useVerifyFace();
 
+  const handleFaceCheck = (file) => {
+    setGenericError(null);
+    setFaceCheckResult(null);
+    setIsCheckingFace(true);
+
+    verifyFace.mutateAsync(file)
+      .then((result) => {
+        if (result.has_face) {
+          setFaceCheckResult("ok");
+        } else {
+          setFaceCheckResult("no_face");
+          setGenericError("На фото не обнаружено лицо. Попробуйте другое фото.");
+          setValue("file", null, { shouldValidate: true });
+          if (fileInputRef.current) fileInputRef.current.value = "";
+        }
+      })
+      .catch(() => {
+        setFaceCheckResult("no_face");
+        setGenericError("Не удалось проверить фото. Попробуйте ещё раз.");
+        setValue("file", null, { shouldValidate: true });
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      })
+      .finally(() => {
+        setIsCheckingFace(false);
+      });
+  };
+
   // Если биометрия недоступна, автоматически пропускаем верификацию
   useEffect(() => {
     console.log("ThirdStep: isAvailable =", isAvailable, "biometricType =", biometricType);
@@ -99,38 +126,17 @@ export const ThirdStep = ({
           type="file"
           accept="image/*"
           multiple={false}
-          className="absolute inset-0 opacity-0 cursor-pointer rounded-[20px]"
-          onChange={async (e) => {
+          disabled={isCheckingFace}
+          className={`absolute inset-0 opacity-0 rounded-[20px] ${isCheckingFace ? "pointer-events-none" : "cursor-pointer"}`}
+          onChange={(e) => {
             const file = e.target.files?.[0];
             if (!file) return;
             if (!file.type.startsWith("image/")) {
               setGenericError("Пожалуйста, выберите изображение");
               return;
             }
-
             setValue("file", file, { shouldValidate: true });
-            setGenericError(null);
-            setFaceCheckResult(null);
-            setIsCheckingFace(true);
-
-            try {
-              const result = await verifyFace.mutateAsync(file);
-              if (result.has_face) {
-                setFaceCheckResult("ok");
-              } else {
-                setFaceCheckResult("no_face");
-                setGenericError("На фото не обнаружено лицо. Попробуйте другое фото.");
-                setValue("file", null, { shouldValidate: true });
-                if (fileInputRef.current) fileInputRef.current.value = "";
-              }
-            } catch {
-              setFaceCheckResult("no_face");
-              setGenericError("Не удалось проверить фото. Попробуйте ещё раз.");
-              setValue("file", null, { shouldValidate: true });
-              if (fileInputRef.current) fileInputRef.current.value = "";
-            } finally {
-              setIsCheckingFace(false);
-            }
+            handleFaceCheck(file);
           }}
         />
 
@@ -142,8 +148,9 @@ export const ThirdStep = ({
               className="object-cover w-full h-full rounded-[20px]"
             />
             {isCheckingFace && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-[20px]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 rounded-[20px] z-10">
                 <Spinner size="lg" />
+                <p className="mt-3 text-white text-sm font-medium">Проверяем фото...</p>
               </div>
             )}
             {faceCheckResult === "ok" && !isCheckingFace && (
