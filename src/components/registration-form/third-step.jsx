@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/ui";
 import { Spinner } from "@/components";
 import { useBiometric } from "@/hooks/useBiometric";
-import { useVerifyFace } from "@/api/user";
 
 import CameraIcon from "@/assets/icons/camera.svg";
 
@@ -24,38 +23,6 @@ export const ThirdStep = ({
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
   const [isBotsConsentChecked, setIsBotsConsentChecked] = useState(false);
-
-  const [isCheckingFace, setIsCheckingFace] = useState(false);
-  const [faceCheckResult, setFaceCheckResult] = useState(null); // 'ok', 'no_face', null
-  const fileInputRef = useRef(null);
-  const verifyFace = useVerifyFace();
-
-  const handleFaceCheck = (file) => {
-    setGenericError(null);
-    setFaceCheckResult(null);
-    setIsCheckingFace(true);
-
-    verifyFace.mutateAsync(file)
-      .then((result) => {
-        if (result.has_face) {
-          setFaceCheckResult("ok");
-        } else {
-          setFaceCheckResult("no_face");
-          setGenericError("На фото не обнаружено лицо. Попробуйте другое фото.");
-          setValue("file", null, { shouldValidate: true });
-          if (fileInputRef.current) fileInputRef.current.value = "";
-        }
-      })
-      .catch(() => {
-        setFaceCheckResult("no_face");
-        setGenericError("Не удалось проверить фото. Попробуйте ещё раз.");
-        setValue("file", null, { shouldValidate: true });
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      })
-      .finally(() => {
-        setIsCheckingFace(false);
-      });
-  };
 
   // Если биометрия недоступна, автоматически пропускаем верификацию
   useEffect(() => {
@@ -122,45 +89,28 @@ export const ThirdStep = ({
 
       <div className="mt-10 w-full aspect-square mx-auto flex items-center justify-center border-4 border-primary-gray/30 bg-gray-light rounded-[20px] relative">
         <input
-          ref={fileInputRef}
           type="file"
           accept="image/*"
           multiple={false}
-          disabled={isCheckingFace}
-          className={`absolute inset-0 opacity-0 rounded-[20px] ${isCheckingFace ? "pointer-events-none" : "cursor-pointer"}`}
+          className="absolute inset-0 opacity-0 cursor-pointer rounded-[20px]"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (!file) return;
-            if (!file.type.startsWith("image/")) {
-              setGenericError("Пожалуйста, выберите изображение");
-              return;
+            if (file) {
+              if (!file.type.startsWith("image/")) {
+                setGenericError("Пожалуйста, выберите изображение");
+                return;
+              }
+              setValue("file", file, { shouldValidate: true });
             }
-            setValue("file", file, { shouldValidate: true });
-            handleFaceCheck(file);
           }}
         />
 
         {preview ? (
-          <>
-            <img
-              src={preview}
-              alt="preview"
-              className="object-cover w-full h-full rounded-[20px]"
-            />
-            {isCheckingFace && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 rounded-[20px] z-10">
-                <Spinner size="lg" />
-                <p className="mt-3 text-white text-sm font-medium">Проверяем фото...</p>
-              </div>
-            )}
-            {faceCheckResult === "ok" && !isCheckingFace && (
-              <div className="absolute bottom-3 right-3 w-10 h-10 flex items-center justify-center bg-green-500 rounded-full">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            )}
-          </>
+          <img
+            src={preview}
+            alt="preview"
+            className="object-cover w-full h-full rounded-[20px]"
+          />
         ) : (
           <img src={CameraIcon} alt="camera-icon" className="size-[130px]" />
         )}
@@ -249,7 +199,7 @@ export const ThirdStep = ({
                 await handleFaceIDVerification();
               }
             }}
-            disabled={isVerifying || isLoading || isCheckingFace || faceCheckResult !== "ok"}
+            disabled={isVerifying || isLoading}
             className={`w-full ${
               verificationStatus === "success"
                 ? "bg-green-600 hover:bg-green-600"
@@ -288,7 +238,7 @@ export const ThirdStep = ({
                 Биометрическая верификация недоступна на вашем устройстве. Регистрация будет продолжена без неё.
               </p>
             </div>
-            <Button className="w-full" type="submit" disabled={isLoading || isCheckingFace || faceCheckResult !== "ok"}>
+            <Button className="w-full" type="submit" disabled={isLoading}>
               {!isLoading ? "Завершить" : <Spinner size="sm" />}
             </Button>
           </>
