@@ -43,6 +43,20 @@ export const useOtherUser = (id) => {
   });
 };
 
+export const useVerifyFace = () =>
+  useMutation({
+    mutationFn: async (file) => {
+      const formData = new FormData();
+      formData.append("photo", file);
+      const { data } = await axiosInstance.post(
+        `${API_URL}/photos/verify-face`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return data;
+    },
+  });
+
 export const useCreateUserPhoto = () =>
   useMutation({
     mutationFn: (body) =>
