@@ -20,7 +20,7 @@ const stepSchemas = [
     instagram_username: yup
       .string()
       .required("Введите имя пользователя")
-      .test("valid-format", "Только латинские буквы, цифры, точки и _", function (value) {
+      .test("valid-format", "Введите ваши настоящие данные", function (value) {
         if (!value) return true;
         return isValidUsernameFormat(value);
       })
