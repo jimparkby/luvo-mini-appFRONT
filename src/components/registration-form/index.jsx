@@ -13,10 +13,21 @@ import { useWebAppStore } from "@/store";
 import { RUSSIAN_NAMES_LOWER } from "@/constants/russian-names";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { FloatingHearts } from "@/components";
+import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
 
 const stepSchemas = [
   yup.object({
-    instagram_username: yup.string().required("Введите имя пользователя"),
+    instagram_username: yup
+      .string()
+      .required("Введите имя пользователя")
+      .test("valid-format", "Только латинские буквы, цифры, точки и _", function (value) {
+        if (!value) return true;
+        return isValidUsernameFormat(value);
+      })
+      .test("no-banned-words", "Username содержит запрещённые слова", function (value) {
+        if (!value) return true;
+        return !containsBannedWord(value);
+      }),
   }),
   yup.object({
     first_name: yup

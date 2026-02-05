@@ -10,6 +10,7 @@ import { calculateAge } from "@/utils/calculate-age.util";
 import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -22,7 +23,17 @@ const schema = yup.object({
       return age >= 14;
     }),
   first_name: yup.string().required("Имя обязательно"),
-  instagram_username: yup.string().required("Введите имя пользователя"),
+  instagram_username: yup
+    .string()
+    .required("Введите имя пользователя")
+    .test("valid-format", "Только латинские буквы, цифры, точки и _", function (value) {
+      if (!value) return true;
+      return isValidUsernameFormat(value);
+    })
+    .test("no-banned-words", "Username содержит запрещённые слова", function (value) {
+      if (!value) return true;
+      return !containsBannedWord(value);
+    }),
 });
 
 export const ProfileForm = ({ userData, userPhotosData }) => {
