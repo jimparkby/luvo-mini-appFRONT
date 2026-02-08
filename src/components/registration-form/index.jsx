@@ -19,7 +19,11 @@ const stepSchemas = [
   yup.object({
     instagram_username: yup
       .string()
+      .transform((value) => value?.trim() || "")
       .required("Введите имя пользователя")
+      .test("not-empty", "Введите имя пользователя", function (value) {
+        return value && value.length > 0;
+      })
       .test("valid-format", "Введите ваши настоящие данные", function (value) {
         if (!value) return true;
         return isValidUsernameFormat(value);
