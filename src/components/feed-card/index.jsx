@@ -52,7 +52,7 @@ const createLowQualityImage = (src) => {
   });
 };
 
-export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, updateCardLikeStatus }) => {
+export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
@@ -114,6 +114,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, update
       if (newLikedState) {
         // Поставили лайк
         if (data.matched) {
+          setMatchedUser(card);
           setIsOpen(true);
         }
         triggerHeartAnimation();

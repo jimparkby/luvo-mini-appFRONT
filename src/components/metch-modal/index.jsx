@@ -1,8 +1,9 @@
 import { useEffect, useCallback } from "react";
 import classnames from "classnames";
 import { Button } from "@/ui";
+import { calculateAge } from "@/utils/calculate-age.util";
 
-export const MetchModal = ({ isOpen, onClose, className }) => {
+export const MetchModal = ({ isOpen, onClose, className, matchedUser }) => {
   const handleEscape = useCallback(
     (event) => {
       if (event.key === "Escape") {
@@ -45,7 +46,10 @@ export const MetchModal = ({ isOpen, onClose, className }) => {
       >
         <h3 className="font-bold text-xl">💌 У вас взаимная симпатия!</h3>
 
-        <h1 className="mt-5 font-bold text-[32px]">Александр, 24</h1>
+        <h1 className="mt-5 font-bold text-[32px]">
+          {matchedUser?.first_name || "Пользователь"}
+          {matchedUser?.birthdate && `, ${calculateAge(matchedUser.birthdate)}`}
+        </h1>
 
         <Button className="mt-5 w-full" onClick={onClose}>
           Супер!

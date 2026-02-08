@@ -8,6 +8,7 @@ import { FeedCard, Spinner, MetchModal } from "@/components";
 
 export const FeedPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [matchedUser, setMatchedUser] = useState(null);
   const [viewed, setViewed] = useState(false);
   const [showEndScreen, setShowEndScreen] = useState(false);
   const [showRecommendationEnd, setShowRecommendationEnd] = useState(false);
@@ -193,13 +194,20 @@ export const FeedPage = () => {
               viewed={viewed}
               setViewed={setViewed}
               setIsOpen={setIsOpen}
+              setMatchedUser={setMatchedUser}
               updateCardLikeStatus={updateCardLikeStatus}
             />
           </animated.div>
         )}
       </div>
 
-      {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
+      {isOpen && (
+        <MetchModal
+          isOpen={isOpen}
+          onClose={onCloseModal}
+          matchedUser={matchedUser}
+        />
+      )}
     </div>
   );
 };
