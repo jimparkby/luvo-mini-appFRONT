@@ -62,13 +62,10 @@ const stepSchemas = [
       .required("Необходимо согласиться с политикой конфиденциальности"),
     biometricVerified: yup
       .boolean()
-      .test("is-verified", "Необходима верификация Face ID", function (value) {
-        // Проверяем только если биометрия доступна
-        const biometric = window.Telegram?.WebApp?.BiometricManager;
-        if (biometric?.isBiometricAvailable) {
-          return value === true;
-        }
-        return true; // Если биометрия недоступна, пропускаем проверку
+      .test("is-verified", "Необходима верификация Face ID или пропустите её", function (value) {
+        // Валидация всегда проходит, так как верификация теперь опциональная
+        // Кнопка "Пропустить" устанавливает значение в true
+        return true;
       }),
   }),
   yup.object({}), // Четвертый шаг - страница приветствия без полей

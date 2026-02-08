@@ -33,12 +33,12 @@ export const ThirdStep = ({
     }
   }, [isAvailable, setValue, biometricType]);
 
-  // Автоматически переходим на следующий шаг после успешной верификации
+  // Автоматически переходим на следующий шаг после успешной верификации или пропуска
   useEffect(() => {
-    if (verificationStatus === "success" && onNext) {
+    if ((verificationStatus === "success" || verificationStatus === "skipped") && onNext) {
       const timer = setTimeout(() => {
         onNext();
-      }, 800);
+      }, verificationStatus === "skipped" ? 100 : 800);
       return () => clearTimeout(timer);
     }
   }, [verificationStatus, onNext]);
@@ -46,6 +46,7 @@ export const ThirdStep = ({
   const handleFaceIDVerification = async () => {
     setIsVerifying(true);
     setVerificationStatus(null);
+    setGenericError?.("");
 
     try {
       // Запрашиваем доступ к биометрии
@@ -68,6 +69,13 @@ export const ThirdStep = ({
     } finally {
       setIsVerifying(false);
     }
+  };
+
+  const handleSkipVerification = () => {
+    console.log("Пользователь пропустил биометрическую верификацию");
+    setValue("biometricVerified", true, { shouldValidate: true });
+    setVerificationStatus("skipped");
+    setGenericError?.("");
   };
 
   const handleReinitialize = async () => {
@@ -192,45 +200,62 @@ export const ThirdStep = ({
         </div>
 
         {isAvailable ? (
-          <Button
-            type="button"
-            onClick={async () => {
-              if (verificationStatus !== "success") {
-                await handleFaceIDVerification();
-              }
-            }}
-            disabled={isVerifying || isLoading}
-            className={`w-full ${
-              verificationStatus === "success"
-                ? "bg-green-600 hover:bg-green-600"
-                : verificationStatus === "error"
-                ? "bg-red-600 hover:bg-red-600"
-                : ""
-            }`}
-          >
-            {isVerifying || isLoading ? (
-              <Spinner size="sm" />
-            ) : verificationStatus === "success" ? (
-              <>
-                <svg
-                  className="w-5 h-5 mr-2 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                Верификация успешна
-              </>
-            ) : (
-              biometricType === "face" ? "Face ID" : biometricType === "finger" ? "Touch ID" : "Биометрия"
+          <>
+            <Button
+              type="button"
+              onClick={async () => {
+                if (verificationStatus !== "success" && verificationStatus !== "skipped") {
+                  await handleFaceIDVerification();
+                }
+              }}
+              disabled={isVerifying || isLoading || verificationStatus === "skipped"}
+              className={`w-full ${
+                verificationStatus === "success"
+                  ? "bg-green-600 hover:bg-green-600"
+                  : verificationStatus === "error"
+                  ? "bg-red-600 hover:bg-red-600"
+                  : verificationStatus === "skipped"
+                  ? "bg-gray-500 hover:bg-gray-500"
+                  : ""
+              }`}
+            >
+              {isVerifying || isLoading ? (
+                <Spinner size="sm" />
+              ) : verificationStatus === "success" ? (
+                <>
+                  <svg
+                    className="w-5 h-5 mr-2 inline"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  Верификация успешна
+                </>
+              ) : verificationStatus === "skipped" ? (
+                "Верификация пропущена"
+              ) : (
+                biometricType === "face" ? "Face ID" : biometricType === "finger" ? "Touch ID" : "Биометрия"
+              )}
+            </Button>
+
+            {verificationStatus === "error" && (
+              <Button
+                type="button"
+                onClick={handleSkipVerification}
+                disabled={isLoading}
+                className="w-full mt-3 bg-gray-600 hover:bg-gray-700"
+              >
+                Пропустить верификацию
+              </Button>
             )}
-          </Button>
+          </>
         ) : (
           <>
             <div className="mb-3 p-3 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded-lg">
