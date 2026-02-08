@@ -136,7 +136,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
         <label className="block font-bold text-base mb-2">
           Статус
         </label>
-        <div className="relative">
+        <div className="relative flex items-center rounded-[30px] bg-white/10">
           <select
             {...register("status")}
             className="w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition appearance-none cursor-pointer"
