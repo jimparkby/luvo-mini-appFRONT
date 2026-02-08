@@ -132,14 +132,6 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
 
       <InstagramField register={register} errors={errors} />
 
-      <AboutField
-        errors={errors}
-        control={control}
-        setValue={setValue}
-        register={register}
-        genericError={genericError}
-      />
-
       <div className="mt-3">
         <label className="block font-bold text-base mb-2">
           Статус
@@ -177,6 +169,14 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
           </div>
         </div>
       </div>
+
+      <AboutField
+        errors={errors}
+        control={control}
+        setValue={setValue}
+        register={register}
+        genericError={genericError}
+      />
 
       <Button type="submit" className="mt-3 w-full">
         {!isLoading ? "Сохранить" : <Spinner size="sm" />}
