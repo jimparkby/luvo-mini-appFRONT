@@ -132,11 +132,10 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
 
       <InstagramField register={register} errors={errors} />
 
-      <div className="mt-3">
-        <label className="block font-bold text-base mb-2">
-          Статус
-        </label>
-        <div className="relative flex items-center rounded-[30px] bg-white/10">
+      <div className="mt-5">
+        <h2 className="text-2xl font-bold">Статус</h2>
+
+        <div className="relative flex items-center rounded-[30px] bg-white/10 mt-5">
           <select
             {...register("status")}
             className="w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition appearance-none cursor-pointer"
