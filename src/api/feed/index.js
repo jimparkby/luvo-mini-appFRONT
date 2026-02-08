@@ -44,24 +44,5 @@ export const useFeedView = () =>
   useMutation({
     mutationFn: (userId) =>
       axiosInstance.post(`${API_URL}/interactions/view/${userId}`),
-  });
-
-export const useSuperLike = () =>
-  useMutation({
-    mutationFn: (userId) =>
-      axiosInstance.post(`${API_URL}/interactions/superlike/${userId}`),
-    onSuccess: (response, userId) => {
-      queryClient.setQueriesData({ queryKey: ["feeds"] }, (oldData) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          users: oldData.users.map((user) => {
-            if (user.user_id === userId) {
-              return { ...user, is_liked: response.data.liked };
-            }
-            return user;
-          }),
-        };
-      });
-    },
+    // Убираем invalidateQueries - просмотр не должен сбрасывать кеш ленты
   });
