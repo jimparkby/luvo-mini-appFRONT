@@ -29,15 +29,15 @@ const schema = yup.object({
     .transform((value) => value?.trim() || "")
     .required("Введите имя пользователя")
     .test("not-empty", "Введите имя пользователя", function (value) {
-      return value && value.trim().length > 0;
+      return value && value.length > 0;
     })
     .test("valid-format", "Введите ваши настоящие данные", function (value) {
-      if (!value || !value.trim()) return true;
-      return isValidUsernameFormat(value.trim());
+      if (!value) return true;
+      return isValidUsernameFormat(value);
     })
     .test("no-banned-words", "Username содержит запрещённые слова", function (value) {
-      if (!value || !value.trim()) return true;
-      return !containsBannedWord(value.trim());
+      if (!value) return true;
+      return !containsBannedWord(value);
     }),
   status: yup.string().optional(),
 });
