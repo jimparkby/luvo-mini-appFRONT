@@ -26,14 +26,18 @@ const schema = yup.object({
   first_name: yup.string().required("Имя обязательно"),
   instagram_username: yup
     .string()
+    .transform((value) => value?.trim() || "")
     .required("Введите имя пользователя")
+    .test("not-empty", "Введите имя пользователя", function (value) {
+      return value && value.trim().length > 0;
+    })
     .test("valid-format", "Введите ваши настоящие данные", function (value) {
-      if (!value) return true;
-      return isValidUsernameFormat(value);
+      if (!value || !value.trim()) return true;
+      return isValidUsernameFormat(value.trim());
     })
     .test("no-banned-words", "Username содержит запрещённые слова", function (value) {
-      if (!value) return true;
-      return !containsBannedWord(value);
+      if (!value || !value.trim()) return true;
+      return !containsBannedWord(value.trim());
     }),
   status: yup.string().optional(),
 });
