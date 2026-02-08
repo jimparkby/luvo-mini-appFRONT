@@ -15,7 +15,7 @@ export const Pedestal = ({ data }) => {
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base">
+        <h4 className="mt-1 font-bold text-base truncate max-w-[90%]">
           {topSecond.instagram_username}
         </h4>
 
@@ -43,7 +43,7 @@ export const Pedestal = ({ data }) => {
           className="size-[100px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-lg">
+        <h4 className="mt-1 font-bold text-lg truncate max-w-[90%]">
           {topFirst.instagram_username}
         </h4>
 
@@ -71,7 +71,7 @@ export const Pedestal = ({ data }) => {
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base">
+        <h4 className="mt-1 font-bold text-base truncate max-w-[90%]">
           {topThird.instagram_username}
         </h4>
 

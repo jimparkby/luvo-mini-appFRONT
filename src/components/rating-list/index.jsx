@@ -33,14 +33,16 @@ export const RatingList = ({ data }) => {
               className="ml-2 size-[60px] object-cover rounded-full"
             />
 
-            <h4 className="ml-2 font-bold text-base">
-              {currentUser.instagram_username}
+            <div className="ml-2 flex flex-col min-w-0 flex-1">
+              <h4 className="font-bold text-base truncate">
+                {currentUser.instagram_username}
+              </h4>
               {currentUser.status && (
-                <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                   {getStatusLabel(currentUser.status)}
                 </span>
               )}
-            </h4>
+            </div>
           </div>
 
           <div className="flex items-center">
@@ -67,14 +69,16 @@ export const RatingList = ({ data }) => {
               className="ml-2 size-[60px] object-cover rounded-full"
             />
 
-            <h4 className="ml-2 font-bold text-base">
-              {item.instagram_username}
+            <div className="ml-2 flex flex-col min-w-0 flex-1">
+              <h4 className="font-bold text-base truncate">
+                {item.instagram_username}
+              </h4>
               {item.status && (
-                <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                   {getStatusLabel(item.status)}
                 </span>
               )}
-            </h4>
+            </div>
           </div>
 
           <div className="flex items-center">
