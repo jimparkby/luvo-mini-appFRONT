@@ -11,6 +11,7 @@ import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
+import { STATUS_OPTIONS } from "@/constants/status";
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -34,6 +35,7 @@ const schema = yup.object({
       if (!value) return true;
       return !containsBannedWord(value);
     }),
+  status: yup.string().optional(),
 });
 
 export const ProfileForm = ({ userData, userPhotosData }) => {
@@ -57,6 +59,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       birthdate: "",
       first_name: "",
       instagram_username: "",
+      status: "",
     },
   });
 
@@ -102,6 +105,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
         birthdate: userData.birthdate ? new Date(userData.birthdate) : null,
         first_name: userData.first_name || "",
         instagram_username: userData.instagram_username || "",
+        status: userData.status || "",
       });
     }
   }, [userData, reset]);
@@ -131,6 +135,44 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
         register={register}
         genericError={genericError}
       />
+
+      <div className="mt-3">
+        <label className="block font-bold text-base mb-2">
+          Статус
+        </label>
+        <div className="relative">
+          <select
+            {...register("status")}
+            className="w-full py-3 px-3 pr-10 md:py-[18px] md:px-4 md:pr-12 rounded-2xl md:rounded-[30px] leading-5 text-base md:text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition appearance-none cursor-pointer"
+          >
+            {STATUS_OPTIONS.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-white text-black dark:bg-gray-800 dark:text-white"
+              >
+                {option.emoji && `${option.emoji} `}{option.label}
+              </option>
+            ))}
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none md:right-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-gray-500 dark:text-gray-400 md:w-5 md:h-5"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
 
       <Button type="submit" className="mt-3 w-full">
         {!isLoading ? "Сохранить" : <Spinner size="sm" />}

@@ -1,4 +1,5 @@
 import HeartIcon from "@/assets/icons/rating-heart.svg";
+import { getStatusLabel } from "@/constants/status";
 
 export const Pedestal = ({ data }) => {
   const topFirst = data[0];
@@ -17,6 +18,12 @@ export const Pedestal = ({ data }) => {
         <h4 className="mt-1 font-bold text-base">
           {topSecond.instagram_username}
         </h4>
+
+        {topSecond.status && (
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            {getStatusLabel(topSecond.status)}
+          </span>
+        )}
 
         <div className="mt-1 flex items-center">
           <h2 className="font-bold text-lg">{topSecond.likes_count}</h2>
@@ -40,6 +47,12 @@ export const Pedestal = ({ data }) => {
           {topFirst.instagram_username}
         </h4>
 
+        {topFirst.status && (
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {getStatusLabel(topFirst.status)}
+          </span>
+        )}
+
         <div className="mt-1 flex items-center">
           <h2 className="font-bold text-2xl">{topFirst.likes_count}</h2>
 
@@ -61,6 +74,12 @@ export const Pedestal = ({ data }) => {
         <h4 className="mt-1 font-bold text-base">
           {topThird.instagram_username}
         </h4>
+
+        {topThird.status && (
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            {getStatusLabel(topThird.status)}
+          </span>
+        )}
 
         <div className="mt-1 flex items-center">
           <h2 className="font-bold text-lg">{topThird.likes_count}</h2>

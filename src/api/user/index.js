@@ -29,6 +29,7 @@ export const useUpdateUser = () => {
     mutationFn: (body) => axiosInstance.put(`${API_URL}/users/me`, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["rating"] });
     },
   });
 };
