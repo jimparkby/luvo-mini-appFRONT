@@ -40,6 +40,12 @@ export const useFeeds = (limit = 5, offset = 0) => {
   });
 };
 
+export const useSuperLike = () =>
+  useMutation({
+    mutationFn: (userId) =>
+      axiosInstance.post(`${API_URL}/interactions/superlike/${userId}`),
+  });
+
 export const useFeedView = () =>
   useMutation({
     mutationFn: (userId) =>

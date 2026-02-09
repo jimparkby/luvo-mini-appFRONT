@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import classnames from "classnames";
+import { Heart, ChevronDown } from "lucide-react";
 import { calculateAge } from "@/utils/calculate-age.util";
-import { useLiked, useFeedView } from "@/api/feed";
+import { useLiked, useSuperLike, useFeedView } from "@/api/feed";
 
 import BigHeart from "@/assets/icons/big-heart.svg";
 import HeartIcon from "@/assets/icons/heart.svg";
@@ -52,7 +53,7 @@ const createLowQualityImage = (src) => {
   });
 };
 
-export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus }) => {
+export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus, onInfoPanelChange }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
@@ -60,12 +61,25 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
   const [lowQualitySrc, setLowQualitySrc] = useState(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [isLiking, setIsLiking] = useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isSuperLiking, setIsSuperLiking] = useState(false);
 
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
 
   const { mutate: sendViewMutation } = useFeedView();
   const { mutateAsync: likeUserMutation } = useLiked();
+  const { mutateAsync: superLikeMutation } = useSuperLike();
+
+  const openInfoPanel = useCallback(() => {
+    setIsInfoOpen(true);
+    onInfoPanelChange?.(true);
+  }, [onInfoPanelChange]);
+
+  const closeInfoPanel = useCallback(() => {
+    setIsInfoOpen(false);
+    onInfoPanelChange?.(false);
+  }, [onInfoPanelChange]);
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
@@ -127,6 +141,32 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     }
   };
 
+  const handleSuperLike = async () => {
+    if (isSuperLiking) return;
+    setIsSuperLiking(true);
+
+    try {
+      const { data } = await superLikeMutation(card.user_id);
+
+      setLiked(true);
+      if (updateCardLikeStatus) {
+        updateCardLikeStatus(card.user_id, true);
+      }
+
+      if (data.matched) {
+        setMatchedUser(card);
+        setIsOpen(true);
+      }
+
+      triggerHeartAnimation();
+      closeInfoPanel();
+    } catch (error) {
+      console.error("Ошибка суперлайка:", error);
+    } finally {
+      setTimeout(() => setIsSuperLiking(false), 500);
+    }
+  };
+
   const handleSingleTap = (clickX, containerWidth) => {
     setCurrentPhotoIndex((prev) => {
       const isLeft = clickX < containerWidth / 2;
@@ -183,6 +223,8 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     setCurrentPhotoIndex(0);
     setImageLoaded(false);
     setLowQualitySrc(null);
+    setIsInfoOpen(false);
+    onInfoPanelChange?.(false);
     clickTimeout.current && clearTimeout(clickTimeout.current);
   }, [card.user_id]);
 
@@ -200,6 +242,8 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
       setImageLoaded(false);
     }
   }, [currentPhotoIndex, card.photos]);
+
+  const age = calculateAge(card.birthdate);
 
   return (
     <div
@@ -264,9 +308,15 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
 
         <div>
           <div className="pr-3 flex items-center justify-between">
-            <h2 className="font-bold text-2xl">
-              {card.first_name}, {calculateAge(card.birthdate)}
-            </h2>
+            <button
+              className="font-bold text-2xl text-white text-left active:scale-[0.98] transition-transform"
+              onClick={(e) => {
+                e.stopPropagation();
+                openInfoPanel();
+              }}
+            >
+              {card.first_name}, {age}
+            </button>
 
             <img
               src={liked ? HeartIcon : EmptyHeartIcon}
@@ -278,7 +328,84 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
               }}
             />
           </div>
-          {card.about && <p className="mt-3 text-base">{card.about}</p>}
+        </div>
+      </div>
+
+      {/* Info Panel (bottom sheet) */}
+      <div
+        className={classnames(
+          "absolute inset-0 rounded-[20px] transition-opacity duration-300 z-30",
+          isInfoOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/40 rounded-[20px]"
+          onClick={closeInfoPanel}
+        />
+
+        {/* Panel */}
+        <div
+          className={classnames(
+            "absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            isInfoOpen ? "translate-y-0" : "translate-y-full"
+          )}
+        >
+          {/* Handle */}
+          <button
+            className="absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 bg-gray-300 rounded-full"
+            onClick={closeInfoPanel}
+          />
+
+          {/* Close chevron */}
+          <button
+            className="absolute top-4 right-4"
+            onClick={closeInfoPanel}
+          >
+            <ChevronDown className="w-6 h-6 text-gray-400" />
+          </button>
+
+          {/* Name */}
+          <h2 className="text-2xl font-bold text-gray-900 mt-2">
+            {card.first_name}
+          </h2>
+
+          {/* Age */}
+          <p className="text-gray-500 text-base mb-4">{age}</p>
+
+          {/* About */}
+          {card.about && (
+            <p className="text-gray-800 text-sm leading-relaxed mb-6">
+              {card.about}
+            </p>
+          )}
+
+          {/* Super Like Button */}
+          <button
+            className="superlike-btn w-full relative overflow-hidden rounded-2xl py-4 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 active:scale-[0.98] transition-transform"
+            onClick={handleSuperLike}
+            disabled={isSuperLiking}
+          >
+            {/* Shimmer effect */}
+            <div className="superlike-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+            {/* Sparkles */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="superlike-sparkle-1 absolute top-2 left-8 w-1.5 h-1.5 bg-white rounded-full" />
+              <div className="superlike-sparkle-2 absolute top-3 right-12 w-1 h-1 bg-white rounded-full" />
+              <div className="superlike-sparkle-3 absolute bottom-3 left-16 w-1 h-1 bg-white rounded-full" />
+            </div>
+
+            <div className="relative flex items-center justify-center gap-3">
+              <Heart className="superlike-heart-pulse w-6 h-6 text-white fill-white" />
+              <span className="text-white font-semibold text-lg tracking-wide">
+                {isSuperLiking ? "..." : "Супер лайк"}
+              </span>
+              <svg className="superlike-star w-5 h-5 text-yellow-300 absolute -right-1 -top-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
+              </svg>
+            </div>
+          </button>
         </div>
       </div>
     </div>

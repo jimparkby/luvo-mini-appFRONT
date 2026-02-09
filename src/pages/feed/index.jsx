@@ -12,6 +12,7 @@ export const FeedPage = () => {
   const [viewed, setViewed] = useState(false);
   const [showEndScreen, setShowEndScreen] = useState(false);
   const [showRecommendationEnd, setShowRecommendationEnd] = useState(false);
+  const [isCardInfoOpen, setIsCardInfoOpen] = useState(false);
 
   const { mutate: sendViewMutation } = useFeedView();
   const { cards, currentIndex, setCurrentIndex, isLoading, hasMore, updateCardLikeStatus, recommendedCount } = useFeedBuffer();
@@ -32,7 +33,7 @@ export const FeedPage = () => {
 
   const bind = useDrag(
     ({ down, movement: [, my] }) => {
-      if (!cards.length) return;
+      if (!cards.length || isCardInfoOpen) return;
 
       if (!down) {
         if (Math.abs(my) > window.innerHeight * 0.2) {
@@ -196,6 +197,7 @@ export const FeedPage = () => {
               setIsOpen={setIsOpen}
               setMatchedUser={setMatchedUser}
               updateCardLikeStatus={updateCardLikeStatus}
+              onInfoPanelChange={setIsCardInfoOpen}
             />
           </animated.div>
         )}

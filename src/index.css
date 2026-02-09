@@ -160,3 +160,50 @@ body,
 .animate-pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
 }
+
+/* Superlike button animations */
+@keyframes superlikeShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes superlikeSparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes superlikeHeartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes superlikeStarWobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  75% { transform: rotate(-15deg); }
+}
+
+.superlike-shimmer {
+  animation: superlikeShimmer 2s linear infinite;
+  animation-delay: 1s;
+}
+
+.superlike-sparkle-1 {
+  animation: superlikeSparkle 1.5s ease-in-out infinite;
+}
+
+.superlike-sparkle-2 {
+  animation: superlikeSparkle 1.5s ease-in-out infinite 0.5s;
+}
+
+.superlike-sparkle-3 {
+  animation: superlikeSparkle 1.5s ease-in-out infinite 1s;
+}
+
+.superlike-heart-pulse {
+  animation: superlikeHeartPulse 1.2s ease-in-out infinite;
+}
+
+.superlike-star {
+  animation: superlikeStarWobble 2s ease-in-out infinite;
+}
