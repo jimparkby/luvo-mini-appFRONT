@@ -347,13 +347,13 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
         {/* Panel */}
         <div
           className={classnames(
-            "absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            "absolute bottom-0 left-0 right-0 bg-white dark:bg-[#1e1e1e] rounded-t-3xl p-6 pb-8 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
             isInfoOpen ? "translate-y-0" : "translate-y-full"
           )}
         >
           {/* Handle */}
           <button
-            className="absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 bg-gray-300 rounded-full"
+            className="absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"
             onClick={closeInfoPanel}
           />
 
@@ -362,20 +362,20 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
             className="absolute top-4 right-4"
             onClick={closeInfoPanel}
           >
-            <ChevronDown className="w-6 h-6 text-gray-400" />
+            <ChevronDown className="w-6 h-6 text-gray-400 dark:text-gray-500" />
           </button>
 
           {/* Name */}
-          <h2 className="text-2xl font-bold text-gray-900 mt-2">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
             {card.first_name}
           </h2>
 
           {/* Age */}
-          <p className="text-gray-500 text-base mb-4">{age}</p>
+          <p className="text-gray-500 dark:text-gray-400 text-base mb-4">{age}</p>
 
           {/* About */}
           {card.about && (
-            <p className="text-gray-800 text-sm leading-relaxed mb-6">
+            <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed mb-6">
               {card.about}
             </p>
           )}
