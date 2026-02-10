@@ -51,9 +51,9 @@ export const LikesPage = () => {
   const hasNoData = !isLoading && !hasLikes && !hasMatches;
 
   return (
-    <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center justify-start relative pb-40">
+    <div className="w-full h-[calc(100vh-169px)] flex flex-col items-center justify-start relative">
       {isLoading ? (
-        <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <Spinner size="lg" />
         </div>
       ) : hasNoData ? (
@@ -62,7 +62,7 @@ export const LikesPage = () => {
           description="Лайки и взаимные симпатии появятся здесь, когда вы начнете получать внимание"
         />
       ) : (
-        <div className="w-full max-w-md overflow-y-auto scrollbar-hidden">
+        <div className="w-full max-w-md h-full overflow-y-auto scrollbar-hidden pb-20">
           {hasLikes && (
             <div className="px-5 pt-5">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">

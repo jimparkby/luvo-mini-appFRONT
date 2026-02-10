@@ -78,7 +78,7 @@ export const LikesCard = ({ card }) => {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-260px)] rounded-[20px] text-white overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-220px)] rounded-[20px] text-white overflow-hidden">
       <div className="relative w-full h-full">
         <img
           src={card.photos[currentPhotoIndex]}
