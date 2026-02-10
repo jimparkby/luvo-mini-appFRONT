@@ -10,6 +10,7 @@ import {
   RegistrationPage,
   OtherProfilePage,
   PrivacyPolicyPage,
+  ProfileViewsPage,
 } from "../pages";
 
 export const Router = () => {
@@ -28,6 +29,7 @@ export const Router = () => {
         <Route path="/rating" element={<RatingPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/user-profile" element={<ProfilePage />} />
+        <Route path="/profile-views" element={<ProfileViewsPage />} />
         <Route path="/other-profile/:id" element={<OtherProfilePage />} />
 
         <Route path="*" element={<Navigate to="/feed" replace />} />

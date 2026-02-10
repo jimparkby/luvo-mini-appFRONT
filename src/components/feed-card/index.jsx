@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { Heart, ChevronDown } from "lucide-react";
 import { calculateAge } from "@/utils/calculate-age.util";
 import { useLiked, useSuperLike, useFeedView } from "@/api/feed";
+import { useDetailedView } from "@/api/views";
 
 import BigHeart from "@/assets/icons/big-heart.svg";
 import HeartIcon from "@/assets/icons/heart.svg";
@@ -68,13 +69,15 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
   const clickTimeout = useRef(null);
 
   const { mutate: sendViewMutation } = useFeedView();
+  const { mutate: sendDetailedView } = useDetailedView();
   const { mutateAsync: likeUserMutation } = useLiked();
   const { mutateAsync: superLikeMutation } = useSuperLike();
 
   const openInfoPanel = useCallback(() => {
     setIsInfoOpen(true);
     onInfoPanelChange?.(true);
-  }, [onInfoPanelChange]);
+    sendDetailedView(card.user_id);
+  }, [onInfoPanelChange, sendDetailedView, card.user_id]);
 
   const closeInfoPanel = useCallback(() => {
     setIsInfoOpen(false);

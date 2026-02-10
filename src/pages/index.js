@@ -7,6 +7,7 @@ import { ProfilePage } from "./profile";
 import { OtherProfilePage } from "./other-profile";
 import { RegistrationPage } from "./registration";
 import { PrivacyPolicyPage } from "./privacy-policy";
+import { ProfileViewsPage } from "./profile-views";
 
 export {
   FeedPage,
@@ -18,4 +19,5 @@ export {
   OtherProfilePage,
   RegistrationPage,
   PrivacyPolicyPage,
+  ProfileViewsPage,
 };
