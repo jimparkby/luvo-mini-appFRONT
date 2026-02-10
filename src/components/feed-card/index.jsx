@@ -67,6 +67,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
 
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
+  const detailedViewSent = useRef(false);
 
   const { mutate: sendViewMutation } = useFeedView();
   const { mutate: sendDetailedView } = useDetailedView();
@@ -76,7 +77,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
   const openInfoPanel = useCallback(() => {
     setIsInfoOpen(true);
     onInfoPanelChange?.(true);
-    sendDetailedView(card.user_id);
+    if (!detailedViewSent.current) {
+      sendDetailedView(card.user_id);
+      detailedViewSent.current = true;
+    }
   }, [onInfoPanelChange, sendDetailedView, card.user_id]);
 
   const closeInfoPanel = useCallback(() => {
@@ -227,6 +231,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     setImageLoaded(false);
     setLowQualitySrc(null);
     setIsInfoOpen(false);
+    detailedViewSent.current = false;
     onInfoPanelChange?.(false);
     clickTimeout.current && clearTimeout(clickTimeout.current);
   }, [card.user_id]);
