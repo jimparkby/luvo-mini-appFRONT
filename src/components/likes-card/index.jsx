@@ -29,15 +29,14 @@ export const LikesCard = ({ card }) => {
     }, 1200);
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.stopPropagation();
     try {
-      await likeUserMutation(card.id);
+      await likeUserMutation(card.user_id);
 
       if (liked) {
-        // Отменяем лайк
         setLiked(false);
       } else {
-        // Ставим лайк
         setLiked(true);
         triggerHeartAnimation();
       }
@@ -46,8 +45,9 @@ export const LikesCard = ({ card }) => {
     }
   };
 
-  const handleIgnore = () => {
-    ignoreUserMutation(card.id);
+  const handleIgnore = (e) => {
+    e.stopPropagation();
+    ignoreUserMutation(card.user_id);
   };
 
   // Обработчик клика по картинке — листает фото в зависимости от стороны
@@ -127,19 +127,21 @@ export const LikesCard = ({ card }) => {
           {card.about && <p className="mt-3 text-base">{card.about}</p>}
 
           <div className="mt-4 px-5 flex items-center justify-between">
-            <img
-              src={CrossIcon}
-              alt="cross-icon"
-              className="size-8 cursor-pointer"
-              onClick={handleIgnore}
-            />
+            <button onClick={handleIgnore} className="p-2">
+              <img
+                src={CrossIcon}
+                alt="cross-icon"
+                className="size-8"
+              />
+            </button>
 
-            <img
-              src={liked ? HeartIcon : EmptyHeartIcon}
-              alt="heart-icon"
-              className="size-8 cursor-pointer"
-              onClick={handleLike}
-            />
+            <button onClick={handleLike} className="p-2">
+              <img
+                src={liked ? HeartIcon : EmptyHeartIcon}
+                alt="heart-icon"
+                className="size-8"
+              />
+            </button>
           </div>
         </div>
       </div>
