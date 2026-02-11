@@ -84,7 +84,7 @@ export const OtherProfilePage = () => {
       <div className="mt-3">
         {data.is_ai ? (
           <p className="text-gray-400 dark:text-gray-500 text-sm">
-            Пользователь не указал данные
+            Пользователь не указал личные данные
           </p>
         ) : (
           <>
