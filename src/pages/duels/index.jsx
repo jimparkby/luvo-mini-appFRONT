@@ -95,7 +95,7 @@ export const DuelsPage = () => {
       <>
         <EmptyState
           title="Дуэли еще не сформированы"
-          description="Мы еще формируем твои рекомендации"
+          description="Luvo — любовь ближе, чем ты думаешь"
         />
         {showRequiredLocationModal && (
           <LocationModal
