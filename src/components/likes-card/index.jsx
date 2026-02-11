@@ -30,7 +30,7 @@ export const LikesCard = ({ card }) => {
   };
 
   const handleLike = async (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     try {
       await likeUserMutation(card.user_id);
 
@@ -46,7 +46,7 @@ export const LikesCard = ({ card }) => {
   };
 
   const handleIgnore = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     ignoreUserMutation(card.user_id);
   };
 
