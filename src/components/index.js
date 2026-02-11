@@ -24,10 +24,8 @@ import { DuelsInformationModal } from "./duels-information-modal";
 import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
 import { FloatingHearts } from "./floating-hearts";
 import { AnimatedText } from "./animated-text";
-import { Loader } from "./loader";
 
 export {
-  Loader,
   AnimatedText,
   FloatingHearts,
   Layout,
