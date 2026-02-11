@@ -79,7 +79,6 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
           formData.append(key, value);
         }
       });
-      formData.append("gender", "male");
 
       const { exp, user_id, has_profile, access_token } = await mutateAsync(
         formData
