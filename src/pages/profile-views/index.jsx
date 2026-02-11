@@ -3,6 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { Spinner, EmptyState } from "@/components";
 import { useProfileViews } from "@/api/views";
 import { calculateAge } from "@/utils/calculate-age.util";
+import { timeAgo } from "@/utils/time-ago.util";
 
 export const ProfileViewsPage = () => {
   const navigate = useNavigate();
@@ -84,6 +85,11 @@ export const ProfileViewsPage = () => {
                       </span>
                     )}
                   </div>
+                  {viewer.viewed_at && (
+                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                      {timeAgo(viewer.viewed_at)}
+                    </span>
+                  )}
                 </div>
               </button>
             );
