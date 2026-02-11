@@ -26,7 +26,7 @@ export const ProfilePage = () => {
       {/* Profile Views Button */}
       <button
         onClick={() => navigate("/profile-views")}
-        className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-800 active:scale-95 transition-transform"
+        className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-2 rounded-full bg-gray-100 dark:bg-black active:scale-95 transition-transform"
       >
         <Eye className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         {viewsCount > 0 && (
