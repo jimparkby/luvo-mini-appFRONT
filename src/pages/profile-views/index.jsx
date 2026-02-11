@@ -11,6 +11,17 @@ export const ProfileViewsPage = () => {
 
   const viewers = data?.viewers || [];
 
+  const handleCopy = async (viewer) => {
+    const username = viewer.telegram_username;
+    if (!username) return;
+
+    try {
+      await navigator.clipboard.writeText(`@${username}`);
+    } catch {
+      // fallback
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
@@ -42,27 +53,26 @@ export const ProfileViewsPage = () => {
       ) : (
         <div className="flex flex-col">
           {viewers.map((viewer) => {
-            const age = viewer.birthdate
-              ? calculateAge(viewer.birthdate)
-              : null;
+            const username = viewer.telegram_username;
+            const age = viewer.birthdate ? calculateAge(viewer.birthdate) : null;
 
             return (
               <button
                 key={viewer.user_id}
                 className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 active:bg-gray-100 dark:active:bg-gray-800 transition-colors text-left"
-                onClick={() => navigate(`/other-profile/${viewer.user_id}`)}
+                onClick={() => handleCopy(viewer)}
               >
                 {/* Avatar */}
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
                   {viewer.photos?.[0] ? (
                     <img
                       src={viewer.photos[0]}
-                      alt={viewer.first_name}
+                      alt={username || viewer.first_name}
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-lg font-bold">
-                      {viewer.first_name?.[0]}
+                      {(username || viewer.first_name)?.[0]}
                     </div>
                   )}
                 </div>
@@ -71,7 +81,7 @@ export const ProfileViewsPage = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="font-semibold text-gray-900 dark:text-white truncate">
-                      {viewer.first_name}
+                      {username ? `@${username}` : viewer.first_name}
                     </span>
                     {viewer.is_verified && (
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" className="flex-shrink-0">
@@ -85,12 +95,15 @@ export const ProfileViewsPage = () => {
                       </span>
                     )}
                   </div>
-                  {viewer.viewed_at && (
-                    <span className="text-xs text-gray-400 dark:text-gray-500">
-                      {timeAgo(viewer.viewed_at)}
-                    </span>
-                  )}
+                  <div className="flex items-center gap-1.5">
+                    {viewer.viewed_at && (
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                        {timeAgo(viewer.viewed_at)}
+                      </span>
+                    )}
+                  </div>
                 </div>
+
               </button>
             );
           })}
