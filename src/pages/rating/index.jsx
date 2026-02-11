@@ -58,7 +58,7 @@ export const RatingPage = () => {
             </button>
 
             {showFilterMenu && (
-              <div className="absolute right-0 top-full mt-2 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border-2 border-primary-gray/30 py-2 min-w-[200px] z-10">
+              <div className="absolute right-0 top-full mt-2 bg-white dark:bg-black rounded-2xl shadow-lg border-2 border-primary-gray/30 py-2 min-w-[200px] z-10">
                 {STATUS_OPTIONS.map((option) => (
                   <button
                     key={option.value}
