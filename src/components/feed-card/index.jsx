@@ -11,11 +11,55 @@ import EmptyHeartIcon from "@/assets/icons/empty-heart.svg";
 
 const DOUBLE_TAP_DELAY = 250;
 
+// Проверка, является ли URL внешним
+const isExternalUrl = (src) => {
+  try {
+    if (src.startsWith("http://") || src.startsWith("https://")) {
+      const url = new URL(src);
+      return url.origin !== window.location.origin;
+    }
+  } catch {
+    return false;
+  }
+  return false;
+};
+
+// Создаем низкокачественную версию изображения БЕЗ CORS проблем
+const createLowQualityImage = (src) => {
+  // Для внешних URL не создаем placeholder через canvas (CORS проблемы)
+  if (isExternalUrl(src)) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+      try {
+        canvas.width = 40;
+        canvas.height = 40;
+        ctx.drawImage(img, 0, 0, 40, 40);
+        const lowQualitySrc = canvas.toDataURL("image/webp", 0.1);
+        resolve(lowQualitySrc);
+      } catch (error) {
+        resolve(null);
+      }
+    };
+
+    img.onerror = () => resolve(null);
+    // НЕ устанавливаем crossOrigin для локальных изображений
+    img.src = src;
+  });
+};
+
 export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus, onInfoPanelChange }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [lowQualitySrc, setLowQualitySrc] = useState(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [isLiking, setIsLiking] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -185,6 +229,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     setIsLiking(false);
     setCurrentPhotoIndex(0);
     setImageLoaded(false);
+    setLowQualitySrc(null);
     setIsInfoOpen(false);
     detailedViewSent.current = false;
     onInfoPanelChange?.(false);
@@ -196,10 +241,15 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     setLiked(card.is_liked || false);
   }, [card.is_liked]);
 
-  // Сброс загрузки при смене фото
+  // Создаем низкокачественную версию при смене фото
   useEffect(() => {
-    setImageLoaded(false);
-  }, [currentPhotoIndex]);
+    if (card.photos?.[currentPhotoIndex]) {
+      createLowQualityImage(card.photos[currentPhotoIndex]).then(
+        setLowQualitySrc
+      );
+      setImageLoaded(false);
+    }
+  }, [currentPhotoIndex, card.photos]);
 
   const age = calculateAge(card.birthdate);
 
@@ -211,18 +261,21 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
       )}
     >
       <div className="relative w-full h-full">
-        {/* Спиннер пока фото загружается */}
-        {!imageLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center rounded-[20px] bg-gray-900">
-            <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          </div>
+        {/* Низкокачественное изображение как placeholder */}
+        {lowQualitySrc && !imageLoaded && (
+          <img
+            src={lowQualitySrc}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover rounded-[20px] filter blur-sm scale-110"
+            style={{ imageRendering: "pixelated" }}
+          />
         )}
 
         {/* Полноценное изображение */}
         <img
           src={card.photos[currentPhotoIndex]}
           alt="profile"
-          className={`h-full w-full object-cover rounded-[20px] select-none transition-opacity duration-300 ${
+          className={`h-full w-full object-cover rounded-[20px] select-none transition-opacity duration-500 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           draggable={false}
