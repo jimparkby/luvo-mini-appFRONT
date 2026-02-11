@@ -82,24 +82,32 @@ export const OtherProfilePage = () => {
       </div>
 
       <div className="mt-3">
-        {data.instagram_username && (
-          <div className="flex items-center">
-            <img src={InstagramIcon} alt="instagram-icon" className="size-8" />
+        {data.is_ai ? (
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
+            Пользователь не указал данные
+          </p>
+        ) : (
+          <>
+            {data.instagram_username && (
+              <div className="flex items-center">
+                <img src={InstagramIcon} alt="instagram-icon" className="size-8" />
 
-            <div className="ml-2 font-bold text-2xl select-text cursor-text">
-              @{data.instagram_username}
-            </div>
-          </div>
-        )}
+                <div className="ml-2 font-bold text-2xl select-text cursor-text">
+                  @{data.instagram_username}
+                </div>
+              </div>
+            )}
 
-        {isMetch && data.telegram_username && (
-          <div className="mt-2 flex items-center">
-            <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
+            {isMetch && data.telegram_username && (
+              <div className="mt-2 flex items-center">
+                <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
 
-            <div className="ml-2 font-bold text-2xl select-text cursor-text">
-              @{data.telegram_username}
-            </div>
-          </div>
+                <div className="ml-2 font-bold text-2xl select-text cursor-text">
+                  @{data.telegram_username}
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
 
