@@ -54,7 +54,7 @@ const createLowQualityImage = (src) => {
   });
 };
 
-export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus, onInfoPanelChange }) => {
+export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMatchedUser, updateCardLikeStatus, onInfoPanelChange, superlikeRemaining, superlikeLimit }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
@@ -148,8 +148,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
     }
   };
 
+  const isSuperlikeDisabled = superlikeRemaining != null && superlikeRemaining <= 0;
+
   const handleSuperLike = async () => {
-    if (isSuperLiking) return;
+    if (isSuperLiking || isSuperlikeDisabled) return;
     setIsSuperLiking(true);
 
     try {
@@ -398,28 +400,46 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
 
           {/* Super Like Button */}
           <button
-            className="superlike-btn w-full relative overflow-hidden rounded-2xl py-4 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 active:scale-[0.98] transition-transform"
+            className={classnames(
+              "superlike-btn w-full relative overflow-hidden rounded-2xl py-4 transition-transform",
+              isSuperlikeDisabled
+                ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
+                : "bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 active:scale-[0.98]"
+            )}
             onClick={handleSuperLike}
-            disabled={isSuperLiking}
+            disabled={isSuperLiking || isSuperlikeDisabled}
           >
             {/* Shimmer effect */}
-            <div className="superlike-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            {!isSuperlikeDisabled && (
+              <div className="superlike-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            )}
 
             {/* Sparkles */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="superlike-sparkle-1 absolute top-2 left-8 w-1.5 h-1.5 bg-white rounded-full" />
-              <div className="superlike-sparkle-2 absolute top-3 right-12 w-1 h-1 bg-white rounded-full" />
-              <div className="superlike-sparkle-3 absolute bottom-3 left-16 w-1 h-1 bg-white rounded-full" />
-            </div>
+            {!isSuperlikeDisabled && (
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="superlike-sparkle-1 absolute top-2 left-8 w-1.5 h-1.5 bg-white rounded-full" />
+                <div className="superlike-sparkle-2 absolute top-3 right-12 w-1 h-1 bg-white rounded-full" />
+                <div className="superlike-sparkle-3 absolute bottom-3 left-16 w-1 h-1 bg-white rounded-full" />
+              </div>
+            )}
 
             <div className="relative flex items-center justify-center gap-3">
-              <Heart className="superlike-heart-pulse w-6 h-6 text-white fill-white" />
-              <span className="text-white font-semibold text-lg tracking-wide">
-                {isSuperLiking ? "..." : "Супер лайк"}
+              <Heart className={classnames("w-6 h-6", isSuperlikeDisabled ? "text-gray-500 fill-gray-500" : "superlike-heart-pulse text-white fill-white")} />
+              <span className={classnames("font-semibold text-lg tracking-wide", isSuperlikeDisabled ? "text-gray-500" : "text-white")}>
+                {isSuperLiking
+                  ? "..."
+                  : isSuperlikeDisabled
+                    ? "Лимит исчерпан"
+                    : superlikeRemaining != null
+                      ? `Супер лайк (${superlikeRemaining}/${superlikeLimit})`
+                      : "Супер лайк"
+                }
               </span>
-              <svg className="superlike-star w-5 h-5 text-yellow-300 absolute -right-1 -top-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
-              </svg>
+              {!isSuperlikeDisabled && (
+                <svg className="superlike-star w-5 h-5 text-yellow-300 absolute -right-1 -top-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
+                </svg>
+              )}
             </div>
           </button>
         </div>

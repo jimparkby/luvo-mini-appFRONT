@@ -40,10 +40,32 @@ export const useFeeds = (limit = 5, offset = 0) => {
   });
 };
 
+export const useSuperlikeStatus = () =>
+  useQuery({
+    queryKey: ["superlike-status"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`${API_URL}/interactions/superlike-status`);
+      return data;
+    },
+  });
+
 export const useSuperLike = () =>
   useMutation({
     mutationFn: (userId) =>
       axiosInstance.post(`${API_URL}/interactions/superlike/${userId}`),
+    onSuccess: (response) => {
+      // Обновляем кеш статуса суперлайков
+      if (response.data.superlike_remaining != null) {
+        queryClient.setQueryData(["superlike-status"], (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            used: old.used + 1,
+            remaining: response.data.superlike_remaining,
+          };
+        });
+      }
+    },
   });
 
 export const useFeedView = () =>

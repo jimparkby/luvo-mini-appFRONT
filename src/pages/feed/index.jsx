@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import { useFeedView } from "@/api/feed";
+import { useFeedView, useSuperlikeStatus } from "@/api/feed";
 import { useFeedBuffer } from "@/hooks/useFeedBuffer";
 import { FeedEmptyIcon } from "@/assets/icons/feed-empty";
 import { useSpring, animated } from "@react-spring/web";
@@ -15,6 +15,7 @@ export const FeedPage = () => {
   const [isCardInfoOpen, setIsCardInfoOpen] = useState(false);
 
   const { mutate: sendViewMutation } = useFeedView();
+  const { data: superlikeStatus } = useSuperlikeStatus();
   const { cards, currentIndex, setCurrentIndex, isLoading, hasMore, updateCardLikeStatus, recommendedCount } = useFeedBuffer();
   const currentCard = cards[currentIndex];
   const isLastCard = currentIndex === cards.length - 1;
@@ -198,6 +199,8 @@ export const FeedPage = () => {
               setMatchedUser={setMatchedUser}
               updateCardLikeStatus={updateCardLikeStatus}
               onInfoPanelChange={setIsCardInfoOpen}
+              superlikeRemaining={superlikeStatus?.remaining}
+              superlikeLimit={superlikeStatus?.limit}
             />
           </animated.div>
         )}
