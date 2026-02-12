@@ -299,11 +299,21 @@ export const RUSSIAN_NAMES_LOWER = RUSSIAN_NAMES.map(name => name.toLowerCase())
 
 // Транслитерация латиницы в кириллицу
 const LATIN_TO_CYRILLIC = {
-  "shch": "щ", "sch": "щ",
+  // 4-символьные
+  "shch": "щ",
+  // 3-символьные
+  "sch": "щ", "tch": "ч",
+  "iya": "ия", "iye": "ие", "iyu": "ию",
+  "eya": "ея", "eye": "ее",
+  "oya": "оя", "oye": "ое",
+  "uya": "уя",
+  // 2-символьные
   "zh": "ж", "ch": "ч", "sh": "ш", "ts": "ц", "tz": "ц",
-  "ya": "я", "yu": "ю", "yo": "ё", "ye": "е", "yi": "ы",
+  "ya": "я", "yu": "ю", "yo": "ё", "ye": "е",
   "ey": "ей", "iy": "ий", "ay": "ай", "oy": "ой", "uy": "уй",
-  "kh": "х", "th": "т",
+  "kh": "х",
+  "ia": "ия", "ie": "ие",
+  // 1-символьные
   "a": "а", "b": "б", "c": "к", "d": "д", "e": "е", "f": "ф",
   "g": "г", "h": "х", "i": "и", "j": "дж", "k": "к", "l": "л",
   "m": "м", "n": "н", "o": "о", "p": "п", "q": "к", "r": "р",
@@ -318,7 +328,6 @@ function transliterateToRussian(str) {
 
   while (i < lower.length) {
     let matched = false;
-    // Проверяем от длинных комбинаций к коротким (4, 3, 2, 1)
     for (let len = 4; len >= 1; len--) {
       const chunk = lower.substring(i, i + len);
       if (LATIN_TO_CYRILLIC[chunk]) {
@@ -336,6 +345,18 @@ function transliterateToRussian(str) {
   return result;
 }
 
+// Генерирует варианты написания с ь (мягкий знак) в разных позициях
+function generateSoftSignVariants(cyrillic) {
+  const variants = [cyrillic];
+  // Добавляем ь перед гласными и в конце слова
+  const vowels = "аеёиоуыэюя";
+  for (let i = 1; i <= cyrillic.length; i++) {
+    const withSoftSign = cyrillic.slice(0, i) + "ь" + cyrillic.slice(i);
+    variants.push(withSoftSign);
+  }
+  return variants;
+}
+
 // Проверяет имя: кириллица напрямую, латиница через транслитерацию
 export function isValidName(value) {
   if (!value) return false;
@@ -344,7 +365,10 @@ export function isValidName(value) {
   // Если ввели латиницей — транслитерируем и проверяем
   if (/^[a-zA-Z]+$/.test(value.trim())) {
     const cyrillic = transliterateToRussian(trimmed);
-    return RUSSIAN_NAMES_LOWER.includes(cyrillic);
+    if (RUSSIAN_NAMES_LOWER.includes(cyrillic)) return true;
+    // Пробуем варианты с мягким знаком
+    const variants = generateSoftSignVariants(cyrillic);
+    return variants.some(v => RUSSIAN_NAMES_LOWER.includes(v));
   }
   return false;
 }
