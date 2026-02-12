@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { calculateAge } from "@/utils/calculate-age.util";
 import { useCreateUser } from "@/api/user";
 import { useWebAppStore } from "@/store";
-import { RUSSIAN_NAMES_LOWER } from "@/constants/russian-names";
+import { isValidName } from "@/constants/russian-names";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { FloatingHearts } from "@/components";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
@@ -39,7 +39,7 @@ const stepSchemas = [
       .required("Имя обязательно")
       .test("valid-name", "Введите ваше настоящее имя.", function (value) {
         if (!value) return true;
-        return RUSSIAN_NAMES_LOWER.includes(value.toLowerCase().trim());
+        return isValidName(value);
       }),
     birthdate: yup
       .date()
