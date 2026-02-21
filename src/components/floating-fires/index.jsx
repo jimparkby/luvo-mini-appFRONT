@@ -11,8 +11,8 @@ export function FloatingFires({ onComplete }) {
       Array.from({ length: fireCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100, // От 0% до 100% ширины экрана
-        delay: Math.random() * 1, // Задержка от 0 до 1 секунды для более плавного появления
-        duration: 2 + Math.random() * 1, // Длительность от 2 до 3 секунд
+        delay: Math.random() * 1.2, // Задержка от 0 до 1.2 секунды
+        duration: 2.5 + Math.random() * 1, // Длительность от 2.5 до 3.5 секунд для максимальной плавности
         size: 20 + Math.random() * 24, // Размер от 20px до 44px
       }))
     );
@@ -20,7 +20,7 @@ export function FloatingFires({ onComplete }) {
     // Убираем эффект после завершения анимации
     const timer = setTimeout(() => {
       onComplete?.();
-    }, 3500);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [onComplete]);

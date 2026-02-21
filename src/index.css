@@ -164,37 +164,86 @@ body,
 /* Fire effect animations */
 @keyframes floatUpSmooth {
   0% {
-    transform: translateY(0) translateX(0) scale(0.5) rotate(0deg);
+    transform: translateY(0) translateX(0) scale(0.8);
     opacity: 0;
   }
+  5% {
+    opacity: 0.6;
+    transform: translateY(-5vh) translateX(2px) scale(0.85);
+  }
   10% {
+    opacity: 0.9;
+    transform: translateY(-10vh) translateX(4px) scale(0.9);
+  }
+  15% {
     opacity: 1;
-    transform: translateY(-10vh) translateX(0) scale(0.8) rotate(5deg);
+    transform: translateY(-15vh) translateX(6px) scale(0.92);
+  }
+  20% {
+    transform: translateY(-20vh) translateX(7px) scale(0.95);
+  }
+  25% {
+    transform: translateY(-25vh) translateX(8px) scale(0.97);
   }
   30% {
-    opacity: 1;
-    transform: translateY(-30vh) translateX(10px) scale(1) rotate(10deg);
+    transform: translateY(-30vh) translateX(8px) scale(1);
+  }
+  35% {
+    transform: translateY(-35vh) translateX(7px) scale(1.02);
+  }
+  40% {
+    transform: translateY(-40vh) translateX(5px) scale(1.03);
+  }
+  45% {
+    transform: translateY(-45vh) translateX(3px) scale(1.02);
   }
   50% {
+    transform: translateY(-50vh) translateX(0) scale(1);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(-55vh) translateX(-3px) scale(0.98);
+  }
+  60% {
+    transform: translateY(-60vh) translateX(-5px) scale(0.96);
+    opacity: 0.95;
+  }
+  65% {
+    transform: translateY(-65vh) translateX(-6px) scale(0.94);
     opacity: 0.9;
-    transform: translateY(-50vh) translateX(-5px) scale(1.1) rotate(-5deg);
   }
   70% {
-    opacity: 0.7;
-    transform: translateY(-70vh) translateX(8px) scale(1) rotate(8deg);
+    transform: translateY(-70vh) translateX(-6px) scale(0.92);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-75vh) translateX(-5px) scale(0.9);
+    opacity: 0.65;
+  }
+  80% {
+    transform: translateY(-80vh) translateX(-4px) scale(0.88);
+    opacity: 0.5;
   }
   85% {
-    opacity: 0.4;
-    transform: translateY(-85vh) translateX(-3px) scale(0.9) rotate(-3deg);
+    transform: translateY(-85vh) translateX(-2px) scale(0.86);
+    opacity: 0.35;
+  }
+  90% {
+    transform: translateY(-90vh) translateX(-1px) scale(0.84);
+    opacity: 0.2;
+  }
+  95% {
+    transform: translateY(-95vh) translateX(0) scale(0.82);
+    opacity: 0.1;
   }
   100% {
-    transform: translateY(-110vh) translateX(0) scale(0.6) rotate(0deg);
+    transform: translateY(-100vh) translateX(0) scale(0.8);
     opacity: 0;
   }
 }
 
 .animate-float-up-smooth {
-  animation: floatUpSmooth cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: floatUpSmooth ease-out forwards;
   will-change: transform, opacity;
 }
 
