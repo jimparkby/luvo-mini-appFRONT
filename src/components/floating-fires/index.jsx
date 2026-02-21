@@ -11,17 +11,16 @@ export function FloatingFires({ onComplete }) {
       Array.from({ length: fireCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100, // От 0% до 100% ширины экрана
-        delay: Math.random() * 0.8, // Задержка от 0 до 0.8 секунд
-        duration: 1.8 + Math.random() * 1.2, // Длительность от 1.8 до 3 секунд
+        delay: Math.random() * 1, // Задержка от 0 до 1 секунды для более плавного появления
+        duration: 2 + Math.random() * 1, // Длительность от 2 до 3 секунд
         size: 20 + Math.random() * 24, // Размер от 20px до 44px
-        rotation: -30 + Math.random() * 60, // Вращение от -30 до 30 градусов
       }))
     );
 
     // Убираем эффект после завершения анимации
     const timer = setTimeout(() => {
       onComplete?.();
-    }, 3200);
+    }, 3500);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -31,14 +30,13 @@ export function FloatingFires({ onComplete }) {
       {fires.map((fire) => (
         <div
           key={fire.id}
-          className="absolute animate-float-up"
+          className="absolute animate-float-up-smooth"
           style={{
             left: `${fire.x}%`,
             bottom: "-5%",
             animationDelay: `${fire.delay}s`,
             animationDuration: `${fire.duration}s`,
             fontSize: `${fire.size}px`,
-            transform: `rotate(${fire.rotation}deg)`,
           }}
         >
           🔥
