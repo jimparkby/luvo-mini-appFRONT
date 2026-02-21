@@ -23,13 +23,11 @@ import { OtherProfileCard } from "./other-profile-card";
 import { DuelsInformationModal } from "./duels-information-modal";
 import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
 import { FloatingHearts } from "./floating-hearts";
-import { FloatingFires } from "./floating-fires";
 import { AnimatedText } from "./animated-text";
 
 export {
   AnimatedText,
   FloatingHearts,
-  FloatingFires,
   Layout,
   Header,
   Spinner,

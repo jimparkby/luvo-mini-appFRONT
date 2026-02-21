@@ -4,7 +4,6 @@ import { Heart, ChevronDown } from "lucide-react";
 import { calculateAge } from "@/utils/calculate-age.util";
 import { useLiked, useSuperLike, useFeedView } from "@/api/feed";
 import { useDetailedView } from "@/api/views";
-import { FloatingFires } from "@/components";
 
 import BigHeart from "@/assets/icons/big-heart.svg";
 import HeartIcon from "@/assets/icons/heart.svg";
@@ -65,7 +64,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
   const [isLiking, setIsLiking] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSuperLiking, setIsSuperLiking] = useState(false);
-  const [showFireEffect, setShowFireEffect] = useState(false);
 
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
@@ -169,8 +167,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
         setIsOpen(true);
       }
 
-      // Показываем эффект огоньков
-      setShowFireEffect(true);
       triggerHeartAnimation();
       closeInfoPanel();
     } catch (error) {
@@ -448,11 +444,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
           </button>
         </div>
       </div>
-
-      {/* Fire Effect для суперлайка */}
-      {showFireEffect && (
-        <FloatingFires onComplete={() => setShowFireEffect(false)} />
-      )}
     </div>
   );
 };
