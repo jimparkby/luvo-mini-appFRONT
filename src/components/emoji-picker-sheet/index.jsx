@@ -110,7 +110,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremiu
 
         {/* Premium tab — tg-emoji */}
         {activeTab === "premium" && (
-          <div className="px-4 pb-8 pt-2">
+          <div className="px-4 pb-8 pt-2 bg-black">
             {isPremium ? (
               <div className="grid grid-cols-6 gap-2">
                 {PREMIUM_EMOJIS.map((item) => (
