@@ -12,6 +12,7 @@ import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
 import { EmojiPickerSheet } from "@/components/emoji-picker-sheet";
+import { StatusEmoji, isTgEmojiId } from "@/components/tg-emoji";
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -145,7 +146,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
         >
           {selectedEmoji ? (
             <>
-              <span className="text-3xl">{selectedEmoji}</span>
+              <StatusEmoji status={selectedEmoji} size="1.875rem" />
               <span className="text-gray-500 dark:text-gray-400 text-base">Изменить статус</span>
             </>
           ) : (
@@ -161,6 +162,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
           selected={selectedEmoji}
           onSelect={setSelectedEmoji}
           onClose={() => setEmojiPickerOpen(false)}
+          isPremium={userData?.is_premium}
         />
       </div>
 
