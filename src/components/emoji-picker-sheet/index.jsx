@@ -41,7 +41,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremiu
       {/* Sheet */}
       <div
         ref={sheetRef}
-        className="relative w-full bg-black rounded-t-3xl shadow-xl overflow-hidden"
+        className="relative w-full bg-white dark:bg-[#1e1e1e] rounded-t-3xl shadow-xl overflow-hidden"
       >
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-1">
@@ -110,7 +110,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremiu
 
         {/* Premium tab — tg-emoji */}
         {activeTab === "premium" && (
-          <div className="px-4 pb-8 pt-2 bg-black">
+          <div className="px-4 pb-8 pt-2">
             {isPremium ? (
               <div className="grid grid-cols-6 gap-2">
                 {PREMIUM_EMOJIS.map((item) => (
