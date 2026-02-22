@@ -13,12 +13,28 @@ export const FeedPage = () => {
   const [showEndScreen, setShowEndScreen] = useState(false);
   const [showRecommendationEnd, setShowRecommendationEnd] = useState(false);
   const [isCardInfoOpen, setIsCardInfoOpen] = useState(false);
+  const [firstImageReady, setFirstImageReady] = useState(false);
 
   const { mutate: sendViewMutation } = useFeedView();
   const { data: superlikeStatus } = useSuperlikeStatus();
   const { cards, currentIndex, setCurrentIndex, isLoading, hasMore, updateCardLikeStatus, recommendedCount } = useFeedBuffer();
   const currentCard = cards[currentIndex];
   const isLastCard = currentIndex === cards.length - 1;
+
+  // Предзагружаем первое фото первой карточки, прежде чем показать фид
+  useEffect(() => {
+    if (cards.length > 0 && !firstImageReady) {
+      const firstPhoto = cards[0]?.photos?.[0];
+      if (firstPhoto) {
+        const img = new Image();
+        img.onload = () => setFirstImageReady(true);
+        img.onerror = () => setFirstImageReady(true);
+        img.src = firstPhoto;
+      } else {
+        setFirstImageReady(true);
+      }
+    }
+  }, [cards, firstImageReady]);
 
   useEffect(() => {
     const nextCard = cards[currentIndex + 1];
@@ -96,7 +112,7 @@ export const FeedPage = () => {
     setIsOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading || (cards.length > 0 && !firstImageReady)) {
     return (
       <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
         <Spinner size="lg" />

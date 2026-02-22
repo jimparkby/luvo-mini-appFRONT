@@ -282,6 +282,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
           }`}
           draggable={false}
           onLoad={handleImageLoad}
+          onError={handleImageLoad}
         />
 
         {showHeart && (
