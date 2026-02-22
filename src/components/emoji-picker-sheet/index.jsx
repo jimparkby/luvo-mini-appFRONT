@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
-import { EMOJI_CATEGORIES } from "@/constants/status";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
+import { useWebAppStore } from "@/store";
 
 export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
   const sheetRef = useRef(null);
+  const { theme } = useWebAppStore();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -11,8 +14,10 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
         onClose();
       }
     };
-    document.addEventListener("mousedown", handleOutside);
-    document.addEventListener("touchstart", handleOutside);
+    setTimeout(() => {
+      document.addEventListener("mousedown", handleOutside);
+      document.addEventListener("touchstart", handleOutside);
+    }, 50);
     return () => {
       document.removeEventListener("mousedown", handleOutside);
       document.removeEventListener("touchstart", handleOutside);
@@ -29,7 +34,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
       {/* Sheet */}
       <div
         ref={sheetRef}
-        className="relative w-full bg-white dark:bg-[#1e1e1e] rounded-t-3xl max-h-[70vh] flex flex-col shadow-xl"
+        className="relative w-full bg-white dark:bg-[#1e1e1e] rounded-t-3xl shadow-xl overflow-hidden"
       >
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-1">
@@ -37,7 +42,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3">
+        <div className="flex items-center justify-between px-5 py-2">
           <span className="font-semibold text-base text-gray-900 dark:text-white">
             Выбери статус
           </span>
@@ -51,30 +56,25 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
           )}
         </div>
 
-        {/* Emoji grid by categories */}
-        <div className="overflow-y-auto px-4 pb-8">
-          {EMOJI_CATEGORIES.map((cat) => (
-            <div key={cat.label} className="mb-4">
-              <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 px-1">
-                {cat.label}
-              </p>
-              <div className="grid grid-cols-9 gap-1">
-                {cat.emojis.map((emoji) => (
-                  <button
-                    key={emoji}
-                    onClick={() => { onSelect(emoji); onClose(); }}
-                    className={`text-2xl h-10 w-10 flex items-center justify-center rounded-xl transition-all active:scale-90 ${
-                      selected === emoji
-                        ? "bg-primary-red/15 ring-2 ring-primary-red scale-110"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`}
-                  >
-                    {emoji}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
+        {/* Emoji Picker */}
+        <div className="flex justify-center [&>em-emoji-picker]:w-full [&>em-emoji-picker]:border-none [&>em-emoji-picker]:shadow-none [&>em-emoji-picker]:rounded-none">
+          <Picker
+            data={data}
+            onEmojiSelect={(emoji) => {
+              onSelect(emoji.native);
+              onClose();
+            }}
+            theme={theme === "dark" ? "dark" : "light"}
+            locale="ru"
+            previewPosition="none"
+            skinTonePosition="none"
+            navPosition="bottom"
+            perLine={9}
+            emojiSize={28}
+            emojiButtonSize={38}
+            maxFrequentRows={1}
+            set="native"
+          />
         </div>
       </div>
     </div>
