@@ -3,15 +3,7 @@ import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { useWebAppStore } from "@/store";
 import { TgEmoji } from "@/components/tg-emoji";
-
-const PREMIUM_EMOJIS = [
-  { id: "5244757222830919644", fallback: "😍" },
-  { id: "5244772594518870170", fallback: "😍" },
-  { id: "5242564809530038437", fallback: "😄" },
-  { id: "5244814191277134121", fallback: "😍" },
-  { id: "5244815196299481895", fallback: "😍" },
-  { id: "5244823180643683690", fallback: "😍" },
-];
+import { PREMIUM_EMOJIS } from "@/constants/premium-emojis";
 
 export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremium }) => {
   const sheetRef = useRef(null);
