@@ -162,7 +162,6 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
           selected={selectedEmoji}
           onSelect={setSelectedEmoji}
           onClose={() => setEmojiPickerOpen(false)}
-          isPremium={userData?.is_premium}
         />
       </div>
 
