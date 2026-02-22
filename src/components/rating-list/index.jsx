@@ -38,7 +38,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {currentUser.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  <StatusEmoji status={currentUser.status} />
+                  <StatusEmoji status={currentUser.status} size="1.5em" />
                 </span>
               )}
             </div>
@@ -74,7 +74,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {item.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  <StatusEmoji status={item.status} />
+                  <StatusEmoji status={item.status} size="1.5em" />
                 </span>
               )}
             </div>
