@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import classnames from "classnames";
 import { Heart, ChevronDown } from "lucide-react";
 import { calculateAge } from "@/utils/calculate-age.util";
+import { StatusEmoji } from "@/components/tg-emoji";
 import { useLiked, useSuperLike, useFeedView } from "@/api/feed";
 import { useDetailedView } from "@/api/views";
 
@@ -407,7 +408,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
           </div>
 
           {/* Age */}
-          <p className="text-gray-500 dark:text-gray-400 text-base mb-4">{age}</p>
+          <p className="text-gray-500 dark:text-gray-400 text-base mb-4 flex items-center gap-2">
+            {card.status && <StatusEmoji status={card.status} size="1.3em" />}
+            {age}
+          </p>
 
           {/* About */}
           {card.about && (
