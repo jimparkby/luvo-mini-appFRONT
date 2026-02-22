@@ -4,20 +4,8 @@ import data from "@emoji-mart/data";
 import { useWebAppStore } from "@/store";
 import { TgEmoji } from "@/components/tg-emoji";
 
-// Набор premium tg-emoji ID для теста
 const PREMIUM_EMOJIS = [
   { id: "5244823180643683690", fallback: "⭐" },
-  { id: "5258628039851816424", fallback: "✨" },
-  { id: "5413883466028611768", fallback: "🔥" },
-  { id: "5305337682782306136", fallback: "💫" },
-  { id: "5213452186992888119", fallback: "👑" },
-  { id: "5213429396068782246", fallback: "💎" },
-  { id: "5433651745222816717", fallback: "❤️" },
-  { id: "5440539497383087970", fallback: "🌙" },
-  { id: "5471952986970267163", fallback: "🦋" },
-  { id: "5460899827667516552", fallback: "🌸" },
-  { id: "5431547498534056748", fallback: "🎉" },
-  { id: "5454534929419759593", fallback: "🚀" },
 ];
 
 export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremium }) => {

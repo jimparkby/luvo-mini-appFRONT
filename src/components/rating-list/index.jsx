@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWebAppStore } from "@/store";
-
+import { StatusEmoji } from "@/components/tg-emoji";
 import HeartIcon from "@/assets/icons/rating-heart.svg";
 
 export const RatingList = ({ data }) => {
@@ -38,7 +38,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {currentUser.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  {currentUser.status}
+                  <StatusEmoji status={currentUser.status} />
                 </span>
               )}
             </div>
@@ -74,7 +74,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {item.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  {item.status}
+                  <StatusEmoji status={item.status} />
                 </span>
               )}
             </div>
