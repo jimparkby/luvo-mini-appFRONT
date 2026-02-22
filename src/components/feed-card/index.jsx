@@ -64,6 +64,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
   const [isLiking, setIsLiking] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSuperLiking, setIsSuperLiking] = useState(false);
+  const [showVerifiedTip, setShowVerifiedTip] = useState(false);
 
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
@@ -382,10 +383,26 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen, setMat
               {card.first_name}
             </h2>
             {card.is_verified && (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48" className="flex-shrink-0">
-                <polygon fill="#42a5f5" points="29.62,3 33.053,8.308 39.367,8.624 39.686,14.937 44.997,18.367 42.116,23.995 45,29.62 39.692,33.053 39.376,39.367 33.063,39.686 29.633,44.997 24.005,42.116 18.38,45 14.947,39.692 8.633,39.376 8.314,33.063 3.003,29.633 5.884,24.005 3,18.38 8.308,14.947 8.624,8.633 14.937,8.314 18.367,3.003 23.995,5.884" />
-                <polygon fill="#fff" points="21.396,31.255 14.899,24.76 17.021,22.639 21.428,27.046 30.996,17.772 33.084,19.926" />
-              </svg>
+              <div className="relative flex-shrink-0">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowVerifiedTip((v) => !v);
+                    setTimeout(() => setShowVerifiedTip(false), 2500);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48">
+                    <polygon fill="#42a5f5" points="29.62,3 33.053,8.308 39.367,8.624 39.686,14.937 44.997,18.367 42.116,23.995 45,29.62 39.692,33.053 39.376,39.367 33.063,39.686 29.633,44.997 24.005,42.116 18.38,45 14.947,39.692 8.633,39.376 8.314,33.063 3.003,29.633 5.884,24.005 3,18.38 8.308,14.947 8.624,8.633 14.937,8.314 18.367,3.003 23.995,5.884" />
+                    <polygon fill="#fff" points="21.396,31.255 14.899,24.76 17.021,22.639 21.428,27.046 30.996,17.772 33.084,19.926" />
+                  </svg>
+                </button>
+                {showVerifiedTip && (
+                  <div className="absolute left-7 -top-1 z-50 whitespace-nowrap bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-xl shadow-lg">
+                    Пользователь верифицирован
+                    <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45" />
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
