@@ -120,7 +120,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremiu
                     className={`h-14 w-full flex items-center justify-center rounded-2xl transition-all active:scale-90 ${
                       selected === item.id
                         ? "bg-primary-red/15 ring-2 ring-primary-red scale-105"
-                        : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                   >
                     <img src={item.image} alt="" className="w-8 h-8 object-contain" />
