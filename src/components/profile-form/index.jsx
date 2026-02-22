@@ -11,7 +11,7 @@ import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
-import { STATUS_OPTIONS } from "@/constants/status";
+import { EmojiPickerSheet } from "@/components/emoji-picker-sheet";
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -45,6 +45,8 @@ const schema = yup.object({
 export const ProfileForm = ({ userData, userPhotosData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [genericError, setGenericError] = useState("");
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
 
   const { setUser } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
@@ -75,10 +77,11 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       Object.entries(data).forEach(([key, value]) => {
         if (key === "birthdate" && value instanceof Date) {
           formData.append(key, value.toISOString().split("T")[0]);
-        } else {
+        } else if (key !== "status") {
           formData.append(key, value);
         }
       });
+      formData.append("status", selectedEmoji || "");
 
       const { exp, user_id, has_profile, access_token } = await mutateAsync(
         formData
@@ -110,6 +113,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
         instagram_username: userData.instagram_username || "",
         status: userData.status || "",
       });
+      setSelectedEmoji(userData.status || null);
     }
   }, [userData, reset]);
 
@@ -134,38 +138,30 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       <div className="mt-5">
         <h2 className="text-2xl font-bold">Статус</h2>
 
-        <div className="relative flex items-center rounded-[30px] bg-white/10 mt-5">
-          <select
-            {...register("status")}
-            className="w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition appearance-none cursor-pointer"
-          >
-            {STATUS_OPTIONS.map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                className="bg-white text-black dark:bg-gray-800 dark:text-white"
-              >
-                {option.emoji && `${option.emoji} `}{option.label}
-              </option>
-            ))}
-          </select>
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-gray-500 dark:text-gray-400"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => setEmojiPickerOpen(true)}
+          className="w-full mt-5 py-[18px] px-4 rounded-[30px] border-2 border-primary-gray/30 bg-gray-light dark:bg-transparent flex items-center gap-3 transition active:scale-[0.98]"
+        >
+          {selectedEmoji ? (
+            <>
+              <span className="text-3xl">{selectedEmoji}</span>
+              <span className="text-gray-500 dark:text-gray-400 text-base">Изменить статус</span>
+            </>
+          ) : (
+            <>
+              <span className="text-3xl">😶</span>
+              <span className="text-gray-500 dark:text-gray-400 text-base">Выбрать статус</span>
+            </>
+          )}
+        </button>
+
+        <EmojiPickerSheet
+          isOpen={emojiPickerOpen}
+          selected={selectedEmoji}
+          onSelect={setSelectedEmoji}
+          onClose={() => setEmojiPickerOpen(false)}
+        />
       </div>
 
       <AboutField

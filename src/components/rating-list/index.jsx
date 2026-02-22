@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useWebAppStore } from "@/store";
 
 import HeartIcon from "@/assets/icons/rating-heart.svg";
-import { getStatusLabel } from "@/constants/status";
 
 export const RatingList = ({ data }) => {
   const [currentUser, setCurrentUser] = useState();
@@ -39,7 +38,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {currentUser.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  {getStatusLabel(currentUser.status)}
+                  {currentUser.status}
                 </span>
               )}
             </div>
@@ -75,7 +74,7 @@ export const RatingList = ({ data }) => {
               </h4>
               {item.status && (
                 <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                  {getStatusLabel(item.status)}
+                  {item.status}
                 </span>
               )}
             </div>
