@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { useWebAppStore } from "@/store";
-import { TgEmoji } from "@/components/tg-emoji";
 import { PREMIUM_EMOJIS } from "@/constants/premium-emojis";
 
 export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremium }) => {
@@ -124,7 +123,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected, isPremiu
                         : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
                     }`}
                   >
-                    <TgEmoji id={item.id} fallback={item.fallback} size="2rem" />
+                    <img src={item.image} alt="" className="w-8 h-8 object-contain" />
                   </button>
                 ))}
               </div>

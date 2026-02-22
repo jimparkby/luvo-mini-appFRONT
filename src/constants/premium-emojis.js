@@ -1,14 +1,27 @@
 export const PREMIUM_EMOJIS = [
-  { id: "5244757222830919644", fallback: "😍" },
-  { id: "5244772594518870170", fallback: "😍" },
-  { id: "5242564809530038437", fallback: "😄" },
-  { id: "5244814191277134121", fallback: "😍" },
-  { id: "5244815196299481895", fallback: "😍" },
-  { id: "5244823180643683690", fallback: "😍" },
+  { id: "5323347560910300305", image: "/emoji/5323347560910300305.webp" },
+  { id: "5323479115758576508", image: "/emoji/5323479115758576508.webp" },
+  { id: "5323532412007751734", image: "/emoji/5323532412007751734.webp" },
+  { id: "5326060296614191292", image: "/emoji/5326060296614191292.webp" },
+  { id: "5346103968386785867", image: "/emoji/5346103968386785867.webp" },
+  { id: "5328304717674061308", image: "/emoji/5328304717674061308.webp" },
+  { id: "5327762735750978747", image: "/emoji/5327762735750978747.webp" },
+  { id: "5325971141683060809", image: "/emoji/5325971141683060809.webp" },
+  { id: "5327836617778404159", image: "/emoji/5327836617778404159.webp" },
+  { id: "5327817350555116394", image: "/emoji/5327817350555116394.webp" },
+  { id: "5328019256967701222", image: "/emoji/5328019256967701222.webp" },
+  { id: "5328074034980594458", image: "/emoji/5328074034980594458.webp" },
+  { id: "5327788179137242991", image: "/emoji/5327788179137242991.webp" },
+  { id: "5328097726020197849", image: "/emoji/5328097726020197849.webp" },
+  { id: "5328254887463494245", image: "/emoji/5328254887463494245.webp" },
+  { id: "5325599536817645100", image: "/emoji/5325599536817645100.webp" },
+  { id: "5330344105585155388", image: "/emoji/5330344105585155388.webp" },
+  { id: "5330066603453194420", image: "/emoji/5330066603453194420.webp" },
+  { id: "5330532641764549015", image: "/emoji/5330532641764549015.webp" },
 ];
 
-// Получить фоллбек по ID
-export const getPremiumEmojiFallback = (id) => {
+// Получить image path по ID
+export const getPremiumEmojiImage = (id) => {
   const found = PREMIUM_EMOJIS.find((e) => e.id === id);
-  return found ? found.fallback : "😍";
+  return found ? found.image : null;
 };

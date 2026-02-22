@@ -1,16 +1,22 @@
-import { getPremiumEmojiFallback } from "@/constants/premium-emojis";
+import { getPremiumEmojiImage } from "@/constants/premium-emojis";
 
 // Определяет является ли строка ID кастомного tg-эмодзи (числовая строка ~15+ цифр)
 export const isTgEmojiId = (s) => s && /^\d{15,}$/.test(s);
 
-// Рендерит <tg-emoji> как реальный HTML через dangerouslySetInnerHTML
-export const TgEmoji = ({ id, size = "1em", fallback }) => {
-  const fb = fallback ?? getPremiumEmojiFallback(id);
+// Рендерит premium emoji как <img> из локального WebP файла
+export const TgEmoji = ({ id, size = "1em" }) => {
+  const image = getPremiumEmojiImage(id);
+  if (!image) return null;
   return (
-    <span
-      style={{ fontSize: size, lineHeight: 1, display: "inline-flex", alignItems: "center" }}
-      dangerouslySetInnerHTML={{
-        __html: `<tg-emoji emoji-id="${id}">${fb}</tg-emoji>`,
+    <img
+      src={image}
+      alt=""
+      style={{
+        width: size,
+        height: size,
+        objectFit: "contain",
+        display: "inline-block",
+        verticalAlign: "middle",
       }}
     />
   );
