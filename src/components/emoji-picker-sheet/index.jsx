@@ -32,6 +32,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
       <div
         className="absolute inset-0 bg-black/40"
         onClick={(e) => { e.stopPropagation(); e.preventDefault(); onClose(); }}
+        onTouchStart={(e) => { e.stopPropagation(); e.preventDefault(); }}
         onTouchEnd={(e) => { e.stopPropagation(); e.preventDefault(); onClose(); }}
       />
 
@@ -71,6 +72,7 @@ export const EmojiPickerSheet = ({ isOpen, onSelect, onClose, selected }) => {
             theme={theme === "dark" ? "dark" : "light"}
             locale="ru"
             previewPosition="none"
+            searchPosition="none"
             skinTonePosition="none"
             navPosition="bottom"
             perLine={9}
