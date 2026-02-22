@@ -1,5 +1,4 @@
 import HeartIcon from "@/assets/icons/rating-heart.svg";
-import { getStatusLabel } from "@/constants/status";
 
 export const Pedestal = ({ data }) => {
   const topFirst = data[0];
@@ -21,7 +20,7 @@ export const Pedestal = ({ data }) => {
 
         {topSecond.status && (
           <span className="text-xs text-gray-600 dark:text-gray-400">
-            {getStatusLabel(topSecond.status)}
+            {topSecond.status}
           </span>
         )}
 
@@ -49,7 +48,7 @@ export const Pedestal = ({ data }) => {
 
         {topFirst.status && (
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            {getStatusLabel(topFirst.status)}
+            {topFirst.status}
           </span>
         )}
 
@@ -77,7 +76,7 @@ export const Pedestal = ({ data }) => {
 
         {topThird.status && (
           <span className="text-xs text-gray-600 dark:text-gray-400">
-            {getStatusLabel(topThird.status)}
+            {topThird.status}
           </span>
         )}
 
