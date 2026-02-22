@@ -11,7 +11,36 @@ import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
-import { STATUS_OPTIONS } from "@/constants/status";
+
+const MAX_EMOJIS = 5;
+
+// Фильтрует строку: оставляет только emoji-кластеры (до MAX_EMOJIS штук)
+const filterToEmojisOnly = (input) => {
+  if (!input) return '';
+  // Intl.Segmenter поддерживается во всех современных браузерах
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+    const clusters = [...segmenter.segment(input)]
+      .map((s) => s.segment)
+      .filter((s) => /\p{Extended_Pictographic}/u.test(s));
+    return clusters.slice(0, MAX_EMOJIS).join('');
+  }
+  // Fallback regex
+  const matches = input.match(/\p{Extended_Pictographic}[\p{Emoji_Modifier}\uFE0F\u20E3]?(\u200D\p{Extended_Pictographic}[\p{Emoji_Modifier}\uFE0F\u20E3]?)*/gu) || [];
+  return matches.slice(0, MAX_EMOJIS).join('');
+};
+
+// Считает количество emoji-кластеров в строке
+const countEmojis = (str) => {
+  if (!str) return 0;
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+    return [...segmenter.segment(str)].filter((s) =>
+      /\p{Extended_Pictographic}/u.test(s.segment)
+    ).length;
+  }
+  return (str.match(/\p{Extended_Pictographic}/gu) || []).length;
+};
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -51,6 +80,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
 
   const {
     reset,
+    watch,
     control,
     setValue,
     register,
@@ -132,40 +162,25 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
       <InstagramField register={register} errors={errors} />
 
       <div className="mt-5">
-        <h2 className="text-2xl font-bold">Статус</h2>
-
-        <div className="relative flex items-center rounded-[30px] bg-white/10 mt-5">
-          <select
-            {...register("status")}
-            className="w-full py-[18px] px-4 pr-12 rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition appearance-none cursor-pointer"
-          >
-            {STATUS_OPTIONS.map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                className="bg-white text-black dark:bg-gray-800 dark:text-white"
-              >
-                {option.emoji && `${option.emoji} `}{option.label}
-              </option>
-            ))}
-          </select>
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-gray-500 dark:text-gray-400"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Статус смайлик</h2>
+          <span className="text-sm text-gray-400 dark:text-gray-500">
+            {countEmojis(watch('status') || '')}/{MAX_EMOJIS}
+          </span>
         </div>
+
+        <input
+          type="text"
+          inputMode="text"
+          value={watch('status') || ''}
+          onChange={(e) => setValue('status', filterToEmojisOnly(e.target.value))}
+          placeholder="😊✨🔥"
+          maxLength={50}
+          className="mt-5 w-full py-[18px] px-4 rounded-[30px] text-3xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white focus:border-primary-red focus:outline-none transition text-center tracking-widest"
+        />
+        <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 text-center">
+          Введи до {MAX_EMOJIS} смайликов — они будут видны всем
+        </p>
       </div>
 
       <AboutField

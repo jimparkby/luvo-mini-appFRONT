@@ -20,7 +20,7 @@ export const Pedestal = ({ data }) => {
         </h4>
 
         {topSecond.status && (
-          <span className="text-xs text-gray-600 dark:text-gray-400">
+          <span className="text-base leading-none">
             {getStatusLabel(topSecond.status)}
           </span>
         )}
@@ -48,7 +48,7 @@ export const Pedestal = ({ data }) => {
         </h4>
 
         {topFirst.status && (
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+          <span className="text-lg leading-none">
             {getStatusLabel(topFirst.status)}
           </span>
         )}
@@ -76,7 +76,7 @@ export const Pedestal = ({ data }) => {
         </h4>
 
         {topThird.status && (
-          <span className="text-xs text-gray-600 dark:text-gray-400">
+          <span className="text-base leading-none">
             {getStatusLabel(topThird.status)}
           </span>
         )}

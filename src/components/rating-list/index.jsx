@@ -38,7 +38,7 @@ export const RatingList = ({ data }) => {
                 {currentUser.instagram_username}
               </h4>
               {currentUser.status && (
-                <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                <span className="text-base leading-none truncate">
                   {getStatusLabel(currentUser.status)}
                 </span>
               )}
@@ -74,7 +74,7 @@ export const RatingList = ({ data }) => {
                 {item.instagram_username}
               </h4>
               {item.status && (
-                <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                <span className="text-base leading-none truncate">
                   {getStatusLabel(item.status)}
                 </span>
               )}
