@@ -28,7 +28,7 @@ export const DuelCard = ({
     if (retryTimeoutRef.current) {
       clearTimeout(retryTimeoutRef.current);
     }
-  }, [user.id]);
+  }, [user.user_id]);
 
   // Очистка таймаута при размонтировании
   useEffect(() => {
@@ -63,7 +63,7 @@ export const DuelCard = ({
 
   const handleCardClick = () => {
     if (!disabled && onSelect) {
-      onSelect(user.id);
+      onSelect(user.user_id);
     }
   };
 
