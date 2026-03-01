@@ -11,6 +11,7 @@ import { useUpdateUser } from "@/api/user";
 import { InstagramField } from "./instagram-field";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { containsBannedWord, isValidUsernameFormat } from "@/constants/banned-words";
+import { isValidName } from "@/constants/russian-names";
 import { EmojiPickerSheet } from "@/components/emoji-picker-sheet";
 import { StatusEmoji, isTgEmojiId } from "@/components/tg-emoji";
 
@@ -24,7 +25,13 @@ const schema = yup.object({
       const age = calculateAge(value);
       return age >= 14;
     }),
-  first_name: yup.string().required("Имя обязательно"),
+  first_name: yup
+    .string()
+    .required("Имя обязательно")
+    .test("valid-name", "Введите ваше настоящее имя.", function (value) {
+      if (!value) return true;
+      return isValidName(value);
+    }),
   instagram_username: yup
     .string()
     .transform((value) => value?.trim() || "")
