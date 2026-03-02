@@ -18,7 +18,11 @@ export const useFeedBuffer = () => {
       if (recommendedCountRef.current === null) {
         recommendedCountRef.current = data.recommended_count;
       }
-      setCards((prev) => [...prev, ...data.users]);
+      setCards((prev) => {
+        const existingIds = new Set(prev.map((c) => c.user_id));
+        const fresh = data.users.filter((c) => !existingIds.has(c.user_id));
+        return [...prev, ...fresh];
+      });
       if (data.users.length < BATCH_SIZE) {
         setHasMore(false);
       }
