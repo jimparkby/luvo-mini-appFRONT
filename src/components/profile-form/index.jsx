@@ -67,6 +67,7 @@ export const ProfileForm = ({ userData, userPhotosData }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
       about: "",
