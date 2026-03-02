@@ -9,8 +9,10 @@ export const useFeedBuffer = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const recommendedCountRef = useRef(null);
+  // seed фиксируется при монтировании → одинаковый порядок для всех страниц сессии
+  const seedRef = useRef(Math.random() * 2 - 1);
 
-  const { data, isLoading, isFetching } = useFeeds(BATCH_SIZE, offset);
+  const { data, isLoading, isFetching } = useFeeds(BATCH_SIZE, offset, seedRef.current);
 
   useEffect(() => {
     if (data?.users?.length) {
