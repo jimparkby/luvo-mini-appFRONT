@@ -9,10 +9,8 @@ export const useFeedBuffer = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const recommendedCountRef = useRef(null);
-  // seed фиксируется при монтировании → одинаковый порядок для всех страниц сессии
-  const seedRef = useRef(Math.random() * 2 - 1);
 
-  const { data, isLoading, isFetching } = useFeeds(BATCH_SIZE, offset, seedRef.current);
+  const { data, isLoading, isFetching } = useFeeds(BATCH_SIZE, offset);
 
   useEffect(() => {
     if (data?.users?.length) {
@@ -20,11 +18,7 @@ export const useFeedBuffer = () => {
       if (recommendedCountRef.current === null) {
         recommendedCountRef.current = data.recommended_count;
       }
-      setCards((prev) => {
-        const existingIds = new Set(prev.map((c) => c.user_id));
-        const fresh = data.users.filter((c) => !existingIds.has(c.user_id));
-        return [...prev, ...fresh];
-      });
+      setCards((prev) => [...prev, ...data.users]);
       if (data.users.length < BATCH_SIZE) {
         setHasMore(false);
       }
